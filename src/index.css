@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #224671;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Oswald', sans-serif;
+    line-height: 1.2;
+  }
+
+  nav, button {
+    font-family: 'Overpass', sans-serif;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, #2f6bfc 0%, #6EC1E4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, #2f6bfc 0%, #6EC1E4 100%);
+  }
+
+  .shadow-premium {
+    box-shadow: 0 10px 40px rgba(47, 107, 252, 0.15);
+  }
+
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 50px rgba(47, 107, 252, 0.2);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
