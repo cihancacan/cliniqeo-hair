@@ -85,7 +85,7 @@ function AppContent() {
 
 function App() {
   return (
-    <Router basename="/greffe-cheveux-turquie">
+    <Router>
       <AppContent />
     </Router>
   );
