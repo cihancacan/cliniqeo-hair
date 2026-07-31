@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://cliniqeo-hair.vercel.app/sitemap.xml
+Sitemap: https://cliniqeo-hair.vercel.app/sitemap-advanced.xml
