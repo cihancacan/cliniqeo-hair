@@ -19,6 +19,7 @@ import BeforeAfterPage from './pages/BeforeAfterPage';
 import HairTransplantTurkey from './pages/seo/HairTransplantTurkey';
 import TurkeyHairTransplantCost from './pages/seo/TurkeyHairTransplantCost';
 import SeoLandingPage from './pages/seo/SeoLandingPage';
+import SeoAdvancedPage from './pages/seo/SeoAdvancedPage';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -74,6 +75,36 @@ function AppContent() {
           <Route path="/greffe-cheveux-turquie-danger" element={<SeoLandingPage lang="fr" pageKey="risks" />} />
           <Route path="/apres-greffe-cheveux-mois-par-mois" element={<SeoLandingPage lang="fr" pageKey="recovery" />} />
 
+          <Route path="/fue-saphir-turquie" element={<SeoAdvancedPage lang="fr" pageKey="sapphireFue" />} />
+          <Route path="/greffe-cheveux-saphir-turquie" element={<SeoAdvancedPage lang="fr" pageKey="sapphireFue" />} />
+          <Route path="/dhi-ou-fue" element={<SeoAdvancedPage lang="fr" pageKey="dhiVsFue" />} />
+          <Route path="/difference-fue-dhi" element={<SeoAdvancedPage lang="fr" pageKey="dhiVsFue" />} />
+          <Route path="/meilleure-technique-greffe-cheveux" element={<SeoAdvancedPage lang="fr" pageKey="dhiVsFue" />} />
+          <Route path="/greffe-cheveux-sans-rasage-turquie" element={<SeoAdvancedPage lang="fr" pageKey="noShave" />} />
+          <Route path="/greffe-cheveux-femme-sans-rasage" element={<SeoAdvancedPage lang="fr" pageKey="noShave" />} />
+          <Route path="/douleur-greffe-cheveux-anesthesie" element={<SeoAdvancedPage lang="fr" pageKey="pain" />} />
+          <Route path="/greffe-cheveux-indolore-turquie" element={<SeoAdvancedPage lang="fr" pageKey="pain" />} />
+          <Route path="/anesthesie-sans-aiguille-greffe-cheveux" element={<SeoAdvancedPage lang="fr" pageKey="pain" />} />
+          <Route path="/zone-donneuse-greffe-cheveux" element={<SeoAdvancedPage lang="fr" pageKey="donorArea" />} />
+          <Route path="/zone-donneuse-abimee-greffe-cheveux" element={<SeoAdvancedPage lang="fr" pageKey="donorArea" />} />
+          <Route path="/surprelevement-zone-donneuse" element={<SeoAdvancedPage lang="fr" pageKey="donorArea" />} />
+          <Route path="/reparer-greffe-cheveux-ratee" element={<SeoAdvancedPage lang="fr" pageKey="repair" />} />
+          <Route path="/greffe-cheveux-ratee-turquie" element={<SeoAdvancedPage lang="fr" pageKey="repair" />} />
+          <Route path="/soins-apres-greffe-cheveux" element={<SeoAdvancedPage lang="fr" pageKey="aftercare" />} />
+          <Route path="/premier-lavage-apres-greffe-cheveux" element={<SeoAdvancedPage lang="fr" pageKey="aftercare" />} />
+          <Route path="/sport-apres-greffe-cheveux" element={<SeoAdvancedPage lang="fr" pageKey="aftercare" />} />
+          <Route path="/prendre-avion-apres-greffe-cheveux" element={<SeoAdvancedPage lang="fr" pageKey="aftercare" />} />
+          <Route path="/soleil-apres-greffe-cheveux" element={<SeoAdvancedPage lang="fr" pageKey="aftercare" />} />
+          <Route path="/greffe-ligne-frontale-turquie" element={<SeoAdvancedPage lang="fr" pageKey="hairline" />} />
+          <Route path="/ligne-frontale-naturelle-greffe-cheveux" element={<SeoAdvancedPage lang="fr" pageKey="hairline" />} />
+          <Route path="/greffe-golfes-cheveux" element={<SeoAdvancedPage lang="fr" pageKey="hairline" />} />
+          <Route path="/greffe-vertex-turquie" element={<SeoAdvancedPage lang="fr" pageKey="crown" />} />
+          <Route path="/greffe-tonsure-turquie" element={<SeoAdvancedPage lang="fr" pageKey="crown" />} />
+          <Route path="/greffe-sourcils-turquie" element={<SeoAdvancedPage lang="fr" pageKey="eyebrows" />} />
+          <Route path="/greffe-sourcils-avant-apres" element={<SeoAdvancedPage lang="fr" pageKey="eyebrows" />} />
+          <Route path="/greffe-cheveux-cicatrice" element={<SeoAdvancedPage lang="fr" pageKey="scar" />} />
+          <Route path="/deuxieme-greffe-cheveux-turquie" element={<SeoAdvancedPage lang="fr" pageKey="secondTransplant" />} />
+
           <Route path="/hair-transplant-turkey" element={<HairTransplantTurkey />} />
           <Route path="/turkey-hair-transplant" element={<HairTransplantTurkey />} />
           <Route path="/hair-transplant-in-turkey" element={<HairTransplantTurkey />} />
@@ -97,6 +128,19 @@ function AppContent() {
           <Route path="/en/hair-transplant-graft-count" element={<SeoLandingPage lang="en" pageKey="grafts" />} />
           <Route path="/en/hair-transplant-turkey-risks" element={<SeoLandingPage lang="en" pageKey="risks" />} />
           <Route path="/en/hair-transplant-recovery-timeline" element={<SeoLandingPage lang="en" pageKey="recovery" />} />
+
+          <Route path="/en/sapphire-fue-hair-transplant-turkey" element={<SeoAdvancedPage lang="en" pageKey="sapphireFue" />} />
+          <Route path="/en/dhi-vs-fue-hair-transplant" element={<SeoAdvancedPage lang="en" pageKey="dhiVsFue" />} />
+          <Route path="/en/no-shave-hair-transplant-turkey" element={<SeoAdvancedPage lang="en" pageKey="noShave" />} />
+          <Route path="/en/hair-transplant-pain-anesthesia" element={<SeoAdvancedPage lang="en" pageKey="pain" />} />
+          <Route path="/en/hair-transplant-donor-area" element={<SeoAdvancedPage lang="en" pageKey="donorArea" />} />
+          <Route path="/en/hair-transplant-repair-turkey" element={<SeoAdvancedPage lang="en" pageKey="repair" />} />
+          <Route path="/en/hair-transplant-aftercare" element={<SeoAdvancedPage lang="en" pageKey="aftercare" />} />
+          <Route path="/en/hairline-transplant-turkey" element={<SeoAdvancedPage lang="en" pageKey="hairline" />} />
+          <Route path="/en/crown-hair-transplant-turkey" element={<SeoAdvancedPage lang="en" pageKey="crown" />} />
+          <Route path="/en/eyebrow-transplant-turkey" element={<SeoAdvancedPage lang="en" pageKey="eyebrows" />} />
+          <Route path="/en/hair-transplant-on-scar" element={<SeoAdvancedPage lang="en" pageKey="scar" />} />
+          <Route path="/en/second-hair-transplant-turkey" element={<SeoAdvancedPage lang="en" pageKey="secondTransplant" />} />
         </Routes>
       </main>
       <Footer />
