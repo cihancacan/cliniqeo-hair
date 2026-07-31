@@ -10,6 +10,7 @@ import WhyTurkeyPage from './pages/WhyTurkeyPage';
 import AboutPage from './pages/AboutPage';
 import FAQPage from './pages/FAQPage';
 import ContactPage from './pages/ContactPage';
+import GuidesPage from './pages/GuidesPage';
 import GreffeCheveuxTurquie from './pages/seo/GreffeCheveuxTurquie';
 import GreffeCheveuxFUETurquie from './pages/seo/GreffeCheveuxFUETurquie';
 import GreffeCheveuxDHITurquie from './pages/seo/GreffeCheveuxDHITurquie';
@@ -39,6 +40,8 @@ function AppContent() {
           <Route path="/a-propos" element={<AboutPage />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/guides-greffe-cheveux" element={<GuidesPage lang="fr" />} />
+          <Route path="/en/hair-transplant-guides" element={<GuidesPage lang="en" />} />
           <Route path="/greffe-cheveux/avant-apres" element={<BeforeAfterPage />} />
 
           <Route path="/greffe-de-cheveux-turquie" element={<GreffeCheveuxTurquie />} />
