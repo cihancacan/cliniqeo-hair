@@ -16,6 +16,7 @@ const Navigation = () => {
     { label: t('nav.why_turkey'), href: '/turquie' },
     { label: t('nav.about'), href: '/a-propos' },
     { label: t('nav.faq'), href: '/faq' },
+    { label: language === 'fr' ? 'Guides' : 'Guides', href: language === 'fr' ? '/guides-greffe-cheveux' : '/en/hair-transplant-guides' },
     { label: t('nav.contact'), href: '/contact' },
   ];
 
@@ -38,7 +39,7 @@ const Navigation = () => {
               </Link>
             </div>
 
-          <div className="hidden lg:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-6">
             {menuItems.map((item) => (
               <Link
                 key={item.label}
