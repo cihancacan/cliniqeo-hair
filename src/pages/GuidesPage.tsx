@@ -24,6 +24,18 @@ const guides = {
     ['/nombre-greffons-greffe-cheveux', 'Combien de greffons ?', 'Estimation selon les zones et la capacité donneuse.'],
     ['/greffe-cheveux-turquie-risques', 'Risques et prévention', 'Complications possibles et critères de sécurité.'],
     ['/apres-greffe-cheveux-mois-par-mois', 'Évolution mois par mois', 'Croûtes, chute transitoire et étapes de repousse.'],
+    ['/fue-saphir-turquie', 'FUE Saphir en Turquie', 'Lame saphir, canaux, indications, limites et prix.'],
+    ['/dhi-ou-fue', 'DHI ou FUE ?', 'Comparer implantation, rasage, densité et récupération.'],
+    ['/greffe-cheveux-sans-rasage-turquie', 'Greffe sans rasage', 'FUE non rasée, rasage partiel et long hair FUE.'],
+    ['/douleur-greffe-cheveux-anesthesie', 'Douleur et anesthésie', 'Sensations, anesthésie locale et signes d’alerte.'],
+    ['/zone-donneuse-greffe-cheveux', 'Zone donneuse', 'Densité, réserve, sur-prélèvement et protection.'],
+    ['/reparer-greffe-cheveux-ratee', 'Réparer une greffe ratée', 'Diagnostic, ligne frontale, cicatrices et correction.'],
+    ['/soins-apres-greffe-cheveux', 'Soins après la greffe', 'Lavage, sommeil, sport, avion et soleil.'],
+    ['/greffe-ligne-frontale-turquie', 'Greffe de ligne frontale', 'Dessin naturel, golfes, angles et greffons simples.'],
+    ['/greffe-vertex-turquie', 'Greffe du vertex', 'Tonsure, spirale, priorité et nombre de greffons.'],
+    ['/greffe-sourcils-turquie', 'Greffe de sourcils', 'Dessin, orientation, entretien et résultats.'],
+    ['/greffe-cheveux-cicatrice', 'Greffe sur cicatrice', 'Vascularisation, stabilité, densité et limites.'],
+    ['/deuxieme-greffe-cheveux-turquie', 'Deuxième greffe', 'Délai, réserve donneuse et densification.'],
   ],
   en: [
     ['/hair-transplant-turkey', 'Hair Transplant in Turkey', 'Complete guide to techniques, safety, travel and results.'],
@@ -40,6 +52,18 @@ const guides = {
     ['/en/hair-transplant-graft-count', 'How Many Grafts?', 'Estimate by treatment area and donor capacity.'],
     ['/en/hair-transplant-turkey-risks', 'Risks and Prevention', 'Possible complications and safety criteria.'],
     ['/en/hair-transplant-recovery-timeline', 'Recovery Timeline', 'Crusts, temporary shedding and monthly growth.'],
+    ['/en/sapphire-fue-hair-transplant-turkey', 'Sapphire FUE in Turkey', 'Sapphire blades, channels, indications and cost.'],
+    ['/en/dhi-vs-fue-hair-transplant', 'DHI vs FUE', 'Compare placement, shaving, density and recovery.'],
+    ['/en/no-shave-hair-transplant-turkey', 'No-Shave Hair Transplant', 'Unshaven FUE, partial shaving and long-hair FUE.'],
+    ['/en/hair-transplant-pain-anesthesia', 'Pain and Anaesthesia', 'Expected sensations, local anaesthesia and warning signs.'],
+    ['/en/hair-transplant-donor-area', 'Donor Area', 'Density, reserve, overharvesting and protection.'],
+    ['/en/hair-transplant-repair-turkey', 'Hair Transplant Repair', 'Assessment, hairline, scarring and corrective options.'],
+    ['/en/hair-transplant-aftercare', 'Hair Transplant Aftercare', 'Washing, sleeping, exercise, flying and sun.'],
+    ['/en/hairline-transplant-turkey', 'Hairline Transplant', 'Natural design, temples, angles and single-hair grafts.'],
+    ['/en/crown-hair-transplant-turkey', 'Crown Hair Transplant', 'Whorl design, priorities and graft planning.'],
+    ['/en/eyebrow-transplant-turkey', 'Eyebrow Transplant', 'Design, direction, maintenance and results.'],
+    ['/en/hair-transplant-on-scar', 'Hair Transplant on Scar', 'Blood supply, stability, density and limitations.'],
+    ['/en/second-hair-transplant-turkey', 'Second Hair Transplant', 'Timing, donor reserve and density improvement.'],
   ],
 } as const;
 
@@ -53,8 +77,8 @@ export default function GuidesPage({ lang }: GuidesPageProps) {
       <SEOHead
         title={isFr ? 'Guides sur la greffe de cheveux en Turquie' : 'Hair Transplant Turkey Guides'}
         description={isFr
-          ? 'Tous les guides Cliniqeo Hair sur la greffe de cheveux en Turquie : prix, FUE, DHI, Istanbul, avis, risques, greffons et récupération.'
-          : 'All Cliniqeo Hair guides about hair transplantation in Turkey: prices, FUE, DHI, Istanbul, reviews, risks, graft count and recovery.'}
+          ? 'Tous les guides Cliniqeo Hair sur la greffe de cheveux en Turquie : prix, techniques, zones, sécurité, soins, réparations et récupération.'
+          : 'All Cliniqeo Hair guides about hair transplantation in Turkey: prices, techniques, treatment areas, safety, aftercare, repair and recovery.'}
         path={path}
         lang={lang}
         alternates={[{ lang: isFr ? 'en' : 'fr', path: alternate }]}
