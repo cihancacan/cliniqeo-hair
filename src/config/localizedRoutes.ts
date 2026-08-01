@@ -21,14 +21,20 @@ const routeGroups: RouteGroup[] = [
     en: ['/hair-transplant-turkey', '/turkey-hair-transplant', '/hair-transplant-in-turkey'],
   },
   {
-    fr: [
-      '/greffe-cheveux-turquie-avis',
-      '/greffe-de-cheveux-turquie-avis',
-      '/meilleure-clinique-greffe-cheveux-turquie',
-      '/meilleure-clinique-implant-cheveux-turquie',
-      '/meilleure-clinique-implant-capillaire-turquie',
-    ],
-    en: ['/en/hair-transplant-turkey-reviews', '/hair-transplant-turkey-reviews', '/best-hair-transplant-turkey'],
+    fr: ['/meilleure-clinique-greffe-cheveux-turquie'],
+    en: ['/best-hair-transplant-clinic-turkey', '/best-hair-transplant-turkey'],
+  },
+  {
+    fr: ['/meilleure-clinique-implant-cheveux-turquie'],
+    en: ['/best-clinic-for-hair-transplant-turkey'],
+  },
+  {
+    fr: ['/meilleure-clinique-implant-capillaire-turquie'],
+    en: ['/best-hair-implant-clinic-turkey'],
+  },
+  {
+    fr: ['/greffe-cheveux-turquie-avis', '/greffe-de-cheveux-turquie-avis'],
+    en: ['/en/hair-transplant-turkey-reviews', '/hair-transplant-turkey-reviews'],
   },
   { fr: ['/greffe-de-cheveux-fue-turquie'], en: ['/fue-hair-transplant-turkey'] },
   { fr: ['/greffe-de-cheveux-dhi-turquie'], en: ['/dhi-hair-transplant-turkey'] },
