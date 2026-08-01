@@ -64,10 +64,11 @@ function addHomepageHeroMedia() {
   const page = document.querySelector<HTMLElement>('main > div.pt-20');
   if (!page) return;
 
-  document.getElementById('homepage-hero-media')?.remove();
-
   const hero = page.querySelector<HTMLElement>('section');
-  hero?.classList.add('home-photo-hero');
+  if (!hero || hero.classList.contains('home-photo-hero')) return;
+
+  document.getElementById('homepage-hero-media')?.remove();
+  hero.classList.add('home-photo-hero');
 }
 
 function addEnglishPatientReviews() {
@@ -242,8 +243,32 @@ function enhancePages() {
   addEnglishBestClinicLinks();
 }
 
-const pageObserver = new MutationObserver(enhancePages);
+let pageEnhancementFrame = 0;
+let observerStopTimer = 0;
+
+const schedulePageEnhancements = () => {
+  if (pageEnhancementFrame) return;
+
+  pageEnhancementFrame = window.requestAnimationFrame(() => {
+    pageEnhancementFrame = 0;
+    enhancePages();
+
+    if (document.querySelector('main > div')) {
+      window.clearTimeout(observerStopTimer);
+      observerStopTimer = window.setTimeout(() => {
+        enhancePages();
+        pageObserver.disconnect();
+      }, 1200);
+    }
+  });
+};
+
+const pageObserver = new MutationObserver(schedulePageEnhancements);
 pageObserver.observe(root, { childList: true, subtree: true });
 
-requestAnimationFrame(enhancePages);
-window.addEventListener('load', enhancePages, { once: true });
+schedulePageEnhancements();
+window.addEventListener('load', schedulePageEnhancements, { once: true });
+window.setTimeout(() => {
+  schedulePageEnhancements();
+  pageObserver.disconnect();
+}, 5000);
