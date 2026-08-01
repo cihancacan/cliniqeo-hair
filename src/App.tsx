@@ -157,8 +157,6 @@ function AppContent() {
 
           <Route path="/about" element={<Navigate to="/a-propos" replace />} />
           <Route path="/pricing" element={<Navigate to="/tarifs" replace />} />
-          <Route path="/seo/greffe-cheveux-fue-turquie" element={<Navigate to="/greffe-de-cheveux-fue-turquie" replace />} />
-          <Route path="/seo/greffe-cheveux-dhi-turquie" element={<Navigate to="/greffe-de-cheveux-dhi-turquie" replace />} />
 
           <Route path="/greffe-de-cheveux-turquie" element={<GreffeCheveuxTurquie />} />
           <Route path="/implant-capillaire-turquie" element={<GreffeCheveuxTurquie />} />
@@ -170,8 +168,12 @@ function AppContent() {
           <Route path="/prix-implant-capillaire-turquie" element={<PrixGreffeCheveuxTurquie />} />
           <Route path="/implant-cheveux-turquie-prix" element={<PrixGreffeCheveuxTurquie />} />
 
-          {frLandingRoutes.map(([path, pageKey]) => <Route key={path} path={path} element={<SeoLandingPage lang="fr" pageKey={pageKey} />} />)}
-          {frAdvancedRoutes.map(([path, pageKey]) => <Route key={path} path={path} element={<SeoAdvancedPage lang="fr" pageKey={pageKey} />} />)}
+          {frLandingRoutes.map(([path, pageKey]) => (
+            <Route key={path} path={path} element={<SeoLandingPage lang="fr" pageKey={pageKey} />} />
+          ))}
+          {frAdvancedRoutes.map(([path, pageKey]) => (
+            <Route key={path} path={path} element={<SeoAdvancedPage lang="fr" pageKey={pageKey} />} />
+          ))}
 
           <Route path="/hair-transplant-turkey" element={<HairTransplantTurkey />} />
           <Route path="/turkey-hair-transplant" element={<HairTransplantTurkey />} />
@@ -184,8 +186,12 @@ function AppContent() {
           <Route path="/turkey-hair-transplant-prices" element={<TurkeyHairTransplantCost />} />
           <Route path="/how-much-hair-transplant-turkey" element={<TurkeyHairTransplantCost />} />
 
-          {enLandingRoutes.map(([path, pageKey]) => <Route key={path} path={path} element={<SeoLandingPage lang="en" pageKey={pageKey} />} />)}
-          {enAdvancedRoutes.map(([path, pageKey]) => <Route key={path} path={path} element={<SeoAdvancedPage lang="en" pageKey={pageKey} />} />)}
+          {enLandingRoutes.map(([path, pageKey]) => (
+            <Route key={path} path={path} element={<SeoLandingPage lang="en" pageKey={pageKey} />} />
+          ))}
+          {enAdvancedRoutes.map(([path, pageKey]) => (
+            <Route key={path} path={path} element={<SeoAdvancedPage lang="en" pageKey={pageKey} />} />
+          ))}
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
