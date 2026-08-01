@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/prerender-seo.mjs && node scripts/prerender-advanced-seo.mjs && node scripts/prerender-best-clinic.mjs && node scripts/prerender-guides.mjs && node scripts/prerender-core-en.mjs && node scripts/prerender-all-routes.mjs && node scripts/enrich-prerendered-seo.mjs && node scripts/fix-english-prerender.mjs && node scripts/fix-current-year.mjs && node scripts/ensure-best-clinic-sitemap.mjs",
+    "build": "vite build && node scripts/prerender-seo.mjs && node scripts/prerender-advanced-seo.mjs && node scripts/prerender-best-clinic.mjs && node scripts/prerender-guides.mjs && node scripts/prerender-core-en.mjs && node scripts/prerender-all-routes.mjs && node scripts/enrich-prerendered-seo.mjs && node scripts/fix-english-prerender.mjs && node scripts/fix-current-year.mjs && node scripts/ensure-best-clinic-sitemap.mjs && node scripts/enforce-whatsapp-contact.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
