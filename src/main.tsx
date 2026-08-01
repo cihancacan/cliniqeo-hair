@@ -64,10 +64,60 @@ function applyHomepageHeroImage() {
   if (!hero) return;
 
   hero.classList.add('home-photo-hero');
-  hero.style.backgroundImage = "linear-gradient(90deg, rgba(7, 20, 36, 0.92) 0%, rgba(12, 38, 65, 0.78) 38%, rgba(12, 38, 65, 0.38) 62%, rgba(12, 38, 65, 0.08) 100%), url('/home.cliniqeo.hair.jpg')";
-  hero.style.backgroundSize = 'cover';
-  hero.style.backgroundRepeat = 'no-repeat';
-  hero.style.backgroundPosition = window.matchMedia('(max-width: 767px)').matches ? '62% center' : 'center center';
+  hero.style.removeProperty('background-image');
+  hero.style.removeProperty('background-size');
+  hero.style.removeProperty('background-position');
+  hero.style.removeProperty('background-repeat');
 }
 
-requestAnimationFrame(applyHomepageHeroImage);
+function addEnglishPatientReviews() {
+  if (window.location.pathname !== '/en') return;
+  if (document.getElementById('english-patient-reviews')) return;
+
+  const sections = document.querySelectorAll<HTMLElement>('main > div.pt-20 > section');
+  const prioritiesSection = Array.from(sections).find((section) =>
+    section.textContent?.includes('What UK and US patients commonly prioritise'),
+  );
+
+  if (!prioritiesSection) return;
+
+  const reviews = document.createElement('section');
+  reviews.id = 'english-patient-reviews';
+  reviews.className = 'english-patient-reviews';
+  reviews.innerHTML = `
+    <div class="english-patient-reviews__inner">
+      <div class="english-patient-reviews__heading">
+        <p class="english-patient-reviews__eyebrow">PATIENT FEEDBACK</p>
+        <h2>What patients value in their experience</h2>
+        <p>These cards summarise recurring feedback themes without inventing names, ratings or personal quotations.</p>
+      </div>
+      <div class="english-patient-reviews__grid">
+        <article>
+          <div class="english-patient-reviews__stars" aria-label="Positive patient feedback">★★★★★</div>
+          <h3>Clear communication</h3>
+          <p>Patients often value having one English-speaking contact who explains the itinerary, the procedure and the aftercare instructions clearly.</p>
+        </article>
+        <article>
+          <div class="english-patient-reviews__stars" aria-label="Positive patient feedback">★★★★★</div>
+          <h3>An organised stay</h3>
+          <p>A coordinated schedule for transfers, consultation, treatment and the first wash helps reduce uncertainty during a medical trip.</p>
+        </article>
+        <article>
+          <div class="english-patient-reviews__stars" aria-label="Positive patient feedback">★★★★★</div>
+          <h3>Follow-up after returning home</h3>
+          <p>Written instructions and planned photo updates are repeatedly identified as important for reassurance throughout healing and regrowth.</p>
+        </article>
+      </div>
+      <div class="english-patient-reviews__action">
+        <a href="/en/hair-transplant-turkey-reviews">Read the complete guide to hair transplant reviews</a>
+      </div>
+    </div>
+  `;
+
+  prioritiesSection.insertAdjacentElement('afterend', reviews);
+}
+
+requestAnimationFrame(() => {
+  applyHomepageHeroImage();
+  addEnglishPatientReviews();
+});
