@@ -6,9 +6,16 @@ const dist = join(root, 'dist');
 const appSource = await readFile(join(root, 'src', 'App.tsx'), 'utf8');
 const shell = await readFile(join(dist, 'index.html'), 'utf8');
 
-const routes = [...new Set(
-  [...appSource.matchAll(/<Route\s+path=["']([^"']+)["']/g)].map((match) => match[1]),
-)];
+const directRoutes = [...appSource.matchAll(/<Route\s+path=["']([^"']+)["']/g)]
+  .map((match) => match[1]);
+
+// SEO routes are also declared as [path, pageKey] tuples in App.tsx.
+// They must be included here or Vercel has no physical HTML file to serve.
+const tupleRoutes = [...appSource.matchAll(/\[\s*["'](\/[^"']+)["']\s*,\s*["'][^"']+["']\s*\]/g)]
+  .map((match) => match[1]);
+
+const routes = [...new Set([...directRoutes, ...tupleRoutes])]
+  .filter((route) => route.startsWith('/'));
 
 const aliases = new Map([
   ['/implant-capillaire-turquie', '/greffe-de-cheveux-turquie'],
