@@ -56,3 +56,18 @@ createRoot(root).render(
     </LanguageProvider>
   </StrictMode>,
 );
+
+function applyHomepageHeroImage() {
+  if (!['/', '/en'].includes(window.location.pathname)) return;
+
+  const hero = document.querySelector<HTMLElement>('main > div.pt-20 > section:first-child');
+  if (!hero) return;
+
+  hero.classList.add('home-photo-hero');
+  hero.style.backgroundImage = "linear-gradient(90deg, rgba(7, 20, 36, 0.92) 0%, rgba(12, 38, 65, 0.78) 38%, rgba(12, 38, 65, 0.38) 62%, rgba(12, 38, 65, 0.08) 100%), url('/home.cliniqeo.hair.jpg')";
+  hero.style.backgroundSize = 'cover';
+  hero.style.backgroundRepeat = 'no-repeat';
+  hero.style.backgroundPosition = window.matchMedia('(max-width: 767px)').matches ? '62% center' : 'center center';
+}
+
+requestAnimationFrame(applyHomepageHeroImage);
