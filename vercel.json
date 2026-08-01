@@ -10,6 +10,7 @@
     { "src": "/en/fue-hair-transplant-turkey", "status": 308, "headers": { "Location": "/fue-hair-transplant-turkey" } },
     { "src": "/en/dhi-hair-transplant-turkey", "status": 308, "headers": { "Location": "/dhi-hair-transplant-turkey" } },
     { "src": "/en/turkey-hair-transplant-cost", "status": 308, "headers": { "Location": "/turkey-hair-transplant-cost" } },
+    { "src": "/best-hair-transplant-turkey", "status": 308, "headers": { "Location": "/best-hair-transplant-clinic-turkey" } },
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
