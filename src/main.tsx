@@ -57,17 +57,43 @@ createRoot(root).render(
   </StrictMode>,
 );
 
-function applyHomepageHeroImage() {
+function addHomepageHeroMedia() {
   if (!['/', '/en'].includes(window.location.pathname)) return;
+  if (document.getElementById('homepage-hero-media')) return;
 
-  const hero = document.querySelector<HTMLElement>('main > div.pt-20 > section:first-child');
-  if (!hero) return;
+  const page = document.querySelector<HTMLElement>('main > div.pt-20');
+  if (!page) return;
 
-  hero.classList.add('home-photo-hero');
-  hero.style.removeProperty('background-image');
-  hero.style.removeProperty('background-size');
-  hero.style.removeProperty('background-position');
-  hero.style.removeProperty('background-repeat');
+  const previousHero = page.querySelector<HTMLElement>('section');
+  if (previousHero) {
+    previousHero.classList.remove('home-photo-hero');
+    previousHero.style.removeProperty('background-image');
+    previousHero.style.removeProperty('background-size');
+    previousHero.style.removeProperty('background-position');
+    previousHero.style.removeProperty('background-repeat');
+  }
+
+  const media = document.createElement('figure');
+  media.id = 'homepage-hero-media';
+  media.className = 'homepage-hero-media';
+
+  const isEnglish = window.location.pathname === '/en';
+  const alt = isEnglish
+    ? 'Hair transplant consultation in a modern clinic in Istanbul'
+    : 'Consultation de greffe de cheveux dans une clinique moderne à Istanbul';
+
+  media.innerHTML = `
+    <img
+      src="/home.cliniqeo.hair.jpg"
+      alt="${alt}"
+      width="1648"
+      height="928"
+      fetchpriority="high"
+      decoding="async"
+    />
+  `;
+
+  page.insertBefore(media, page.firstElementChild);
 }
 
 function addEnglishPatientReviews() {
@@ -117,7 +143,13 @@ function addEnglishPatientReviews() {
   prioritiesSection.insertAdjacentElement('afterend', reviews);
 }
 
-requestAnimationFrame(() => {
-  applyHomepageHeroImage();
+function enhanceHomepage() {
+  addHomepageHeroMedia();
   addEnglishPatientReviews();
-});
+}
+
+const homepageObserver = new MutationObserver(enhanceHomepage);
+homepageObserver.observe(root, { childList: true, subtree: true });
+
+requestAnimationFrame(enhanceHomepage);
+window.addEventListener('load', enhanceHomepage, { once: true });
