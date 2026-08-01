@@ -50,95 +50,29 @@ html {
   scroll-behavior: smooth;
 }
 
-.home-photo-hero {
-  isolation: isolate;
-  background: #071424 !important;
+.homepage-hero-media {
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #eaf1f7;
 }
 
-.home-photo-hero::before,
-.home-photo-hero::after {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto;
-  height: 760px;
-  pointer-events: none;
-}
-
-.home-photo-hero::before {
-  z-index: -2;
-  background-image: url('/home.cliniqeo.hair.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center 42%;
-}
-
-.home-photo-hero::after {
-  z-index: -1;
-  background: linear-gradient(90deg, rgba(7, 20, 36, 0.96) 0%, rgba(10, 31, 52, 0.86) 34%, rgba(10, 31, 52, 0.42) 62%, rgba(7, 20, 36, 0.08) 100%);
-}
-
-.home-photo-hero > .absolute.inset-0 {
-  display: none;
-}
-
-.home-photo-hero > div.relative > .max-w-4xl,
-.home-photo-hero > div.relative > .max-w-4xl > .text-center {
-  margin-left: 0;
-  margin-right: auto;
-  text-align: left;
-}
-
-.home-photo-hero > div.relative > .max-w-4xl .justify-center {
-  justify-content: flex-start;
-}
-
-@media (min-width: 768px) {
-  .home-photo-hero > div.relative > .max-w-4xl {
-    max-width: 43rem;
-  }
-}
-
-@media (min-width: 1536px) {
-  .home-photo-hero::before,
-  .home-photo-hero::after {
-    height: 820px;
-  }
-
-  .home-photo-hero::before {
-    background-size: 100% auto;
-    background-position: center top;
-  }
+.homepage-hero-media img {
+  display: block;
+  width: 100%;
+  height: clamp(420px, 50vw, 760px);
+  object-fit: cover;
+  object-position: center center;
 }
 
 @media (max-width: 767px) {
-  .home-photo-hero {
-    padding-top: 245px !important;
-  }
-
-  .home-photo-hero::before,
-  .home-photo-hero::after {
-    height: 225px;
-  }
-
-  .home-photo-hero::before {
-    background-size: contain;
-    background-position: center top;
-    background-color: #071424;
-  }
-
-  .home-photo-hero::after {
-    background: linear-gradient(180deg, rgba(7, 20, 36, 0.02) 0%, rgba(7, 20, 36, 0.08) 68%, #071424 100%);
-  }
-
-  .home-photo-hero > div.relative > .max-w-4xl,
-  .home-photo-hero > div.relative > .max-w-4xl > .text-center {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .home-photo-hero > div.relative > .max-w-4xl .justify-center {
-    justify-content: center;
+  .homepage-hero-media img {
+    width: 100%;
+    height: 56.31vw;
+    min-height: 0;
+    max-height: none;
+    object-fit: cover;
+    object-position: center center;
   }
 }
 
