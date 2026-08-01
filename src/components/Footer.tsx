@@ -3,11 +3,13 @@ import { Phone, Mail, MapPin, Instagram, Linkedin, BookOpen, Smile } from 'lucid
 import { useLanguage } from '../contexts/LanguageContext';
 import SeoKnowledgeHub from './SeoKnowledgeHub';
 import { getLocalizedGuidesPath, getNavigationItems } from '../config/localizedRoutes';
+import { getWhatsAppUrl, WHATSAPP_DISPLAY } from '../config/contact';
 
 const Footer = () => {
   const { language, t } = useLanguage();
   const isFr = language === 'fr';
   const guidesPath = getLocalizedGuidesPath(language);
+  const whatsappUrl = getWhatsAppUrl(language);
   const quickLinks = getNavigationItems(language).filter((item) =>
     ['nav.home', 'nav.techniques', 'nav.pricing', 'nav.why_turkey', 'nav.faq', 'nav.contact'].includes(item.key),
   );
@@ -39,7 +41,7 @@ const Footer = () => {
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
                 </a>
                 <a href="https://www.linkedin.com/company/cliniqeo" target="_blank" rel="noopener noreferrer" className="bg-[#2f6bfc] hover:bg-[#0A66C2] p-2 rounded-lg transition-colors" aria-label="LinkedIn"><Linkedin size={20} /></a>
-                <a href="https://wa.me/33756872961" target="_blank" rel="noopener noreferrer" className="bg-[#2f6bfc] hover:bg-[#25D366] p-2 rounded-lg transition-colors" aria-label="WhatsApp"><Phone size={20} /></a>
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="bg-[#25D366] hover:bg-[#1da851] p-2 rounded-lg transition-colors" aria-label={isFr ? 'Appeler via WhatsApp' : 'Call via WhatsApp'}><Phone size={20} /></a>
                 <a href="mailto:info@cliniqeo.com" className="bg-[#2f6bfc] hover:bg-[#6EC1E4] p-2 rounded-lg transition-colors" aria-label="Email"><Mail size={20} /></a>
               </div>
             </div>
@@ -60,7 +62,13 @@ const Footer = () => {
             <div>
               <h2 className="text-xl font-bold mb-4">Contact</h2>
               <ul className="space-y-3">
-                <li className="flex items-start gap-3"><Phone className="mt-1 text-[#6EC1E4]" size={20} /><a href="tel:0188842222" className="text-gray-300 hover:text-white">01 88 84 22 22</a></li>
+                <li className="flex items-start gap-3">
+                  <Phone className="mt-1 text-[#25D366]" size={20} />
+                  <div>
+                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white font-semibold">{WHATSAPP_DISPLAY}</a>
+                    <p className="text-xs text-gray-400 mt-1">{isFr ? 'Appels uniquement via WhatsApp' : 'Calls available only through WhatsApp'}</p>
+                  </div>
+                </li>
                 <li className="flex items-start gap-3"><Mail className="mt-1 text-[#6EC1E4]" size={20} /><a href="mailto:info@cliniqeo.com" className="text-gray-300 hover:text-white">info@cliniqeo.com</a></li>
                 <li className="flex items-start gap-3"><MapPin className="mt-1 text-[#6EC1E4]" size={20} /><span className="text-gray-300">Paris, France<br />Istanbul, Türkiye</span></li>
               </ul>
