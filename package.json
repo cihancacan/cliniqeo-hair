@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/prerender-seo.mjs && node scripts/prerender-advanced-seo.mjs && node scripts/prerender-guides.mjs && node scripts/prerender-all-routes.mjs && node scripts/enrich-prerendered-seo.mjs",
+    "build": "vite build && node scripts/prerender-seo.mjs && node scripts/prerender-advanced-seo.mjs && node scripts/prerender-guides.mjs && node scripts/prerender-core-en.mjs && node scripts/prerender-all-routes.mjs && node scripts/enrich-prerendered-seo.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
