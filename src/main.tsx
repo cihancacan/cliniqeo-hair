@@ -3,12 +3,12 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { LanguageProvider } from './contexts/LanguageContext';
+import { getSiteLanguage, localizeInternalPath } from './config/localizedRoutes';
 
 /**
- * The SEO pages are pre-rendered as real HTML files. React Router client-side
- * transitions could leave the pre-rendered root empty on some route changes.
- * Force same-origin internal links to load the destination document so every
- * page opens reliably and keeps its route-specific HTML metadata.
+ * SEO pages are pre-rendered as real HTML files. A full document navigation
+ * avoids blank client-side transitions and preserves route-specific metadata.
+ * Generic internal links are also translated according to the current page.
  */
 document.addEventListener(
   'click',
@@ -34,8 +34,11 @@ document.addEventListener(
     const destination = new URL(anchor.href, window.location.href);
     if (destination.origin !== window.location.origin) return;
 
+    const currentLanguage = getSiteLanguage(window.location.pathname);
+    const localizedPath = localizeInternalPath(destination.pathname, currentLanguage);
+
     event.preventDefault();
-    window.location.assign(`${destination.pathname}${destination.search}${destination.hash}`);
+    window.location.assign(`${localizedPath}${destination.search}${destination.hash}`);
   },
   true,
 );
