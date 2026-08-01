@@ -15,6 +15,8 @@
   };
 
   const adjustContactFormLayout = () => {
+    const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+
     document.querySelectorAll('input[name="age"], input#age').forEach((ageInput) => {
       const ageContainer = ageInput.closest('label') || ageInput.parentElement;
       ageContainer?.remove();
@@ -29,8 +31,11 @@
       if (!(wrapper instanceof HTMLElement)) return;
 
       wrapper.style.display = 'grid';
-      wrapper.style.gridTemplateColumns = 'minmax(155px, 46%) minmax(0, 54%)';
-      wrapper.style.gap = '8px';
+      wrapper.style.gridTemplateColumns = isDesktop
+        ? 'minmax(0, 1fr) minmax(0, 1fr)'
+        : 'minmax(145px, 46%) minmax(0, 1fr)';
+      wrapper.style.columnGap = isDesktop ? '24px' : '8px';
+      wrapper.style.rowGap = '0';
       wrapper.style.width = '100%';
       wrapper.style.maxWidth = '100%';
       wrapper.style.boxSizing = 'border-box';
@@ -121,5 +126,6 @@
   observer.observe(document.documentElement, { childList: true, subtree: true });
   document.addEventListener('DOMContentLoaded', refreshContactPage, { once: true });
   window.addEventListener('load', refreshContactPage, { once: true });
+  window.addEventListener('resize', refreshContactPage);
   refreshContactPage();
 })();
