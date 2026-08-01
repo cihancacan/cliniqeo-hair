@@ -1,21 +1,16 @@
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, Instagram, Linkedin, BookOpen } from 'lucide-react';
+import { Phone, Mail, MapPin, Instagram, Linkedin, BookOpen, Smile } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import SeoKnowledgeHub from './SeoKnowledgeHub';
+import { getLocalizedGuidesPath, getNavigationItems } from '../config/localizedRoutes';
 
 const Footer = () => {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const isFr = language === 'fr';
-  const guidesPath = isFr ? '/guides-greffe-cheveux' : '/en/hair-transplant-guides';
-
-  const quickLinks = [
-    { href: '/', fr: 'Accueil', en: 'Home' },
-    { href: '/techniques', fr: 'Techniques FUE et DHI', en: 'FUE and DHI techniques' },
-    { href: '/tarifs', fr: 'Tarifs', en: 'Prices' },
-    { href: '/turquie', fr: 'Pourquoi la Turquie', en: 'Why Turkey' },
-    { href: '/faq', fr: 'Questions fréquentes', en: 'Frequently asked questions' },
-    { href: '/contact', fr: 'Contact', en: 'Contact' },
-  ];
+  const guidesPath = getLocalizedGuidesPath(language);
+  const quickLinks = getNavigationItems(language).filter((item) =>
+    ['nav.home', 'nav.techniques', 'nav.pricing', 'nav.why_turkey', 'nav.faq', 'nav.contact'].includes(item.key),
+  );
 
   return (
     <>
@@ -55,7 +50,7 @@ const Footer = () => {
                 {quickLinks.map((item) => (
                   <li key={item.href}>
                     <Link to={item.href} className="text-gray-300 hover:text-[#6EC1E4] transition-colors">
-                      {isFr ? item.fr : item.en}
+                      {t(item.key)}
                     </Link>
                   </li>
                 ))}
@@ -86,8 +81,11 @@ const Footer = () => {
                 <BookOpen size={14} /> Guides
               </Link>
               <span aria-hidden="true">•</span>
-              <a href="https://cliniqeo.com" className="hover:text-[#6EC1E4] transition-colors">
-                {isFr ? 'Site principal Cliniqeo' : 'Cliniqeo main website'}
+              <a href="https://cliniqeo.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-[#6EC1E4] transition-colors">
+                <Smile size={14} />
+                {isFr
+                  ? 'Découvrez aussi notre accompagnement pour les soins dentaires en Turquie'
+                  : 'Discover our support for dental treatment in Turkey'}
               </a>
             </div>
           </div>
