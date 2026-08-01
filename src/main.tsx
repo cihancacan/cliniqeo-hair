@@ -4,6 +4,7 @@ import App from './App.tsx';
 import './index.css';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { getSiteLanguage, localizeInternalPath } from './config/localizedRoutes';
+import { getWhatsAppUrl, WHATSAPP_DISPLAY } from './config/contact';
 
 /**
  * SEO pages are pre-rendered as real HTML files. A full document navigation
@@ -170,7 +171,72 @@ function addEnglishBestClinicLinks() {
   firstGuideCategory.insertAdjacentElement('afterend', section);
 }
 
+function enforceWhatsAppOnlyContact() {
+  const language = getSiteLanguage(window.location.pathname);
+  const whatsappUrl = getWhatsAppUrl(language);
+
+  document.querySelectorAll<HTMLAnchorElement>('a[href^="tel:"]').forEach((anchor) => {
+    anchor.href = whatsappUrl;
+    anchor.target = '_blank';
+    anchor.rel = 'noopener noreferrer';
+    anchor.setAttribute(
+      'aria-label',
+      language === 'fr'
+        ? `Appeler Cliniqeo Hair via WhatsApp au ${WHATSAPP_DISPLAY}`
+        : `Call Cliniqeo Hair via WhatsApp at ${WHATSAPP_DISPLAY}`,
+    );
+  });
+
+  document.querySelectorAll<HTMLAnchorElement>('a[href*="wa.me/"]').forEach((anchor) => {
+    anchor.target = '_blank';
+    anchor.rel = 'noopener noreferrer';
+  });
+
+  document.querySelectorAll<HTMLInputElement>('input[name="phone"], input[type="tel"]').forEach((input) => {
+    input.placeholder = language === 'fr'
+      ? 'Numéro WhatsApp avec indicatif pays'
+      : 'WhatsApp number with country code';
+    input.setAttribute('autocomplete', 'tel');
+    input.setAttribute('aria-label', language === 'fr' ? 'Numéro WhatsApp' : 'WhatsApp number');
+  });
+
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const textNodes: Text[] = [];
+  let current = walker.nextNode();
+  while (current) {
+    textNodes.push(current as Text);
+    current = walker.nextNode();
+  }
+
+  textNodes.forEach((node) => {
+    const original = node.nodeValue ?? '';
+    let updated = original
+      .replaceAll('+33 1 88 84 22 22', WHATSAPP_DISPLAY)
+      .replaceAll('01 88 84 22 22', WHATSAPP_DISPLAY)
+      .replaceAll('Appel gratuit', 'Appel via WhatsApp')
+      .replaceAll('Numéro gratuit', 'Appel WhatsApp')
+      .replaceAll('Free number', 'WhatsApp call')
+      .replaceAll('Call +33', 'Call via WhatsApp +33')
+      .replaceAll('être rappelé', 'être appelé via WhatsApp')
+      .replaceAll('be called back', 'receive a WhatsApp call');
+
+    const trimmed = updated.trim();
+    if (trimmed === 'Téléphone') {
+      updated = updated.replace('Téléphone', 'WhatsApp');
+    } else if (trimmed === 'Téléphone *') {
+      updated = updated.replace('Téléphone *', 'Numéro WhatsApp *');
+    } else if (trimmed === 'Telephone') {
+      updated = updated.replace('Telephone', 'WhatsApp');
+    } else if (trimmed === 'Telephone *') {
+      updated = updated.replace('Telephone *', 'WhatsApp number *');
+    }
+
+    if (updated !== original) node.nodeValue = updated;
+  });
+}
+
 function enhancePages() {
+  enforceWhatsAppOnlyContact();
   addHomepageHeroMedia();
   addEnglishPatientReviews();
   addEnglishBestClinicLinks();
