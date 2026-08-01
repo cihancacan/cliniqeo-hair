@@ -116,13 +116,68 @@ function addEnglishPatientReviews() {
   prioritiesSection.insertAdjacentElement('afterend', reviews);
 }
 
-function enhanceHomepage() {
-  addHomepageHeroMedia();
-  addEnglishPatientReviews();
+function createEnglishBestClinicSection() {
+  const section = document.createElement('section');
+  section.id = 'english-best-clinic-guides';
+  section.className = 'english-patient-reviews';
+  section.innerHTML = `
+    <div class="english-patient-reviews__inner">
+      <div class="english-patient-reviews__heading">
+        <p class="english-patient-reviews__eyebrow">CLINIC SELECTION GUIDES</p>
+        <h2>How to choose the best hair transplant clinic in Turkey</h2>
+        <p>Compare medical responsibility, donor-area safety, documented outcomes, quotations and aftercare before booking.</p>
+      </div>
+      <div class="english-patient-reviews__grid">
+        <article>
+          <h3>Best Hair Transplant Clinic in Turkey</h3>
+          <p>A complete 2026 guide covering the doctor, medical team, donor area, FUE, DHI, reviews, pricing and follow-up.</p>
+          <p class="english-patient-reviews__card-action"><a href="/best-hair-transplant-clinic-turkey">Read the selection guide</a></p>
+        </article>
+        <article>
+          <h3>Compare Medical Teams and Protocols</h3>
+          <p>Understand who performs each stage, how grafts are handled and how FUE and DHI protocols should be compared.</p>
+          <p class="english-patient-reviews__card-action"><a href="/best-clinic-for-hair-transplant-turkey">Compare clinics and teams</a></p>
+        </article>
+        <article>
+          <h3>Checklist Before Booking</h3>
+          <p>Check assessment, donor planning, quote details, package inclusions, safety documents and aftercare before paying a deposit.</p>
+          <p class="english-patient-reviews__card-action"><a href="/best-hair-implant-clinic-turkey">Open the booking checklist</a></p>
+        </article>
+      </div>
+    </div>
+  `;
+  return section;
 }
 
-const homepageObserver = new MutationObserver(enhanceHomepage);
-homepageObserver.observe(root, { childList: true, subtree: true });
+function addEnglishBestClinicLinks() {
+  if (!['/en', '/en/hair-transplant-guides'].includes(window.location.pathname)) return;
+  if (document.getElementById('english-best-clinic-guides')) return;
 
-requestAnimationFrame(enhanceHomepage);
-window.addEventListener('load', enhanceHomepage, { once: true });
+  const section = createEnglishBestClinicSection();
+
+  if (window.location.pathname === '/en') {
+    const reviews = document.getElementById('english-patient-reviews');
+    if (!reviews) return;
+    reviews.insertAdjacentElement('afterend', section);
+    return;
+  }
+
+  const guideSections = document.querySelectorAll<HTMLElement>('main section');
+  const firstGuideCategory = Array.from(guideSections).find((item) =>
+    item.textContent?.includes('Hair transplant in Turkey and cost'),
+  );
+  if (!firstGuideCategory) return;
+  firstGuideCategory.insertAdjacentElement('afterend', section);
+}
+
+function enhancePages() {
+  addHomepageHeroMedia();
+  addEnglishPatientReviews();
+  addEnglishBestClinicLinks();
+}
+
+const pageObserver = new MutationObserver(enhancePages);
+pageObserver.observe(root, { childList: true, subtree: true });
+
+requestAnimationFrame(enhancePages);
+window.addEventListener('load', enhancePages, { once: true });
