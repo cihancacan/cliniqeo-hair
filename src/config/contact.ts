@@ -87,6 +87,27 @@ function setReactInputValue(input: HTMLInputElement, value: string) {
   input.dispatchEvent(new Event('change', { bubbles: true }));
 }
 
+function ensureEnglishFormFieldNames() {
+  if (window.location.pathname !== '/en/contact') return;
+
+  const form = document.querySelector<HTMLFormElement>('main form');
+  if (!form) return;
+
+  const textInputs = form.querySelectorAll<HTMLInputElement>('input[type="text"]');
+  if (textInputs[0] && !textInputs[0].name) textInputs[0].name = 'first_name';
+  if (textInputs[1] && !textInputs[1].name) textInputs[1].name = 'last_name';
+
+  const emailInput = form.querySelector<HTMLInputElement>('input[type="email"]');
+  const phoneInput = form.querySelector<HTMLInputElement>('input[type="tel"]:not([data-country-phone-visible="true"])');
+  const ageInput = form.querySelector<HTMLInputElement>('input[type="number"]');
+  const messageInput = form.querySelector<HTMLTextAreaElement>('textarea');
+
+  if (emailInput && !emailInput.name) emailInput.name = 'email';
+  if (phoneInput && !phoneInput.name) phoneInput.name = 'phone';
+  if (ageInput && !ageInput.name) ageInput.name = 'age';
+  if (messageInput && !messageInput.name) messageInput.name = 'message';
+}
+
 function fixPhoneLabel(input: HTMLInputElement, language: ContactLanguage) {
   const text = language === 'fr' ? 'Numéro de téléphone *' : 'Phone number *';
   const externalLabel = input.id ? document.querySelector<HTMLLabelElement>(`label[for="${CSS.escape(input.id)}"]`) : null;
@@ -138,52 +159,57 @@ function buildCountrySelect(language: ContactLanguage, selectedCountry: string) 
 
 function enhancePhoneFields() {
   const language: ContactLanguage = window.location.pathname.startsWith('/en') ? 'en' : 'fr';
+  ensureEnglishFormFieldNames();
 
-  document.querySelectorAll<HTMLInputElement>('input[name="phone"]').forEach((originalInput) => {
-    fixPhoneLabel(originalInput, language);
+  document
+    .querySelectorAll<HTMLInputElement>('input[name="phone"], input[type="tel"]:not([data-country-phone-visible="true"])')
+    .forEach((originalInput) => {
+      fixPhoneLabel(originalInput, language);
 
-    const existingWrapper = originalInput.parentElement?.querySelector<HTMLElement>('[data-country-phone-wrapper="true"]');
-    const existingVisibleInput = existingWrapper?.querySelector<HTMLInputElement>('input[data-country-phone-visible="true"]');
-    if (existingVisibleInput) {
-      existingVisibleInput.placeholder = language === 'fr' ? '6 12 34 56 78' : 'Phone number';
-      existingVisibleInput.setAttribute('aria-label', language === 'fr' ? 'Numéro de téléphone' : 'Phone number');
-      return;
-    }
+      const existingWrapper = originalInput.parentElement?.querySelector<HTMLElement>('[data-country-phone-wrapper="true"]');
+      const existingVisibleInput = existingWrapper?.querySelector<HTMLInputElement>('input[data-country-phone-visible="true"]');
+      if (existingVisibleInput) {
+        existingVisibleInput.placeholder = '';
+        existingVisibleInput.setAttribute('aria-label', language === 'fr' ? 'Numéro de téléphone' : 'Phone number');
+        window.requestAnimationFrame(() => fixPhoneLabel(originalInput, language));
+        return;
+      }
 
-    const selectedCountry = DEFAULT_COUNTRY[language];
-    const wrapper = document.createElement('div');
-    wrapper.dataset.countryPhoneWrapper = 'true';
-    wrapper.className = 'mt-2 flex gap-2 w-full';
+      const selectedCountry = DEFAULT_COUNTRY[language];
+      const wrapper = document.createElement('div');
+      wrapper.dataset.countryPhoneWrapper = 'true';
+      wrapper.className = 'mt-2 flex gap-2 w-full';
 
-    const select = buildCountrySelect(language, selectedCountry);
-    const visibleInput = document.createElement('input');
-    visibleInput.type = 'tel';
-    visibleInput.inputMode = 'tel';
-    visibleInput.required = originalInput.required;
-    visibleInput.autocomplete = 'tel-national';
-    visibleInput.dataset.countryPhoneVisible = 'true';
-    visibleInput.placeholder = language === 'fr' ? '6 12 34 56 78' : 'Phone number';
-    visibleInput.setAttribute('aria-label', language === 'fr' ? 'Numéro de téléphone' : 'Phone number');
-    visibleInput.className = 'min-w-0 flex-1 px-3 py-3 border-2 border-gray-300 rounded-lg focus:border-[#2f6bfc] focus:outline-none transition-colors';
+      const select = buildCountrySelect(language, selectedCountry);
+      const visibleInput = document.createElement('input');
+      visibleInput.type = 'text';
+      visibleInput.inputMode = 'tel';
+      visibleInput.required = originalInput.required;
+      visibleInput.autocomplete = 'tel-national';
+      visibleInput.dataset.countryPhoneVisible = 'true';
+      visibleInput.placeholder = '';
+      visibleInput.setAttribute('aria-label', language === 'fr' ? 'Numéro de téléphone' : 'Phone number');
+      visibleInput.className = 'min-w-0 flex-1 px-3 py-3 border-2 border-gray-300 rounded-lg focus:border-[#2f6bfc] focus:outline-none transition-colors';
 
-    originalInput.required = false;
-    originalInput.style.display = 'none';
-    originalInput.setAttribute('aria-hidden', 'true');
-    originalInput.insertAdjacentElement('afterend', wrapper);
-    wrapper.append(select, visibleInput);
+      originalInput.required = false;
+      originalInput.style.display = 'none';
+      originalInput.setAttribute('aria-hidden', 'true');
+      originalInput.insertAdjacentElement('afterend', wrapper);
+      wrapper.append(select, visibleInput);
 
-    const updateOriginalInput = () => {
-      const countryCode = select.value;
-      const dialCode = DIAL_CODE_BY_COUNTRY.get(countryCode) ?? '';
-      const localDigits = visibleInput.value.replace(/\D/g, '');
-      const keepLeadingZero = ['IT', 'SM', 'VA'].includes(countryCode);
-      const normalizedDigits = keepLeadingZero ? localDigits : localDigits.replace(/^0+/, '');
-      setReactInputValue(originalInput, normalizedDigits ? `${dialCode}${normalizedDigits}` : '');
-    };
+      const updateOriginalInput = () => {
+        const countryCode = select.value;
+        const dialCode = DIAL_CODE_BY_COUNTRY.get(countryCode) ?? '';
+        const localDigits = visibleInput.value.replace(/\D/g, '');
+        const keepLeadingZero = ['IT', 'SM', 'VA'].includes(countryCode);
+        const normalizedDigits = keepLeadingZero ? localDigits : localDigits.replace(/^0+/, '');
+        setReactInputValue(originalInput, normalizedDigits ? `${dialCode}${normalizedDigits}` : '');
+      };
 
-    select.addEventListener('change', updateOriginalInput);
-    visibleInput.addEventListener('input', updateOriginalInput);
-  });
+      select.addEventListener('change', updateOriginalInput);
+      visibleInput.addEventListener('input', updateOriginalInput);
+      window.requestAnimationFrame(() => fixPhoneLabel(originalInput, language));
+    });
 }
 
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
