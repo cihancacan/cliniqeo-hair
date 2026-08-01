@@ -59,19 +59,14 @@ createRoot(root).render(
 
 function addHomepageHeroMedia() {
   if (!['/', '/en'].includes(window.location.pathname)) return;
-  if (document.getElementById('homepage-hero-media')) return;
 
   const page = document.querySelector<HTMLElement>('main > div.pt-20');
   if (!page) return;
 
   const previousHero = page.querySelector<HTMLElement>('section');
-  if (previousHero) {
-    previousHero.classList.remove('home-photo-hero');
-    previousHero.style.removeProperty('background-image');
-    previousHero.style.removeProperty('background-size');
-    previousHero.style.removeProperty('background-position');
-    previousHero.style.removeProperty('background-repeat');
-  }
+  previousHero?.classList.add('home-photo-hero');
+
+  if (document.getElementById('homepage-hero-media')) return;
 
   const media = document.createElement('figure');
   media.id = 'homepage-hero-media';
