@@ -15,8 +15,6 @@ const replacements = [
   ['Appel gratuit', 'Appel via WhatsApp'],
   ['Numéro gratuit', 'Appel WhatsApp'],
   ['Free number', 'WhatsApp call'],
-  ['Telephone *', 'WhatsApp number *'],
-  ['Téléphone *', 'Numéro WhatsApp *'],
   ['être rappelé', 'être appelé via WhatsApp'],
   ['be called back', 'receive a WhatsApp call'],
 ];
