@@ -63,32 +63,10 @@ function addHomepageHeroMedia() {
   const page = document.querySelector<HTMLElement>('main > div.pt-20');
   if (!page) return;
 
-  const previousHero = page.querySelector<HTMLElement>('section');
-  previousHero?.classList.add('home-photo-hero');
+  document.getElementById('homepage-hero-media')?.remove();
 
-  if (document.getElementById('homepage-hero-media')) return;
-
-  const media = document.createElement('figure');
-  media.id = 'homepage-hero-media';
-  media.className = 'homepage-hero-media';
-
-  const isEnglish = window.location.pathname === '/en';
-  const alt = isEnglish
-    ? 'Hair transplant consultation in a modern clinic in Istanbul'
-    : 'Consultation de greffe de cheveux dans une clinique moderne à Istanbul';
-
-  media.innerHTML = `
-    <img
-      src="/home.cliniqeo.hair.jpg"
-      alt="${alt}"
-      width="1648"
-      height="928"
-      fetchpriority="high"
-      decoding="async"
-    />
-  `;
-
-  page.insertBefore(media, page.firstElementChild);
+  const hero = page.querySelector<HTMLElement>('section');
+  hero?.classList.add('home-photo-hero');
 }
 
 function addEnglishPatientReviews() {
