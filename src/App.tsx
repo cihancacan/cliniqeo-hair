@@ -1,6 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect, useLayoutEffect } from 'react';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -11,15 +10,32 @@ import AboutPage from './pages/AboutPage';
 import FAQPage from './pages/FAQPage';
 import ContactPage from './pages/ContactPage';
 import GuidesPage from './pages/GuidesPage';
+import BeforeAfterPage from './pages/BeforeAfterPage';
+import EnglishGeneralPage from './pages/en/EnglishGeneralPage';
+import EnglishContactPage from './pages/en/EnglishContactPage';
 import GreffeCheveuxTurquie from './pages/seo/GreffeCheveuxTurquie';
 import GreffeCheveuxFUETurquie from './pages/seo/GreffeCheveuxFUETurquie';
 import GreffeCheveuxDHITurquie from './pages/seo/GreffeCheveuxDHITurquie';
 import PrixGreffeCheveuxTurquie from './pages/seo/PrixGreffeCheveuxTurquie';
-import BeforeAfterPage from './pages/BeforeAfterPage';
 import HairTransplantTurkey from './pages/seo/HairTransplantTurkey';
 import TurkeyHairTransplantCost from './pages/seo/TurkeyHairTransplantCost';
 import SeoLandingPage from './pages/seo/SeoLandingPage';
 import SeoAdvancedPage from './pages/seo/SeoAdvancedPage';
+import { useLanguage } from './contexts/LanguageContext';
+import { getSiteLanguage } from './config/localizedRoutes';
+
+function LanguageRouteSync() {
+  const { pathname } = useLocation();
+  const { language, setLanguage } = useLanguage();
+
+  useLayoutEffect(() => {
+    const detected = getSiteLanguage(pathname);
+    if (detected !== language) setLanguage(detected);
+    document.documentElement.lang = detected;
+  }, [pathname, language, setLanguage]);
+
+  return null;
+}
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -30,6 +46,7 @@ function ScrollToTop() {
 function AppContent() {
   return (
     <div className="min-h-screen bg-white">
+      <LanguageRouteSync />
       <ScrollToTop />
       <Navigation />
       <main>
@@ -42,8 +59,17 @@ function AppContent() {
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/guides-greffe-cheveux" element={<GuidesPage lang="fr" />} />
-          <Route path="/en/hair-transplant-guides" element={<GuidesPage lang="en" />} />
           <Route path="/greffe-cheveux/avant-apres" element={<BeforeAfterPage />} />
+
+          <Route path="/en" element={<HomePage />} />
+          <Route path="/en/techniques" element={<EnglishGeneralPage pageKey="techniques" />} />
+          <Route path="/en/pricing" element={<EnglishGeneralPage pageKey="pricing" />} />
+          <Route path="/en/why-turkey" element={<EnglishGeneralPage pageKey="whyTurkey" />} />
+          <Route path="/en/about" element={<EnglishGeneralPage pageKey="about" />} />
+          <Route path="/en/faq" element={<EnglishGeneralPage pageKey="faq" />} />
+          <Route path="/en/contact" element={<EnglishContactPage />} />
+          <Route path="/en/before-after" element={<EnglishGeneralPage pageKey="beforeAfter" />} />
+          <Route path="/en/hair-transplant-guides" element={<GuidesPage lang="en" />} />
 
           <Route path="/greffe-de-cheveux-turquie" element={<GreffeCheveuxTurquie />} />
           <Route path="/implant-capillaire-turquie" element={<GreffeCheveuxTurquie />} />
@@ -149,7 +175,11 @@ function AppContent() {
 }
 
 function App() {
-  return <Router><AppContent /></Router>;
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
 }
 
 export default App;
