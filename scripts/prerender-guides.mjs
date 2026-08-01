@@ -9,9 +9,13 @@ const excludedRoutes = new Set([
   '/guides-greffe-cheveux', '/en/hair-transplant-guides',
 ]);
 
-const routeMatches = [...appSource.matchAll(/<Route\s+path=["']([^"']+)["']/g)];
-const allRoutes = [...new Set(routeMatches.map((match) => match[1]))]
-  .filter((path) => !excludedRoutes.has(path));
+const directRoutes = [...appSource.matchAll(/<Route\s+path=["']([^"']+)["']/g)]
+  .map((match) => match[1]);
+const tupleRoutes = [...appSource.matchAll(/\[\s*["'](\/[^"']+)["']\s*,\s*["'][^"']+["']\s*\]/g)]
+  .map((match) => match[1]);
+
+const allRoutes = [...new Set([...directRoutes, ...tupleRoutes])]
+  .filter((path) => path.startsWith('/') && !excludedRoutes.has(path));
 
 const isEnglishRoute = (path) =>
   path.startsWith('/en/') ||
