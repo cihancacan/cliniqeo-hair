@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, PhoneCall, Globe, ArrowLeft } from 'lucide-react';
+import { Menu, X, PhoneCall, Globe, ArrowLeft, MessageCircle } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import {
   getAlternateRoute,
@@ -10,6 +10,7 @@ import {
   getSiteLanguage,
   type SiteLanguage,
 } from '../config/localizedRoutes';
+import { getWhatsAppUrl, WHATSAPP_DISPLAY } from '../config/contact';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,6 +37,7 @@ const Navigation = () => {
   }));
   const contactPath = getLocalizedContactPath(language);
   const homePath = getLocalizedHomePath(language);
+  const whatsappUrl = getWhatsAppUrl(language);
 
   const languages = [
     { code: 'fr' as const, label: 'Français', flag: '🇫🇷' },
@@ -65,11 +67,17 @@ const Navigation = () => {
             </div>
 
             <div className="hidden lg:flex items-center space-x-4">
-              <a href="tel:0188842222" className="flex items-center space-x-2 text-[#224671] hover:text-[#2f6bfc]">
-                <PhoneCall size={20} className="text-[#2f6bfc]" />
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 text-[#224671] hover:text-[#25D366]"
+                aria-label={language === 'fr' ? `Appeler via WhatsApp au ${WHATSAPP_DISPLAY}` : `Call via WhatsApp at ${WHATSAPP_DISPLAY}`}
+              >
+                <PhoneCall size={20} className="text-[#25D366]" />
                 <div className="text-left">
-                  <div className="text-xs text-gray-500">{language === 'fr' ? 'Numéro gratuit' : 'Free number'}</div>
-                  <div className="text-base font-semibold">01 88 84 22 22</div>
+                  <div className="text-xs text-gray-500">{language === 'fr' ? 'Appel via WhatsApp' : 'WhatsApp call only'}</div>
+                  <div className="text-base font-semibold">{WHATSAPP_DISPLAY}</div>
                 </div>
               </a>
 
@@ -104,11 +112,17 @@ const Navigation = () => {
             </div>
 
             <div className="lg:hidden flex items-center space-x-2">
-              <a href="tel:0188842222" className="flex items-center space-x-1 text-[#224671]">
-                <PhoneCall size={18} className="text-[#2f6bfc]" />
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-1 text-[#224671]"
+                aria-label={language === 'fr' ? 'Appeler via WhatsApp' : 'Call via WhatsApp'}
+              >
+                <PhoneCall size={18} className="text-[#25D366]" />
                 <div className="text-left">
-                  <div className="text-xs text-gray-500">{language === 'fr' ? 'Gratuit' : 'Free'}</div>
-                  <div className="text-sm font-semibold">01 88 84 22 22</div>
+                  <div className="text-xs text-gray-500">WhatsApp</div>
+                  <div className="text-xs font-semibold">{WHATSAPP_DISPLAY}</div>
                 </div>
               </a>
               <button onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} className="text-[#224671] p-2" aria-label={language === 'fr' ? 'Langue' : 'Language'}>
@@ -129,6 +143,15 @@ const Navigation = () => {
                   {item.label}
                 </Link>
               ))}
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block bg-[#25D366] text-white px-6 py-3 rounded-lg font-semibold text-center"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {language === 'fr' ? 'Appeler via WhatsApp' : 'Call via WhatsApp'}
+              </a>
               <Link to={contactPath} className="block bg-[#2f6bfc] text-white px-6 py-3 rounded-lg font-semibold text-center" onClick={() => setIsMenuOpen(false)}>
                 {language === 'fr' ? 'Diagnostic gratuit' : 'Free assessment'}
               </Link>
@@ -160,6 +183,17 @@ const Navigation = () => {
         title={language === 'fr' ? 'Découvrez aussi nos soins dentaires' : 'Discover our dental care services'}
       >
         <ArrowLeft size={24} className="group-hover:scale-110 transition-transform" />
+      </a>
+
+      <a
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-xl hover:scale-105 transition-transform z-40"
+        title={language === 'fr' ? `Appeler via WhatsApp : ${WHATSAPP_DISPLAY}` : `Call via WhatsApp: ${WHATSAPP_DISPLAY}`}
+        aria-label={language === 'fr' ? 'Appeler Cliniqeo Hair via WhatsApp' : 'Call Cliniqeo Hair via WhatsApp'}
+      >
+        <MessageCircle size={26} />
       </a>
     </>
   );
