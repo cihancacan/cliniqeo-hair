@@ -1,16 +1,15 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
-  "redirects": [
-    { "source": "/about", "destination": "/a-propos", "permanent": true },
-    { "source": "/pricing", "destination": "/tarifs", "permanent": true },
-    { "source": "/seo/greffe-cheveux-fue-turquie", "destination": "/greffe-de-cheveux-fue-turquie", "permanent": true },
-    { "source": "/seo/greffe-cheveux-dhi-turquie", "destination": "/greffe-de-cheveux-dhi-turquie", "permanent": true },
-    { "source": "/en/fue-hair-transplant-turkey", "destination": "/fue-hair-transplant-turkey", "permanent": true },
-    { "source": "/en/dhi-hair-transplant-turkey", "destination": "/dhi-hair-transplant-turkey", "permanent": true },
-    { "source": "/en/turkey-hair-transplant-cost", "destination": "/turkey-hair-transplant-cost", "permanent": true }
-  ],
   "routes": [
+    { "src": "/about", "status": 308, "headers": { "Location": "/a-propos" } },
+    { "src": "/pricing", "status": 308, "headers": { "Location": "/tarifs" } },
+    { "src": "/seo/greffe-cheveux-fue-turquie", "status": 308, "headers": { "Location": "/greffe-de-cheveux-fue-turquie" } },
+    { "src": "/seo/greffe-cheveux-dhi-turquie", "status": 308, "headers": { "Location": "/greffe-de-cheveux-dhi-turquie" } },
+    { "src": "/en/fue-hair-transplant-turkey", "status": 308, "headers": { "Location": "/fue-hair-transplant-turkey" } },
+    { "src": "/en/dhi-hair-transplant-turkey", "status": 308, "headers": { "Location": "/dhi-hair-transplant-turkey" } },
+    { "src": "/en/turkey-hair-transplant-cost", "status": 308, "headers": { "Location": "/turkey-hair-transplant-cost" } },
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
