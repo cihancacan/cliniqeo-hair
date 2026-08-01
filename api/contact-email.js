@@ -24,7 +24,6 @@ const translations = {
     lastName: 'Nom',
     email: 'E-mail',
     phone: 'Numéro de téléphone',
-    age: 'Âge',
     message: 'Votre message',
     photos: 'Photos reçues',
     photoUnit: (count) => `${count} photo${count > 1 ? 's' : ''}`,
@@ -43,7 +42,6 @@ const translations = {
     lastName: 'Last name',
     email: 'Email',
     phone: 'Phone number',
-    age: 'Age',
     message: 'Your message',
     photos: 'Photos received',
     photoUnit: (count) => `${count} photo${count === 1 ? '' : 's'}`,
@@ -59,7 +57,6 @@ function buildRows(data, copy) {
     [copy.lastName, data.last_name],
     [copy.email, data.email],
     [copy.phone, data.phone],
-    [copy.age, data.age || copy.empty],
     [copy.message, data.message || copy.empty],
     [copy.photos, copy.photoUnit(data.photo_count)],
   ];
@@ -110,7 +107,6 @@ function buildText(data, copy, intro, isInternal = false) {
     `${copy.lastName}: ${data.last_name}`,
     `${copy.email}: ${data.email}`,
     `${copy.phone}: ${data.phone}`,
-    `${copy.age}: ${data.age || copy.empty}`,
     `${copy.message}: ${data.message || copy.empty}`,
     `${copy.photos}: ${copy.photoUnit(data.photo_count)}`,
   ].join('\n');
@@ -165,7 +161,6 @@ export default async function handler(request, response) {
     last_name: clean(body.last_name, 120),
     email: clean(body.email, 254).toLowerCase(),
     phone: clean(body.phone, 80),
-    age: clean(body.age, 10),
     message: clean(body.message, 4000),
     photo_count: Math.max(0, Math.min(10, Number(body.photo_count) || 0)),
   };
