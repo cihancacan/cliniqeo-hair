@@ -2,105 +2,100 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 
 const ORIGIN = 'https://cliniqeo-hair.vercel.app';
+const appSource = await readFile(join(process.cwd(), 'src', 'App.tsx'), 'utf8');
+
+const excludedRoutes = new Set([
+  '/', '/techniques', '/tarifs', '/turquie', '/a-propos', '/faq', '/contact',
+  '/guides-greffe-cheveux', '/en/hair-transplant-guides',
+]);
+
+const routeMatches = [...appSource.matchAll(/<Route\s+path=["']([^"']+)["']/g)];
+const allRoutes = [...new Set(routeMatches.map((match) => match[1]))]
+  .filter((path) => !excludedRoutes.has(path));
+
+const isEnglishRoute = (path) =>
+  path.startsWith('/en/') ||
+  path.startsWith('/hair-transplant') ||
+  path.startsWith('/turkey-hair-transplant') ||
+  path.startsWith('/best-hair-transplant') ||
+  path.startsWith('/fue-hair-transplant') ||
+  path.startsWith('/dhi-hair-transplant') ||
+  path.startsWith('/how-much-hair-transplant');
+
+const titleCase = (path, lang) => {
+  const clean = path.replace(/^\/en\//, '').replace(/^\//, '').replaceAll('-', ' ');
+  const replacements = lang === 'fr'
+    ? {
+        fue: 'FUE', dhi: 'DHI', turquie: 'Turquie', istanbul: 'Istanbul',
+        apres: 'après', anesthesie: 'anesthésie', ratee: 'ratée', abimee: 'abîmée',
+        deuxieme: 'deuxième', cheveux: 'cheveux', greffe: 'greffe',
+      }
+    : { fue: 'FUE', dhi: 'DHI', turkey: 'Turkey', istanbul: 'Istanbul', afro: 'Afro' };
+
+  const words = clean.split(' ').map((word) => replacements[word] ?? word);
+  const sentence = words.join(' ');
+  return sentence.charAt(0).toUpperCase() + sentence.slice(1);
+};
+
+const categorizeFr = (path) => {
+  if (/(prix|tout-compris|istanbul|avis|implant|meilleure-clinique|avant-apres|greffe-de-cheveux-turquie$)/.test(path)) return 0;
+  if (/(fue|dhi|saphir|rasage|douleur|anesthesie|indolore|technique)/.test(path)) return 1;
+  if (/(femme|afro|crepus|barbe|ligne-frontale|golfes|vertex|tonsure|sourcils|cicatrice|greffons)/.test(path)) return 2;
+  return 3;
+};
+
+const categorizeEn = (path) => {
+  if (/(cost|price|prices|istanbul|reviews|all-inclusive|before-after|best-hair|hair-transplant-turkey$|turkey-hair-transplant$|hair-transplant-in-turkey$)/.test(path)) return 0;
+  if (/(fue|dhi|sapphire|no-shave|pain|anesthesia)/.test(path)) return 1;
+  if (/(female|afro|beard|hairline|crown|eyebrow|scar|graft-count)/.test(path)) return 2;
+  return 3;
+};
+
+const frTitles = [
+  'Greffe de cheveux en Turquie et prix',
+  'Techniques et déroulement',
+  'Profils et zones à traiter',
+  'Zone donneuse, risques, soins et corrections',
+];
+const enTitles = [
+  'Hair transplant in Turkey and cost',
+  'Techniques and procedure',
+  'Patient profiles and treatment areas',
+  'Donor area, risks, aftercare and repair',
+];
+
+const buildCategories = (lang) => {
+  const routes = allRoutes.filter((path) => (lang === 'en' ? isEnglishRoute(path) : !isEnglishRoute(path)));
+  const groups = [[], [], [], []];
+  for (const path of routes) {
+    const index = lang === 'fr' ? categorizeFr(path) : categorizeEn(path);
+    groups[index].push([path, titleCase(path, lang)]);
+  }
+  const titles = lang === 'fr' ? frTitles : enTitles;
+  return titles.map((title, index) => [title, groups[index].sort((a, b) => a[1].localeCompare(b[1], lang))]);
+};
 
 const pages = [
   {
-    path: '/guides-greffe-cheveux',
-    lang: 'fr',
-    alternate: '/en/hair-transplant-guides',
+    path: '/guides-greffe-cheveux', lang: 'fr', alternate: '/en/hair-transplant-guides',
     title: 'Guides et informations sur la greffe de cheveux | Cliniqeo Hair',
-    description: 'Tous les guides Cliniqeo Hair sur les prix, techniques, zones, risques, soins et résultats d’une greffe de cheveux en Turquie.',
+    description: 'Toutes les pages Cliniqeo Hair sur les prix, techniques, zones, risques, soins, résultats et corrections d’une greffe de cheveux en Turquie.',
     h1: 'Guides et informations capillaires',
-    intro: 'Une bibliothèque organisée par thème pour comprendre les techniques, préparer le séjour et prendre une décision mieux informée.',
-    categories: [
-      ['Préparer son projet en Turquie', [
-        ['/greffe-de-cheveux-turquie', 'Greffe de cheveux en Turquie'],
-        ['/prix-greffe-de-cheveux-turquie', 'Prix d’une greffe de cheveux'],
-        ['/greffe-cheveux-istanbul', 'Greffe de cheveux à Istanbul'],
-        ['/greffe-cheveux-turquie-tout-compris', 'Forfait tout compris'],
-        ['/greffe-cheveux-turquie-avis', 'Avis et choix d’une clinique'],
-        ['/greffe-cheveux-turquie-avant-apres', 'Résultats avant et après'],
-      ]],
-      ['Techniques de greffe capillaire', [
-        ['/greffe-de-cheveux-fue-turquie', 'Greffe FUE en Turquie'],
-        ['/greffe-de-cheveux-dhi-turquie', 'Greffe DHI en Turquie'],
-        ['/fue-saphir-turquie', 'FUE Saphir'],
-        ['/dhi-ou-fue', 'DHI ou FUE ?'],
-        ['/greffe-cheveux-sans-rasage-turquie', 'Greffe sans rasage'],
-        ['/douleur-greffe-cheveux-anesthesie', 'Douleur et anesthésie'],
-      ]],
-      ['Profils et zones à traiter', [
-        ['/greffe-cheveux-femme-turquie', 'Greffe de cheveux pour femme'],
-        ['/greffe-cheveux-afro-turquie', 'Cheveux afro et crépus'],
-        ['/greffe-barbe-turquie', 'Greffe de barbe'],
-        ['/greffe-ligne-frontale-turquie', 'Ligne frontale et golfes'],
-        ['/greffe-vertex-turquie', 'Vertex et tonsure'],
-        ['/greffe-sourcils-turquie', 'Greffe de sourcils'],
-        ['/greffe-cheveux-cicatrice', 'Greffe sur cicatrice'],
-      ]],
-      ['Planification, sécurité et suivi', [
-        ['/nombre-greffons-greffe-cheveux', 'Combien de greffons ?'],
-        ['/zone-donneuse-greffe-cheveux', 'Zone donneuse'],
-        ['/greffe-cheveux-turquie-risques', 'Risques et prévention'],
-        ['/reparer-greffe-cheveux-ratee', 'Réparer une greffe ratée'],
-        ['/soins-apres-greffe-cheveux', 'Soins après la greffe'],
-        ['/apres-greffe-cheveux-mois-par-mois', 'Évolution mois par mois'],
-        ['/deuxieme-greffe-cheveux-turquie', 'Deuxième greffe'],
-      ]],
-    ],
+    intro: 'Une bibliothèque complète organisée par thème pour comprendre les techniques, préparer le séjour et suivre la récupération.',
+    categories: buildCategories('fr'),
   },
   {
-    path: '/en/hair-transplant-guides',
-    lang: 'en',
-    alternate: '/guides-greffe-cheveux',
+    path: '/en/hair-transplant-guides', lang: 'en', alternate: '/guides-greffe-cheveux',
     title: 'Hair Transplant Guides and Information | Cliniqeo Hair',
-    description: 'All Cliniqeo Hair guides about prices, techniques, treatment areas, risks, aftercare and hair transplant results in Turkey.',
+    description: 'Every Cliniqeo Hair page covering prices, techniques, treatment areas, risks, aftercare, results and hair transplant repair in Turkey.',
     h1: 'Hair transplant guides and information',
-    intro: 'A topic-based library to understand techniques, prepare for travel and make a better-informed decision.',
-    categories: [
-      ['Planning treatment in Turkey', [
-        ['/hair-transplant-turkey', 'Hair Transplant in Turkey'],
-        ['/turkey-hair-transplant-cost', 'Hair Transplant Cost'],
-        ['/en/hair-transplant-istanbul', 'Hair Transplant in Istanbul'],
-        ['/en/all-inclusive-hair-transplant-turkey', 'All-Inclusive Package'],
-        ['/en/hair-transplant-turkey-reviews', 'Reviews and Clinic Selection'],
-        ['/en/hair-transplant-turkey-before-after', 'Before and After Results'],
-      ]],
-      ['Hair transplant techniques', [
-        ['/fue-hair-transplant-turkey', 'FUE Hair Transplant'],
-        ['/dhi-hair-transplant-turkey', 'DHI Hair Transplant'],
-        ['/en/sapphire-fue-hair-transplant-turkey', 'Sapphire FUE'],
-        ['/en/dhi-vs-fue-hair-transplant', 'DHI vs FUE'],
-        ['/en/no-shave-hair-transplant-turkey', 'No-Shave Hair Transplant'],
-        ['/en/hair-transplant-pain-anesthesia', 'Pain and Anaesthesia'],
-      ]],
-      ['Patient profiles and treatment areas', [
-        ['/en/female-hair-transplant-turkey', 'Female Hair Transplant'],
-        ['/en/afro-hair-transplant-turkey', 'Afro and Coily Hair'],
-        ['/en/beard-transplant-turkey', 'Beard Transplant'],
-        ['/en/hairline-transplant-turkey', 'Hairline and Temples'],
-        ['/en/crown-hair-transplant-turkey', 'Crown Hair Transplant'],
-        ['/en/eyebrow-transplant-turkey', 'Eyebrow Transplant'],
-        ['/en/hair-transplant-on-scar', 'Hair Transplant on a Scar'],
-      ]],
-      ['Planning, safety and aftercare', [
-        ['/en/hair-transplant-graft-count', 'How Many Grafts?'],
-        ['/en/hair-transplant-donor-area', 'Donor Area'],
-        ['/en/hair-transplant-turkey-risks', 'Risks and Prevention'],
-        ['/en/hair-transplant-repair-turkey', 'Hair Transplant Repair'],
-        ['/en/hair-transplant-aftercare', 'Hair Transplant Aftercare'],
-        ['/en/hair-transplant-recovery-timeline', 'Recovery Timeline'],
-        ['/en/second-hair-transplant-turkey', 'Second Hair Transplant'],
-      ]],
-    ],
+    intro: 'A complete topic-based library to understand techniques, prepare for travel and follow the recovery process.',
+    categories: buildCategories('en'),
   },
 ];
 
-const escapeHtml = (value) => value
-  .replace(/&/g, '&amp;')
-  .replace(/</g, '&lt;')
-  .replace(/>/g, '&gt;')
-  .replace(/"/g, '&quot;');
+const escapeHtml = (value) => String(value)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 const templatePath = join(process.cwd(), 'dist', 'index.html');
 const original = await readFile(templatePath, 'utf8');
@@ -108,6 +103,7 @@ const original = await readFile(templatePath, 'utf8');
 for (const page of pages) {
   const canonical = `${ORIGIN}${page.path}`;
   const alternateLang = page.lang === 'fr' ? 'en' : 'fr';
+  const pageCount = page.categories.reduce((total, [, links]) => total + links.length, 0);
   const categories = page.categories.map(([title, links]) => `
     <section style="margin:0 0 42px">
       <h2 style="font-size:28px;color:#224671;margin-bottom:18px">${escapeHtml(title)}</h2>
@@ -136,6 +132,7 @@ for (const page of pages) {
           <p style="font-weight:700;color:#2f6bfc">Cliniqeo Hair</p>
           <h1 style="font-size:clamp(2.2rem,5vw,4rem);line-height:1.05;color:#224671;margin:12px 0 20px">${escapeHtml(page.h1)}</h1>
           <p style="font-size:1.2rem;line-height:1.7;max-width:850px">${escapeHtml(page.intro)}</p>
+          <p><strong>${pageCount}</strong> ${page.lang === 'fr' ? 'pages disponibles' : 'pages available'}</p>
           <p><a href="${page.alternate}" style="color:#2f6bfc;font-weight:700">${page.lang === 'fr' ? 'English version' : 'Version française'}</a></p>
         </header>
         ${categories}
@@ -143,7 +140,7 @@ for (const page of pages) {
     </main>
   </div>`;
 
-  let html = original
+  const html = original
     .replace(/<html\s+lang=["'][^"']*["']>/i, `<html lang="${page.lang}">`)
     .replace(/<title>[\s\S]*?<\/title>/i, '')
     .replace(/<meta\s+name=["']description["'][^>]*>/gi, '')
@@ -160,4 +157,4 @@ for (const page of pages) {
   await writeFile(indexPath, html, 'utf8');
 }
 
-console.log(`Prerendered ${pages.length} guide pages.`);
+console.log(`Prerendered ${pages.length} complete guide pages from ${allRoutes.length} SEO routes.`);
