@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, PhoneCall, Globe, ArrowLeft, MessageCircle } from 'lucide-react';
+import { Menu, X, PhoneCall, Globe, MessageCircle } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import {
   getAlternateRoute,
@@ -174,16 +174,6 @@ const Navigation = () => {
           </div>
         )}
       </nav>
-
-      <a
-        href="https://cliniqeo.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 left-6 bg-[#224671] text-white p-4 rounded-full shadow-lg hover:bg-[#2f6bfc] z-40 group"
-        title={language === 'fr' ? 'Découvrez aussi nos soins dentaires' : 'Discover our dental care services'}
-      >
-        <ArrowLeft size={24} className="group-hover:scale-110 transition-transform" />
-      </a>
 
       <a
         href={whatsappUrl}
