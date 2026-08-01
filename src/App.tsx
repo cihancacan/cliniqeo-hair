@@ -23,6 +23,7 @@ import HairTransplantTurkey from './pages/seo/HairTransplantTurkey';
 import TurkeyHairTransplantCost from './pages/seo/TurkeyHairTransplantCost';
 import SeoLandingPage from './pages/seo/SeoLandingPage';
 import SeoAdvancedPage from './pages/seo/SeoAdvancedPage';
+import BestClinicPage from './pages/seo/BestClinicPage';
 import { useLanguage } from './contexts/LanguageContext';
 import { getSiteLanguage } from './config/localizedRoutes';
 
@@ -46,9 +47,6 @@ function ScrollToTop() {
 }
 
 const frLandingRoutes = [
-  ['/meilleure-clinique-greffe-cheveux-turquie', 'reviews'],
-  ['/meilleure-clinique-implant-cheveux-turquie', 'reviews'],
-  ['/meilleure-clinique-implant-capillaire-turquie', 'reviews'],
   ['/greffe-de-cheveux-turquie-prix-tout-compris', 'allInclusive'],
   ['/greffe-cheveux-istanbul', 'istanbul'],
   ['/greffe-cheveux-turquie-tout-compris', 'allInclusive'],
@@ -99,7 +97,6 @@ const frAdvancedRoutes = [
 ] as const;
 
 const enLandingRoutes = [
-  ['/best-hair-transplant-turkey', 'reviews'],
   ['/en/hair-transplant-istanbul', 'istanbul'],
   ['/en/all-inclusive-hair-transplant-turkey', 'allInclusive'],
   ['/en/hair-transplant-turkey-reviews', 'reviews'],
@@ -169,6 +166,10 @@ function AppContent() {
           <Route path="/prix-implant-capillaire-turquie" element={<PrixGreffeCheveuxTurquie />} />
           <Route path="/implant-cheveux-turquie-prix" element={<PrixGreffeCheveuxTurquie />} />
 
+          <Route path="/meilleure-clinique-greffe-cheveux-turquie" element={<BestClinicPage lang="fr" variant="bestClinic" />} />
+          <Route path="/meilleure-clinique-implant-cheveux-turquie" element={<BestClinicPage lang="fr" variant="medicalTeam" />} />
+          <Route path="/meilleure-clinique-implant-capillaire-turquie" element={<BestClinicPage lang="fr" variant="bookingChecklist" />} />
+
           {frLandingRoutes.map(([path, pageKey]) => (
             <Route key={path} path={path} element={<SeoLandingPage lang="fr" pageKey={pageKey} />} />
           ))}
@@ -186,6 +187,11 @@ function AppContent() {
           <Route path="/hair-transplant-turkey-price" element={<TurkeyHairTransplantCost />} />
           <Route path="/turkey-hair-transplant-prices" element={<TurkeyHairTransplantCost />} />
           <Route path="/how-much-hair-transplant-turkey" element={<TurkeyHairTransplantCost />} />
+
+          <Route path="/best-hair-transplant-clinic-turkey" element={<BestClinicPage lang="en" variant="bestClinic" />} />
+          <Route path="/best-clinic-for-hair-transplant-turkey" element={<BestClinicPage lang="en" variant="medicalTeam" />} />
+          <Route path="/best-hair-implant-clinic-turkey" element={<BestClinicPage lang="en" variant="bookingChecklist" />} />
+          <Route path="/best-hair-transplant-turkey" element={<Navigate to="/best-hair-transplant-clinic-turkey" replace />} />
 
           {enLandingRoutes.map(([path, pageKey]) => (
             <Route key={path} path={path} element={<SeoLandingPage lang="en" pageKey={pageKey} />} />
