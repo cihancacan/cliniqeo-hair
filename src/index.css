@@ -52,6 +52,33 @@ html {
 
 .home-photo-hero {
   isolation: isolate;
+  background: #071424 !important;
+}
+
+.home-photo-hero::before,
+.home-photo-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 760px;
+  pointer-events: none;
+}
+
+.home-photo-hero::before {
+  z-index: -2;
+  background-image: url('/home.cliniqeo.hair.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center 42%;
+}
+
+.home-photo-hero::after {
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(7, 20, 36, 0.96) 0%, rgba(10, 31, 52, 0.86) 34%, rgba(10, 31, 52, 0.42) 62%, rgba(7, 20, 36, 0.08) 100%);
+}
+
+.home-photo-hero > .absolute.inset-0 {
+  display: none;
 }
 
 .home-photo-hero > div.relative > .max-w-4xl,
@@ -67,13 +94,40 @@ html {
 
 @media (min-width: 768px) {
   .home-photo-hero > div.relative > .max-w-4xl {
-    max-width: 48rem;
+    max-width: 43rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .home-photo-hero::before,
+  .home-photo-hero::after {
+    height: 820px;
+  }
+
+  .home-photo-hero::before {
+    background-size: 100% auto;
+    background-position: center top;
   }
 }
 
 @media (max-width: 767px) {
   .home-photo-hero {
-    background-position: 62% center !important;
+    padding-top: 245px !important;
+  }
+
+  .home-photo-hero::before,
+  .home-photo-hero::after {
+    height: 225px;
+  }
+
+  .home-photo-hero::before {
+    background-size: contain;
+    background-position: center top;
+    background-color: #071424;
+  }
+
+  .home-photo-hero::after {
+    background: linear-gradient(180deg, rgba(7, 20, 36, 0.02) 0%, rgba(7, 20, 36, 0.08) 68%, #071424 100%);
   }
 
   .home-photo-hero > div.relative > .max-w-4xl,
@@ -85,5 +139,99 @@ html {
 
   .home-photo-hero > div.relative > .max-w-4xl .justify-center {
     justify-content: center;
+  }
+}
+
+.english-patient-reviews {
+  padding: 5rem 1rem;
+  background: linear-gradient(180deg, #eef6ff 0%, #ffffff 100%);
+}
+
+.english-patient-reviews__inner {
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.english-patient-reviews__heading {
+  max-width: 48rem;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+
+.english-patient-reviews__eyebrow {
+  margin-bottom: .75rem;
+  color: #2f6bfc;
+  font-size: .8rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+}
+
+.english-patient-reviews__heading h2 {
+  margin-bottom: 1rem;
+  color: #224671;
+  font-size: clamp(2.25rem, 5vw, 3.4rem);
+  font-weight: 700;
+}
+
+.english-patient-reviews__heading > p:last-child {
+  color: #5f6f82;
+  font-size: 1.1rem;
+}
+
+.english-patient-reviews__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.english-patient-reviews__grid article {
+  padding: 2rem;
+  border: 1px solid #dbe8f5;
+  border-radius: 1.5rem;
+  background: #fff;
+  box-shadow: 0 16px 45px rgba(34, 70, 113, .10);
+}
+
+.english-patient-reviews__stars {
+  margin-bottom: 1rem;
+  color: #f6b51f;
+  font-size: 1.2rem;
+  letter-spacing: .12em;
+}
+
+.english-patient-reviews__grid h3 {
+  margin-bottom: .8rem;
+  color: #224671;
+  font-size: 1.55rem;
+  font-weight: 700;
+}
+
+.english-patient-reviews__grid p {
+  color: #536579;
+  line-height: 1.75;
+}
+
+.english-patient-reviews__action {
+  margin-top: 2.5rem;
+  text-align: center;
+}
+
+.english-patient-reviews__action a {
+  display: inline-flex;
+  padding: 1rem 1.5rem;
+  border-radius: .85rem;
+  background: #2f6bfc;
+  color: #fff;
+  font-weight: 800;
+  transition: background-color .2s ease;
+}
+
+.english-patient-reviews__action a:hover {
+  background: #224671;
+}
+
+@media (max-width: 900px) {
+  .english-patient-reviews__grid {
+    grid-template-columns: 1fr;
   }
 }
