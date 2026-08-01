@@ -22,8 +22,36 @@
 
     document.querySelectorAll('input[name="phone"]').forEach((phoneInput) => {
       const phoneContainer = phoneInput.closest('label') || phoneInput.parentElement;
-      phoneContainer?.classList.add('md:col-span-2');
+      phoneContainer?.classList.add('md:col-span-2', 'w-full');
       phoneInput.removeAttribute('placeholder');
+
+      const wrapper = phoneInput.parentElement?.querySelector('[data-country-phone-wrapper="true"]');
+      if (!(wrapper instanceof HTMLElement)) return;
+
+      wrapper.style.display = 'grid';
+      wrapper.style.gridTemplateColumns = 'minmax(155px, 46%) minmax(0, 54%)';
+      wrapper.style.gap = '8px';
+      wrapper.style.width = '100%';
+      wrapper.style.maxWidth = '100%';
+      wrapper.style.boxSizing = 'border-box';
+      wrapper.style.marginTop = phoneInput.closest('label') ? '8px' : '0';
+
+      const countrySelect = wrapper.querySelector('select');
+      if (countrySelect instanceof HTMLSelectElement) {
+        countrySelect.style.width = '100%';
+        countrySelect.style.minWidth = '0';
+        countrySelect.style.height = '52px';
+        countrySelect.style.boxSizing = 'border-box';
+      }
+
+      const visiblePhoneInput = wrapper.querySelector('input[data-country-phone-visible="true"]');
+      if (visiblePhoneInput instanceof HTMLInputElement) {
+        visiblePhoneInput.removeAttribute('placeholder');
+        visiblePhoneInput.style.width = '100%';
+        visiblePhoneInput.style.minWidth = '0';
+        visiblePhoneInput.style.height = '52px';
+        visiblePhoneInput.style.boxSizing = 'border-box';
+      }
     });
 
     document.querySelectorAll('input[data-country-phone-visible="true"]').forEach((visiblePhoneInput) => {
