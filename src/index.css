@@ -49,3 +49,41 @@
 html {
   scroll-behavior: smooth;
 }
+
+.home-photo-hero {
+  isolation: isolate;
+}
+
+.home-photo-hero > div.relative > .max-w-4xl,
+.home-photo-hero > div.relative > .max-w-4xl > .text-center {
+  margin-left: 0;
+  margin-right: auto;
+  text-align: left;
+}
+
+.home-photo-hero > div.relative > .max-w-4xl .justify-center {
+  justify-content: flex-start;
+}
+
+@media (min-width: 768px) {
+  .home-photo-hero > div.relative > .max-w-4xl {
+    max-width: 48rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .home-photo-hero {
+    background-position: 62% center !important;
+  }
+
+  .home-photo-hero > div.relative > .max-w-4xl,
+  .home-photo-hero > div.relative > .max-w-4xl > .text-center {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .home-photo-hero > div.relative > .max-w-4xl .justify-center {
+    justify-content: center;
+  }
+}
