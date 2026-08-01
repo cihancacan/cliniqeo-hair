@@ -73,19 +73,79 @@ html {
   .home-photo-hero {
     background-color: #0f172a !important;
     background-image: url('/home.cliniqeo.hair.jpg') !important;
-    background-size: auto 780px !important;
+    background-size: auto 680px !important;
     background-position: 58% top !important;
     background-repeat: no-repeat !important;
   }
 
+  .home-photo-hero > .absolute.inset-0 {
+    overflow: hidden;
+  }
+
+  .home-photo-hero > .absolute.inset-0::before,
+  .home-photo-hero > .absolute.inset-0::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+    border-radius: 9999px;
+    filter: blur(42px);
+    opacity: .72;
+  }
+
+  .home-photo-hero > .absolute.inset-0::before {
+    top: 40px;
+    left: -22%;
+    width: 82%;
+    height: 210px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, .28) 0%,
+      rgba(110, 193, 228, .18) 34%,
+      rgba(255, 255, 255, 0) 72%
+    );
+    transform: rotate(-8deg);
+  }
+
+  .home-photo-hero > .absolute.inset-0::after {
+    top: 230px;
+    right: -28%;
+    width: 88%;
+    height: 250px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, .24) 0%,
+      rgba(47, 107, 252, .16) 38%,
+      rgba(255, 255, 255, 0) 74%
+    );
+    transform: rotate(10deg);
+  }
+
   .home-photo-hero > .absolute.inset-0 > .absolute.inset-0 {
-    background: linear-gradient(
-      180deg,
-      rgba(8, 23, 45, .30) 0%,
-      rgba(8, 23, 45, .62) 35%,
-      rgba(15, 23, 42, .92) 72%,
-      rgba(15, 23, 42, 1) 100%
-    ) !important;
+    background:
+      radial-gradient(
+        ellipse at 20% 15%,
+        rgba(255, 255, 255, .16) 0%,
+        rgba(255, 255, 255, 0) 32%
+      ),
+      radial-gradient(
+        ellipse at 78% 28%,
+        rgba(110, 193, 228, .12) 0%,
+        rgba(110, 193, 228, 0) 38%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(8, 23, 45, .24) 0%,
+        rgba(8, 23, 45, .54) 34%,
+        rgba(15, 23, 42, .90) 70%,
+        rgba(15, 23, 42, 1) 100%
+      ) !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .home-photo-hero {
+    background-size: auto 640px !important;
+    background-position: 59% top !important;
   }
 }
 
