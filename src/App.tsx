@@ -14,6 +14,7 @@ import BeforeAfterPage from './pages/BeforeAfterPage';
 import EnglishHomePage from './pages/en/EnglishHomePage';
 import EnglishGeneralPage from './pages/en/EnglishGeneralPage';
 import EnglishContactPage from './pages/en/EnglishContactPage';
+import EnglishPricingPage from './pages/en/EnglishPricingPage';
 import GreffeCheveuxTurquie from './pages/seo/GreffeCheveuxTurquie';
 import GreffeCheveuxFUETurquie from './pages/seo/GreffeCheveuxFUETurquie';
 import GreffeCheveuxDHITurquie from './pages/seo/GreffeCheveuxDHITurquie';
@@ -147,7 +148,7 @@ function AppContent() {
 
           <Route path="/en" element={<EnglishHomePage />} />
           <Route path="/en/techniques" element={<EnglishGeneralPage pageKey="techniques" />} />
-          <Route path="/en/pricing" element={<EnglishGeneralPage pageKey="pricing" />} />
+          <Route path="/en/pricing" element={<EnglishPricingPage />} />
           <Route path="/en/why-turkey" element={<EnglishGeneralPage pageKey="whyTurkey" />} />
           <Route path="/en/about" element={<EnglishGeneralPage pageKey="about" />} />
           <Route path="/en/faq" element={<EnglishGeneralPage pageKey="faq" />} />
