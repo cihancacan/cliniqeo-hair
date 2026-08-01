@@ -14,6 +14,23 @@
     return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
   };
 
+  const adjustContactFormLayout = () => {
+    document.querySelectorAll('input[name="age"], input#age').forEach((ageInput) => {
+      const ageContainer = ageInput.closest('label') || ageInput.parentElement;
+      ageContainer?.remove();
+    });
+
+    document.querySelectorAll('input[name="phone"]').forEach((phoneInput) => {
+      const phoneContainer = phoneInput.closest('label') || phoneInput.parentElement;
+      phoneContainer?.classList.add('md:col-span-2');
+      phoneInput.removeAttribute('placeholder');
+    });
+
+    document.querySelectorAll('input[data-country-phone-visible="true"]').forEach((visiblePhoneInput) => {
+      visiblePhoneInput.removeAttribute('placeholder');
+    });
+  };
+
   document.addEventListener(
     'submit',
     (event) => {
@@ -34,7 +51,6 @@
         last_name: getValue(formData, 'last_name'),
         email: getValue(formData, 'email'),
         phone: getValue(formData, 'phone'),
-        age: getValue(formData, 'age'),
         message: getValue(formData, 'message'),
         photo_count: selectedPhotos,
       };
@@ -68,7 +84,14 @@
     }
   };
 
-  const observer = new MutationObserver(sendConfirmation);
+  const refreshContactPage = () => {
+    adjustContactFormLayout();
+    void sendConfirmation();
+  };
+
+  const observer = new MutationObserver(refreshContactPage);
   observer.observe(document.documentElement, { childList: true, subtree: true });
-  window.addEventListener('load', sendConfirmation, { once: true });
+  document.addEventListener('DOMContentLoaded', refreshContactPage, { once: true });
+  window.addEventListener('load', refreshContactPage, { once: true });
+  refreshContactPage();
 })();
