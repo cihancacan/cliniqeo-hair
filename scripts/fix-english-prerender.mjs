@@ -14,7 +14,7 @@ async function walk(directory) {
   return files;
 }
 
-const routeReplacements = [
+const englishRouteReplacements = [
   ['href="/contact"', 'href="/en/contact"'],
   ['href="/faq"', 'href="/en/faq"'],
   ['href="/tarifs"', 'href="/en/pricing"'],
@@ -31,16 +31,20 @@ const routeReplacements = [
 let updated = 0;
 for (const filePath of await walk(dist)) {
   let html = await readFile(filePath, 'utf8');
-  if (!/<html\s+lang=["']en["']>/i.test(html)) continue;
-
   const original = html;
+
+  // Normalise technique names in every language.
   html = html
-    .replace(/(<p[^>]*>)Pour\s+/g, '$1For ')
     .replace(/\bfUE\b/g, 'FUE')
     .replace(/\bdHI\b/g, 'DHI');
 
-  for (const [source, destination] of routeReplacements) {
-    html = html.split(source).join(destination);
+  const isEnglish = /<html\s+lang=["']en["']>/i.test(html);
+  if (isEnglish) {
+    html = html.replace(/(<p[^>]*>)Pour\s+/g, '$1For ');
+
+    for (const [source, destination] of englishRouteReplacements) {
+      html = html.split(source).join(destination);
+    }
   }
 
   if (html !== original) {
@@ -49,4 +53,4 @@ for (const filePath of await walk(dist)) {
   }
 }
 
-console.log(`Cleaned ${updated} English prerendered HTML files.`);
+console.log(`Cleaned ${updated} prerendered HTML files.`);
