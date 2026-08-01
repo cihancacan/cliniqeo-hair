@@ -20,9 +20,6 @@ const routes = [...new Set([...directRoutes, ...tupleRoutes])]
 const aliases = new Map([
   ['/implant-capillaire-turquie', '/greffe-de-cheveux-turquie'],
   ['/implant-cheveux-turquie', '/greffe-de-cheveux-turquie'],
-  ['/meilleure-clinique-greffe-cheveux-turquie', '/greffe-cheveux-turquie-avis'],
-  ['/meilleure-clinique-implant-cheveux-turquie', '/greffe-cheveux-turquie-avis'],
-  ['/meilleure-clinique-implant-capillaire-turquie', '/greffe-cheveux-turquie-avis'],
   ['/greffe-cheveux-prix-turquie', '/prix-greffe-de-cheveux-turquie'],
   ['/prix-implant-capillaire-turquie', '/prix-greffe-de-cheveux-turquie'],
   ['/implant-cheveux-turquie-prix', '/prix-greffe-de-cheveux-turquie'],
@@ -51,7 +48,7 @@ const aliases = new Map([
 
   ['/turkey-hair-transplant', '/hair-transplant-turkey'],
   ['/hair-transplant-in-turkey', '/hair-transplant-turkey'],
-  ['/best-hair-transplant-turkey', '/en/hair-transplant-turkey-reviews'],
+  ['/best-hair-transplant-turkey', '/best-hair-transplant-clinic-turkey'],
   ['/fue-hair-transplant-turkey', '/hair-transplant-turkey'],
   ['/dhi-hair-transplant-turkey', '/hair-transplant-turkey'],
   ['/hair-transplant-turkey-cost', '/turkey-hair-transplant-cost'],
@@ -66,6 +63,8 @@ const isEnglish = (path) =>
   path.startsWith('/hair-transplant') ||
   path.startsWith('/turkey-hair-transplant') ||
   path.startsWith('/best-hair-transplant') ||
+  path.startsWith('/best-clinic-for-hair-transplant') ||
+  path.startsWith('/best-hair-implant') ||
   path.startsWith('/fue-hair-transplant') ||
   path.startsWith('/dhi-hair-transplant') ||
   path.startsWith('/how-much-hair-transplant');
