@@ -24,10 +24,16 @@
 
     document.querySelectorAll('input[name="phone"]').forEach((phoneInput) => {
       const phoneContainer = phoneInput.closest('label') || phoneInput.parentElement;
-      phoneContainer?.classList.add('md:col-span-2', 'w-full');
+      if (phoneContainer instanceof HTMLElement) {
+        phoneContainer.style.gridColumn = '1 / -1';
+        phoneContainer.style.width = '100%';
+        phoneContainer.style.maxWidth = '100%';
+        phoneContainer.style.boxSizing = 'border-box';
+      }
+
       phoneInput.removeAttribute('placeholder');
 
-      const wrapper = phoneInput.parentElement?.querySelector('[data-country-phone-wrapper="true"]');
+      const wrapper = phoneContainer?.querySelector('[data-country-phone-wrapper="true"]');
       if (!(wrapper instanceof HTMLElement)) return;
 
       wrapper.style.display = 'grid';
