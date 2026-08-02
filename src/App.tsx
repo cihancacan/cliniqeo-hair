@@ -27,6 +27,8 @@ const TurkeyHairTransplantCost = lazy(() => import('./pages/seo/TurkeyHairTransp
 const SeoLandingPage = lazy(() => import('./pages/seo/SeoLandingPage'));
 const SeoAdvancedPage = lazy(() => import('./pages/seo/SeoAdvancedPage'));
 const BestClinicPage = lazy(() => import('./pages/seo/BestClinicPage'));
+const LocalSeoPage = lazy(() => import('./pages/seo/LocalSeoPage'));
+const LocalSeoDirectoryPage = lazy(() => import('./pages/seo/LocalSeoDirectoryPage'));
 
 function LanguageRouteSync() {
   const { pathname } = useLocation();
@@ -134,6 +136,24 @@ const enAdvancedRoutes = [
   ['/en/second-hair-transplant-turkey', 'secondTransplant'],
 ] as const;
 
+const localSeoPatterns = [
+  '/greffe-de-cheveux-:citySlug',
+  '/greffe-capillaire-:citySlug',
+  '/implant-capillaire-:citySlug',
+  '/prix-greffe-cheveux-:citySlug',
+  '/clinique-greffe-cheveux-:citySlug',
+  '/en/uk/hair-transplant-:citySlug',
+  '/en/uk/hair-restoration-:citySlug',
+  '/en/uk/hair-implants-:citySlug',
+  '/en/uk/hair-transplant-cost-:citySlug',
+  '/en/uk/hair-transplant-clinic-:citySlug',
+  '/en/us/hair-transplant-:citySlug',
+  '/en/us/hair-restoration-:citySlug',
+  '/en/us/hair-implants-:citySlug',
+  '/en/us/hair-transplant-cost-:citySlug',
+  '/en/us/hair-transplant-clinic-:citySlug',
+] as const;
+
 function AppContent() {
   return (
     <div className="min-h-screen bg-white">
@@ -152,6 +172,7 @@ function AppContent() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/guides-greffe-cheveux" element={<GuidesPage lang="fr" />} />
             <Route path="/greffe-cheveux/avant-apres" element={<BeforeAfterPage />} />
+            <Route path="/greffe-cheveux-france" element={<LocalSeoDirectoryPage country="fr" />} />
 
             <Route path="/en" element={<EnglishHomePage />} />
             <Route path="/en/techniques" element={<EnglishGeneralPage pageKey="techniques" />} />
@@ -162,6 +183,10 @@ function AppContent() {
             <Route path="/en/contact" element={<EnglishContactPage />} />
             <Route path="/en/before-after" element={<EnglishGeneralPage pageKey="beforeAfter" />} />
             <Route path="/en/hair-transplant-guides" element={<GuidesPage lang="en" />} />
+            <Route path="/en/uk/hair-transplant-cities" element={<LocalSeoDirectoryPage country="uk" />} />
+            <Route path="/en/us/hair-transplant-cities" element={<LocalSeoDirectoryPage country="us" />} />
+
+            {localSeoPatterns.map((path) => <Route key={path} path={path} element={<LocalSeoPage />} />)}
 
             <Route path="/about" element={<Navigate to="/a-propos" replace />} />
             <Route path="/pricing" element={<Navigate to="/tarifs" replace />} />
