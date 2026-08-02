@@ -85,6 +85,13 @@ const countryCodeSelect = form?.querySelector<HTMLSelectElement>('select[name="p
 const visiblePhoneInput = form?.querySelector<HTMLInputElement>('input[name="phone_local"]') ?? null;
 const hiddenPhoneInput = form?.querySelector<HTMLInputElement>('input[name="phone"]') ?? null;
 
+function createSubmissionId() {
+  if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+    return window.crypto.randomUUID();
+  }
+  return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
+
 function updateCompletePhoneNumber() {
   if (!hiddenPhoneInput) return;
 
@@ -113,6 +120,7 @@ form?.addEventListener('submit', async (event) => {
 
   updateCompletePhoneNumber();
 
+  const submissionId = createSubmissionId();
   const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
   const data = new FormData(form);
   const message = String(data.get('message') || '').trim();
@@ -173,6 +181,7 @@ form?.addEventListener('submit', async (event) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        submission_id: submissionId,
         language: isFr ? 'fr' : 'en',
         first_name: String(data.get('first_name') || ''),
         last_name: String(data.get('last_name') || ''),
@@ -180,16 +189,18 @@ form?.addEventListener('submit', async (event) => {
         phone,
         message: sourceMessage,
         photo_count: photoCount,
+        source_url: window.location.href,
       }),
+      keepalive: true,
     }).catch((emailError) => {
-      console.warn('Lead saved, but notification email failed:', emailError);
+      console.warn('Lead saved in Supabase, but notification email failed:', emailError);
     });
 
     formContent.innerHTML = `
       <div class="py-10 text-center">
         <div class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100 text-4xl font-bold text-green-600">✓</div>
         <h2 class="mb-4 text-3xl font-bold text-[#224671]">${isFr ? 'Demande envoyée !' : 'Request sent'}</h2>
-        <p class="text-lg leading-relaxed text-slate-700">${isFr ? 'Votre demande de diagnostic a bien été reçue. Notre équipe vous contactera pour analyser votre situation et confirmer les prochaines étapes.' : 'Your assessment request has been received. Our team will contact you to review your situation and confirm the next steps.'}</p>
+        <p class="text-lg leading-relaxed text-slate-700">${isFr ? 'Votre demande de diagnostic a bien été enregistrée. Vérifiez votre email : vous recevrez un récapitulatif auquel vous pourrez répondre pour corriger ou compléter vos informations.' : 'Your assessment request has been recorded. Check your email for a summary that you can reply to if you need to correct or add information.'}</p>
       </div>
     `;
   } catch (error) {
