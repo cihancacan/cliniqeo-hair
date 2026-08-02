@@ -9,6 +9,7 @@ const Footer = () => {
   const { language, t } = useLanguage();
   const isFr = language === 'fr';
   const guidesPath = getLocalizedGuidesPath(language);
+  const localCitiesPath = isFr ? '/greffe-cheveux-france' : '/en/hair-transplant-by-city';
   const whatsappUrl = getWhatsAppUrl(language);
   const quickLinks = getNavigationItems(language).filter((item) =>
     ['nav.home', 'nav.techniques', 'nav.pricing', 'nav.why_turkey', 'nav.faq', 'nav.contact'].includes(item.key),
@@ -87,6 +88,10 @@ const Footer = () => {
               <span aria-hidden="true">•</span>
               <Link to={guidesPath} className="inline-flex items-center gap-1.5 hover:text-[#6EC1E4] transition-colors">
                 <BookOpen size={14} /> Guides
+              </Link>
+              <span aria-hidden="true">•</span>
+              <Link to={localCitiesPath} className="inline-flex items-center gap-1.5 hover:text-[#6EC1E4] transition-colors">
+                <MapPin size={14} /> {isFr ? 'Villes' : 'Cities'}
               </Link>
               <span aria-hidden="true">•</span>
               <a href="https://cliniqeo.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-[#6EC1E4] transition-colors">
