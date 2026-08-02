@@ -81,14 +81,42 @@ photoTypes.forEach((type) => {
 const form = document.getElementById('local-native-form') as HTMLFormElement | null;
 const formContent = document.getElementById('local-form-content');
 const errorBox = document.getElementById('local-form-error');
+const countryCodeSelect = form?.querySelector<HTMLSelectElement>('select[name="phone_country_code"]') ?? null;
+const visiblePhoneInput = form?.querySelector<HTMLInputElement>('input[name="phone_local"]') ?? null;
+const hiddenPhoneInput = form?.querySelector<HTMLInputElement>('input[name="phone"]') ?? null;
+
+function updateCompletePhoneNumber() {
+  if (!hiddenPhoneInput) return;
+
+  const rawNumber = visiblePhoneInput?.value.trim() ?? '';
+  if (!rawNumber) {
+    hiddenPhoneInput.value = '';
+    return;
+  }
+
+  if (rawNumber.startsWith('+')) {
+    hiddenPhoneInput.value = `+${rawNumber.replace(/\D/g, '')}`;
+    return;
+  }
+
+  const countryCode = countryCodeSelect?.value || '';
+  const localNumber = rawNumber.replace(/\D/g, '').replace(/^0+/, '');
+  hiddenPhoneInput.value = localNumber ? `${countryCode}${localNumber}` : '';
+}
+
+countryCodeSelect?.addEventListener('change', updateCompletePhoneNumber);
+visiblePhoneInput?.addEventListener('input', updateCompletePhoneNumber);
 
 form?.addEventListener('submit', async (event) => {
   event.preventDefault();
   if (!page || !formContent) return;
 
+  updateCompletePhoneNumber();
+
   const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
   const data = new FormData(form);
   const message = String(data.get('message') || '').trim();
+  const phone = String(data.get('phone') || '').trim();
   const sourceMessage = isFr
     ? `[Landing locale : ${cityLabel} | ${page.keyword.label} | ${page.path}] ${message || 'Demande de diagnostic capillaire.'}`
     : `[Local landing page: ${cityLabel} | ${page.keyword.label} | ${page.path}] ${message || 'Hair assessment request.'}`;
@@ -126,14 +154,12 @@ form?.addEventListener('submit', async (event) => {
       photoUrls[databaseField] = uploadData.path;
     }));
 
-    const ageValue = String(data.get('age') || '').trim();
     const { error: submitError } = await supabase.from('diagnostic_requests').insert([
       {
         first_name: String(data.get('first_name') || ''),
         last_name: String(data.get('last_name') || ''),
         email: String(data.get('email') || ''),
-        phone: String(data.get('phone') || ''),
-        age: ageValue ? Number.parseInt(ageValue, 10) : null,
+        phone,
         message: sourceMessage,
         status: 'pending',
         ...photoUrls,
@@ -151,7 +177,7 @@ form?.addEventListener('submit', async (event) => {
         first_name: String(data.get('first_name') || ''),
         last_name: String(data.get('last_name') || ''),
         email: String(data.get('email') || ''),
-        phone: String(data.get('phone') || ''),
+        phone,
         message: sourceMessage,
         photo_count: photoCount,
       }),
