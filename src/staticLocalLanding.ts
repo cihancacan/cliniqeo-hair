@@ -1,6 +1,12 @@
-import { findLocalPage } from './config/localSeoData';
+import { createClient } from '@supabase/supabase-js';
+import { findLocalSeoPage } from './config/findLocalSeoPage';
 
-const page = findLocalPage(window.location.pathname);
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY,
+);
+
+const page = findLocalSeoPage(window.location.pathname);
 const isFr = page?.country === 'fr';
 const cityLabel = page
   ? page.country === 'us'
@@ -28,20 +34,64 @@ document.querySelectorAll<HTMLAnchorElement>('a[href="/contact"], a[href="/en/co
   link.href = '#diagnostic-form';
 });
 
+type PhotoType = 'front' | 'top' | 'back';
+const photoTypes: PhotoType[] = ['front', 'top', 'back'];
+
+function resetPhoto(type: PhotoType) {
+  const input = document.querySelector<HTMLInputElement>(`[data-photo-input="${type}"]`);
+  const preview = document.querySelector<HTMLImageElement>(`[data-photo-preview="${type}"]`);
+  const placeholder = document.querySelector<HTMLElement>(`[data-photo-placeholder="${type}"]`);
+  const removeButton = document.querySelector<HTMLButtonElement>(`[data-remove-photo="${type}"]`);
+
+  if (input) input.value = '';
+  if (preview) {
+    preview.src = '';
+    preview.classList.add('hidden');
+  }
+  placeholder?.classList.remove('hidden');
+  removeButton?.classList.add('hidden');
+}
+
+photoTypes.forEach((type) => {
+  const input = document.querySelector<HTMLInputElement>(`[data-photo-input="${type}"]`);
+  const preview = document.querySelector<HTMLImageElement>(`[data-photo-preview="${type}"]`);
+  const placeholder = document.querySelector<HTMLElement>(`[data-photo-placeholder="${type}"]`);
+  const removeButton = document.querySelector<HTMLButtonElement>(`[data-remove-photo="${type}"]`);
+
+  input?.addEventListener('change', () => {
+    const file = input.files?.[0];
+    if (!file || !preview) {
+      resetPhoto(type);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      preview.src = String(reader.result || '');
+      preview.classList.remove('hidden');
+      placeholder?.classList.add('hidden');
+      removeButton?.classList.remove('hidden');
+    });
+    reader.readAsDataURL(file);
+  });
+
+  removeButton?.addEventListener('click', () => resetPhoto(type));
+});
+
 const form = document.getElementById('local-native-form') as HTMLFormElement | null;
-const formSection = document.getElementById('diagnostic-form');
+const formContent = document.getElementById('local-form-content');
 const errorBox = document.getElementById('local-form-error');
 
 form?.addEventListener('submit', async (event) => {
   event.preventDefault();
-  if (!page || !formSection) return;
+  if (!page || !formContent) return;
 
   const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
   const data = new FormData(form);
   const message = String(data.get('message') || '').trim();
   const sourceMessage = isFr
-    ? `[Landing locale : ${cityLabel} | ${page.path}] ${message || 'Demande de diagnostic capillaire.'}`
-    : `[Local landing page: ${cityLabel} | ${page.path}] ${message || 'Hair assessment request.'}`;
+    ? `[Landing locale : ${cityLabel} | ${page.keyword.label} | ${page.path}] ${message || 'Demande de diagnostic capillaire.'}`
+    : `[Local landing page: ${cityLabel} | ${page.keyword.label} | ${page.path}] ${message || 'Hair assessment request.'}`;
 
   if (submitButton) {
     submitButton.disabled = true;
@@ -50,7 +100,50 @@ form?.addEventListener('submit', async (event) => {
   errorBox?.classList.add('hidden');
 
   try {
-    const response = await fetch('/api/contact-email', {
+    const photoUrls = {
+      photo_front_url: null as string | null,
+      photo_top_url: null as string | null,
+      photo_donor_url: null as string | null,
+    };
+
+    const uploadMap: Array<[PhotoType, keyof typeof photoUrls]> = [
+      ['front', 'photo_front_url'],
+      ['top', 'photo_top_url'],
+      ['back', 'photo_donor_url'],
+    ];
+
+    await Promise.all(uploadMap.map(async ([type, databaseField]) => {
+      const value = data.get(`photo_${type}`);
+      if (!(value instanceof File) || value.size === 0) return;
+
+      const safeName = value.name.replace(/[^a-zA-Z0-9._-]/g, '-');
+      const fileName = `${Date.now()}_${Math.random().toString(36).slice(2, 8)}_${type}_${safeName}`;
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('diagnostic-photos')
+        .upload(fileName, value);
+
+      if (uploadError) throw uploadError;
+      photoUrls[databaseField] = uploadData.path;
+    }));
+
+    const ageValue = String(data.get('age') || '').trim();
+    const { error: submitError } = await supabase.from('diagnostic_requests').insert([
+      {
+        first_name: String(data.get('first_name') || ''),
+        last_name: String(data.get('last_name') || ''),
+        email: String(data.get('email') || ''),
+        phone: String(data.get('phone') || ''),
+        age: ageValue ? Number.parseInt(ageValue, 10) : null,
+        message: sourceMessage,
+        status: 'pending',
+        ...photoUrls,
+      },
+    ]);
+
+    if (submitError) throw submitError;
+
+    const photoCount = Object.values(photoUrls).filter(Boolean).length;
+    void fetch('/api/contact-email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -60,23 +153,21 @@ form?.addEventListener('submit', async (event) => {
         email: String(data.get('email') || ''),
         phone: String(data.get('phone') || ''),
         message: sourceMessage,
-        photo_count: 0,
+        photo_count: photoCount,
       }),
+    }).catch((emailError) => {
+      console.warn('Lead saved, but notification email failed:', emailError);
     });
 
-    if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
-
-    formSection.innerHTML = `
-      <div class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 lg:px-8">
-        <div class="rounded-3xl border border-green-200 bg-white p-8 shadow-2xl md:p-12">
-          <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-3xl font-bold text-green-600">✓</div>
-          <h2 class="mb-4 text-3xl font-bold text-[#224671]">${isFr ? 'Votre demande a bien été envoyée' : 'Your request has been sent'}</h2>
-          <p class="text-lg text-slate-600">${isFr ? 'Notre équipe vous contactera pour compléter le diagnostic, recevoir vos photos et vous expliquer les prochaines étapes.' : 'Our team will contact you to complete the assessment, receive your photographs and explain the next steps.'}</p>
-        </div>
+    formContent.innerHTML = `
+      <div class="py-10 text-center">
+        <div class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100 text-4xl font-bold text-green-600">✓</div>
+        <h2 class="mb-4 text-3xl font-bold text-[#224671]">${isFr ? 'Demande envoyée !' : 'Request sent'}</h2>
+        <p class="text-lg leading-relaxed text-slate-700">${isFr ? 'Votre demande de diagnostic a bien été reçue. Notre équipe vous contactera pour analyser votre situation et confirmer les prochaines étapes.' : 'Your assessment request has been received. Our team will contact you to review your situation and confirm the next steps.'}</p>
       </div>
     `;
   } catch (error) {
-    console.error('Local landing form submission failed:', error);
+    console.error('Local landing assessment submission failed:', error);
     if (errorBox) {
       errorBox.textContent = isFr
         ? 'Une erreur est survenue. Réessayez ou contactez-nous directement sur WhatsApp.'
@@ -85,7 +176,7 @@ form?.addEventListener('submit', async (event) => {
     }
     if (submitButton) {
       submitButton.disabled = false;
-      submitButton.textContent = isFr ? 'Recevoir mon diagnostic gratuit' : 'Get my free assessment';
+      submitButton.textContent = isFr ? 'Envoyer ma demande' : 'Send my request';
     }
   }
 });
