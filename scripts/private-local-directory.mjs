@@ -34,10 +34,9 @@ for (const file of htmlFiles) {
   });
 
   if (isDirectory) {
-    html = html.replace(
-      /<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">/g,
-      '<meta name="robots" content="noindex,follow">',
-    );
+    html = html
+      .replace(/<meta name="robots" content="noindex,follow">/g, '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">')
+      .replace(/<meta name="robots" content="noindex,nofollow">/g, '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">');
     directoryFilesUpdated += 1;
   } else if (
     normalized.includes('/greffe-de-cheveux-') ||
@@ -62,13 +61,14 @@ for (const file of htmlFiles) {
 
 const sitemapPath = join(dist, 'sitemap.xml');
 let sitemap = await readFile(sitemapPath, 'utf8');
-for (const path of directoryPaths) {
-  const escaped = path.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  sitemap = sitemap.replace(
-    new RegExp(`\\s*<url><loc>https://cliniqeo-hair\\.vercel\\.app${escaped}<\\/loc>[\\s\\S]*?<\\/url>`, 'g'),
-    '',
-  );
-}
-await writeFile(sitemapPath, sitemap, 'utf8');
+const missingEntries = directoryPaths
+  .filter((path) => !sitemap.includes(`<loc>https://cliniqeo-hair.vercel.app${path}</loc>`))
+  .map((path) => `  <url><loc>https://cliniqeo-hair.vercel.app${path}</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>`)
+  .join('\n');
 
-console.log(`Protected local directories: ${directoryFilesUpdated} directory files and ${landingFilesUpdated} landing files processed.`);
+if (missingEntries) {
+  sitemap = sitemap.replace('</urlset>', `${missingEntries}\n</urlset>`);
+  await writeFile(sitemapPath, sitemap, 'utf8');
+}
+
+console.log(`Made local directories indexable: ${directoryFilesUpdated} directory files and ${landingFilesUpdated} landing files processed.`);
