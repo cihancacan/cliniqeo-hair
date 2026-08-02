@@ -1,9 +1,9 @@
 import './index.css';
-import { findLocalPage } from './config/localSeoData';
+import { findLocalSeoPage } from './config/findLocalSeoPage';
 
 const root = document.getElementById('root');
 const isPrerenderedLocalLanding = Boolean(
-  root?.childElementCount && findLocalPage(window.location.pathname),
+  root?.childElementCount && findLocalSeoPage(window.location.pathname),
 );
 
 if (isPrerenderedLocalLanding) {
