@@ -1,5 +1,10 @@
 const RESEND_API_URL = 'https://api.resend.com/emails';
 
+const INTERNAL_RECIPIENTS = [
+  'info@cliniqeo.com',
+  'cacancihan@gmail.com',
+];
+
 const escapeHtml = (value = '') =>
   String(value)
     .replaceAll('&', '&amp;')
@@ -9,49 +14,77 @@ const escapeHtml = (value = '') =>
     .replaceAll("'", '&#039;');
 
 const clean = (value, maxLength = 4000) => String(value ?? '').trim().slice(0, maxLength);
-
 const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
 const translations = {
   fr: {
-    patientSubject: 'Merci pour votre confiance — récapitulatif de votre demande',
-    internalSubject: 'Nouvelle demande de diagnostic — formulaire français',
-    heading: 'Merci pour votre confiance',
-    intro: 'Votre demande de diagnostic capillaire a bien été enregistrée. Voici le récapitulatif des informations que vous nous avez transmises.',
-    outro: "L’équipe Cliniqeo Hair étudiera votre demande et vous contactera dans les meilleurs délais. Cet e-mail confirme uniquement la réception de votre formulaire et ne constitue pas un diagnostic médical.",
+    patientSubject: 'Votre demande de diagnostic gratuit — récapitulatif',
+    internalSubject: 'Nouvelle demande de diagnostic capillaire',
+    heading: 'Merci pour votre demande',
+    intro:
+      'Votre demande de diagnostic capillaire gratuit a bien été enregistrée dans notre système. Un conseiller Cliniqeo Hair va vous recontacter rapidement par WhatsApp, appel téléphonique ou email afin d’étudier votre situation.',
+    correction:
+      'Vérifiez attentivement le récapitulatif ci-dessous. Si une information est incorrecte, vous pouvez répondre directement à cet email pour la corriger.',
+    complement:
+      'Vous pouvez également répondre à cet email pour ajouter une information, poser une question, indiquer vos disponibilités ou préciser votre préférence de contact : WhatsApp, appel téléphonique ou email.',
+    medicalNotice:
+      'Cet email confirme la réception de votre demande. Le diagnostic définitif sera établi après l’étude de votre dossier et de vos photos par les professionnels concernés.',
     recap: 'Récapitulatif de votre demande',
     firstName: 'Prénom',
     lastName: 'Nom',
     email: 'E-mail',
     phone: 'Numéro de téléphone',
-    message: 'Votre message',
+    message: 'Informations transmises',
     photos: 'Photos reçues',
+    source: 'Page d’origine',
     photoUnit: (count) => `${count} photo${count > 1 ? 's' : ''}`,
     empty: 'Non renseigné',
     signature: 'L’équipe Cliniqeo Hair',
-    internalIntro: 'Une nouvelle demande a été enregistrée depuis la version française du site.',
+    internalIntro:
+      'Une nouvelle demande a été enregistrée dans Supabase. Ce message est une notification : le dossier complet reste conservé dans la base de données.',
   },
   en: {
-    patientSubject: 'Thank you for your trust — request summary',
-    internalSubject: 'New diagnostic request — English form',
-    heading: 'Thank you for your trust',
-    intro: 'Your hair diagnostic request has been recorded. Below is a summary of the information you submitted.',
-    outro: 'The Cliniqeo Hair team will review your request and contact you as soon as possible. This email only confirms receipt of your form and is not a medical diagnosis.',
+    patientSubject: 'Your free hair assessment request — summary',
+    internalSubject: 'New hair assessment request',
+    heading: 'Thank you for your request',
+    intro:
+      'Your free hair assessment request has been recorded in our system. A Cliniqeo Hair adviser will contact you shortly by WhatsApp, telephone call or email to review your situation.',
+    correction:
+      'Please check the summary below carefully. If any information is incorrect, simply reply to this email so that we can correct it.',
+    complement:
+      'You may also reply to add information, ask a question, provide your availability or tell us whether you prefer WhatsApp, a telephone call or email.',
+    medicalNotice:
+      'This email confirms receipt of your request. The final assessment will be prepared after the relevant professionals review your information and photographs.',
     recap: 'Your request summary',
     firstName: 'First name',
     lastName: 'Last name',
     email: 'Email',
     phone: 'Phone number',
-    message: 'Your message',
+    message: 'Information submitted',
     photos: 'Photos received',
+    source: 'Source page',
     photoUnit: (count) => `${count} photo${count === 1 ? '' : 's'}`,
     empty: 'Not provided',
     signature: 'The Cliniqeo Hair team',
-    internalIntro: 'A new request was recorded from the English version of the website.',
+    internalIntro:
+      'A new request was recorded in Supabase. This message is a notification; the complete record remains stored in the database.',
   },
 };
 
-function buildRows(data, copy) {
+function getRecipients() {
+  const configured = [
+    process.env.CONTACT_RECIPIENT_EMAILS,
+    process.env.CONTACT_RECIPIENT_EMAIL,
+  ]
+    .filter(Boolean)
+    .flatMap((value) => String(value).split(','))
+    .map((value) => value.trim().toLowerCase())
+    .filter(isValidEmail);
+
+  return [...new Set([...INTERNAL_RECIPIENTS, ...configured])];
+}
+
+function buildRows(data, copy, isInternal) {
   const values = [
     [copy.firstName, data.first_name],
     [copy.lastName, data.last_name],
@@ -61,18 +94,30 @@ function buildRows(data, copy) {
     [copy.photos, copy.photoUnit(data.photo_count)],
   ];
 
+  if (isInternal && data.source_url) {
+    values.push([copy.source, data.source_url]);
+  }
+
   return values
     .map(
       ([label, value]) => `
         <tr>
           <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-weight:700;color:#224671;vertical-align:top;width:38%;">${escapeHtml(label)}</td>
-          <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;color:#374151;white-space:pre-wrap;">${escapeHtml(value)}</td>
+          <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;color:#374151;white-space:pre-wrap;word-break:break-word;">${escapeHtml(value)}</td>
         </tr>`,
     )
     .join('');
 }
 
-function buildEmailHtml(data, copy, intro, isInternal = false) {
+function buildEmailHtml(data, copy, isInternal = false) {
+  const patientInformation = isInternal
+    ? ''
+    : `
+      <p style="font-size:15px;line-height:1.7;color:#374151;margin:22px 0 0;">${escapeHtml(copy.correction)}</p>
+      <p style="font-size:15px;line-height:1.7;color:#374151;margin:12px 0 0;">${escapeHtml(copy.complement)}</p>
+      <div style="margin:22px 0 0;padding:16px 18px;background:#eef4ff;border-left:4px solid #2f6bfc;border-radius:8px;color:#334155;font-size:14px;line-height:1.65;">${escapeHtml(copy.medicalNotice)}</div>
+      <p style="font-size:15px;font-weight:700;color:#224671;margin:22px 0 0;">${escapeHtml(copy.signature)}</p>`;
+
   return `<!doctype html>
 <html lang="${data.language}">
   <body style="margin:0;background:#f3f6fb;font-family:Arial,Helvetica,sans-serif;color:#1f2937;">
@@ -83,17 +128,12 @@ function buildEmailHtml(data, copy, intro, isInternal = false) {
           <h1 style="font-size:28px;line-height:1.25;margin:10px 0 0;">${escapeHtml(isInternal ? copy.internalSubject : copy.heading)}</h1>
         </div>
         <div style="padding:28px;">
-          <p style="font-size:16px;line-height:1.7;margin:0 0 22px;">${escapeHtml(intro)}</p>
+          <p style="font-size:16px;line-height:1.7;margin:0 0 22px;">${escapeHtml(isInternal ? copy.internalIntro : copy.intro)}</p>
           <h2 style="font-size:20px;color:#224671;margin:0 0 12px;">${escapeHtml(copy.recap)}</h2>
           <table role="presentation" style="width:100%;border-collapse:collapse;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;">
-            ${buildRows(data, copy)}
+            ${buildRows(data, copy, isInternal)}
           </table>
-          ${
-            isInternal
-              ? ''
-              : `<p style="font-size:14px;line-height:1.7;color:#4b5563;margin:24px 0 0;">${escapeHtml(copy.outro)}</p>
-                 <p style="font-size:15px;font-weight:700;color:#224671;margin:22px 0 0;">${escapeHtml(copy.signature)}</p>`
-          }
+          ${patientInformation}
         </div>
       </div>
     </div>
@@ -101,7 +141,7 @@ function buildEmailHtml(data, copy, intro, isInternal = false) {
 </html>`;
 }
 
-function buildText(data, copy, intro, isInternal = false) {
+function buildText(data, copy, isInternal = false) {
   const rows = [
     `${copy.firstName}: ${data.first_name}`,
     `${copy.lastName}: ${data.last_name}`,
@@ -109,9 +149,15 @@ function buildText(data, copy, intro, isInternal = false) {
     `${copy.phone}: ${data.phone}`,
     `${copy.message}: ${data.message || copy.empty}`,
     `${copy.photos}: ${copy.photoUnit(data.photo_count)}`,
-  ].join('\n');
+  ];
 
-  return `${intro}\n\n${copy.recap}\n${rows}${isInternal ? '' : `\n\n${copy.outro}\n\n${copy.signature}`}`;
+  if (isInternal && data.source_url) rows.push(`${copy.source}: ${data.source_url}`);
+
+  if (isInternal) {
+    return `${copy.internalIntro}\n\n${copy.recap}\n${rows.join('\n')}`;
+  }
+
+  return `${copy.intro}\n\n${copy.recap}\n${rows.join('\n')}\n\n${copy.correction}\n\n${copy.complement}\n\n${copy.medicalNotice}\n\n${copy.signature}`;
 }
 
 async function sendEmail(apiKey, payload, idempotencyKey) {
@@ -140,11 +186,11 @@ export default async function handler(request, response) {
   }
 
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.CONTACT_FROM_EMAIL;
-  const recipient = process.env.CONTACT_RECIPIENT_EMAIL || 'info@cliniqeo.com';
-  const replyTo = process.env.CONTACT_REPLY_TO_EMAIL || recipient;
+  const from = process.env.CONTACT_FROM_EMAIL || 'Cliniqeo Hair <info@cliniqeo.com>';
+  const replyTo = process.env.CONTACT_REPLY_TO_EMAIL || 'info@cliniqeo.com';
+  const recipients = getRecipients();
 
-  if (!apiKey || !from) {
+  if (!apiKey) {
     return response.status(503).json({
       error: 'Email service not configured',
       configured: false,
@@ -163,6 +209,7 @@ export default async function handler(request, response) {
     phone: clean(body.phone, 80),
     message: clean(body.message, 4000),
     photo_count: Math.max(0, Math.min(10, Number(body.photo_count) || 0)),
+    source_url: clean(body.source_url, 500),
   };
 
   if (!data.first_name || !data.last_name || !data.email || !data.phone || !isValidEmail(data.email)) {
@@ -174,17 +221,17 @@ export default async function handler(request, response) {
     to: [data.email],
     reply_to: replyTo,
     subject: copy.patientSubject,
-    html: buildEmailHtml(data, copy, copy.intro),
-    text: buildText(data, copy, copy.intro),
+    html: buildEmailHtml(data, copy),
+    text: buildText(data, copy),
   };
 
   const internalPayload = {
     from,
-    to: [recipient],
+    to: recipients,
     reply_to: data.email,
     subject: `${copy.internalSubject} — ${data.first_name} ${data.last_name}`,
-    html: buildEmailHtml(data, copy, copy.internalIntro, true),
-    text: buildText(data, copy, copy.internalIntro, true),
+    html: buildEmailHtml(data, copy, true),
+    text: buildText(data, copy, true),
   };
 
   try {
@@ -196,6 +243,8 @@ export default async function handler(request, response) {
 
     return response.status(200).json({
       sent: true,
+      stored_in: 'supabase',
+      recipients,
       patient_email_id: patientEmail.id,
       internal_email_id: internalEmail.id,
     });
