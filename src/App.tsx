@@ -29,6 +29,7 @@ const SeoAdvancedPage = lazy(() => import('./pages/seo/SeoAdvancedPage'));
 const BestClinicPage = lazy(() => import('./pages/seo/BestClinicPage'));
 const LocalSeoPage = lazy(() => import('./pages/seo/LocalSeoPage'));
 const LocalSeoDirectoryPage = lazy(() => import('./pages/seo/LocalSeoDirectoryPage'));
+const LocalSeoMasterDirectoryPage = lazy(() => import('./pages/seo/LocalSeoMasterDirectoryPage'));
 
 function LanguageRouteSync() {
   const { pathname } = useLocation();
@@ -183,6 +184,7 @@ function AppContent() {
             <Route path="/en/contact" element={<EnglishContactPage />} />
             <Route path="/en/before-after" element={<EnglishGeneralPage pageKey="beforeAfter" />} />
             <Route path="/en/hair-transplant-guides" element={<GuidesPage lang="en" />} />
+            <Route path="/en/hair-transplant-by-city" element={<LocalSeoMasterDirectoryPage />} />
             <Route path="/en/uk/hair-transplant-cities" element={<LocalSeoDirectoryPage country="uk" />} />
             <Route path="/en/us/hair-transplant-cities" element={<LocalSeoDirectoryPage country="us" />} />
 
