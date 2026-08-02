@@ -92,6 +92,7 @@
         phone: getValue(formData, 'phone'),
         message: getValue(formData, 'message'),
         photo_count: selectedPhotos,
+        source_url: window.location.href,
       };
       confirmationTriggered = false;
     },
@@ -116,10 +117,10 @@
       });
 
       if (!response.ok) {
-        console.warn('The request was saved, but the confirmation email could not be sent.');
+        console.warn('The request was saved in Supabase, but the confirmation email could not be sent.');
       }
     } catch (error) {
-      console.warn('The request was saved, but the confirmation email could not be sent.', error);
+      console.warn('The request was saved in Supabase, but the confirmation email could not be sent.', error);
     }
   };
 
