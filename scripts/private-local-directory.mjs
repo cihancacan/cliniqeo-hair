@@ -53,7 +53,7 @@ for (const file of htmlFiles) {
       .replace(/<nav([^>]*)><a href="\/en\/(?:uk|us)\/hair-transplant-cities">City guides<\/a> › /g, '<nav$1><a href="/en">Home</a> › ')
       .replace(/\{"@type":"ListItem","position":2,"name":"Villes","item":"https:\/\/cliniqeo-hair\.vercel\.app\/greffe-cheveux-france"\},/g, '')
       .replace(/\{"@type":"ListItem","position":2,"name":"Cities","item":"https:\/\/cliniqeo-hair\.vercel\.app\/en\/(?:uk|us)\/hair-transplant-cities"\},/g, '')
-      .replace(/"position":3,"name":/g, '"position":2,"name":/g);
+      .replace(/"position":3,"name":/g, '"position":2,"name":');
     landingFilesUpdated += 1;
   }
 
