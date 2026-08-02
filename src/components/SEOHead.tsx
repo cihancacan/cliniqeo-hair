@@ -14,6 +14,7 @@ interface SEOHeadProps {
   alternates?: Alternate[];
   image?: string;
   schema?: Record<string, unknown> | Record<string, unknown>[];
+  robots?: string;
 }
 
 const SITE_NAME = 'Cliniqeo Hair';
@@ -37,6 +38,7 @@ export default function SEOHead({
   alternates = [],
   image,
   schema,
+  robots = 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1',
 }: SEOHeadProps) {
   useEffect(() => {
     const origin = window.location.origin || DEFAULT_ORIGIN;
@@ -50,7 +52,7 @@ export default function SEOHead({
     if (keywords.length) {
       setMeta('meta[name="keywords"]', { name: 'keywords', content: keywords.join(', ') });
     }
-    setMeta('meta[name="robots"]', { name: 'robots', content: 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' });
+    setMeta('meta[name="robots"]', { name: 'robots', content: robots });
     setMeta('meta[property="og:title"]', { property: 'og:title', content: fullTitle });
     setMeta('meta[property="og:description"]', { property: 'og:description', content: description });
     setMeta('meta[property="og:type"]', { property: 'og:type', content: 'article' });
@@ -89,7 +91,7 @@ export default function SEOHead({
       script.textContent = JSON.stringify(schema);
       document.head.appendChild(script);
     }
-  }, [title, description, path, lang, keywords, alternates, image, schema]);
+  }, [title, description, path, lang, keywords, alternates, image, schema, robots]);
 
   return null;
 }
