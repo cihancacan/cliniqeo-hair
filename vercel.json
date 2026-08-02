@@ -3,14 +3,6 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "routes": [
-    { "src": "/about", "status": 308, "headers": { "Location": "/a-propos" } },
-    { "src": "/pricing", "status": 308, "headers": { "Location": "/tarifs" } },
-    { "src": "/seo/greffe-cheveux-fue-turquie", "status": 308, "headers": { "Location": "/greffe-de-cheveux-fue-turquie" } },
-    { "src": "/seo/greffe-cheveux-dhi-turquie", "status": 308, "headers": { "Location": "/greffe-de-cheveux-dhi-turquie" } },
-    { "src": "/en/fue-hair-transplant-turkey", "status": 308, "headers": { "Location": "/fue-hair-transplant-turkey" } },
-    { "src": "/en/dhi-hair-transplant-turkey", "status": 308, "headers": { "Location": "/dhi-hair-transplant-turkey" } },
-    { "src": "/en/turkey-hair-transplant-cost", "status": 308, "headers": { "Location": "/turkey-hair-transplant-cost" } },
-    { "src": "/best-hair-transplant-turkey", "status": 308, "headers": { "Location": "/best-hair-transplant-clinic-turkey" } },
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
