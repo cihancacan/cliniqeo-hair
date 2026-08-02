@@ -243,7 +243,6 @@ export default async function handler(request, response) {
 
     return response.status(200).json({
       sent: true,
-      stored_in: 'supabase',
       recipients,
       patient_email_id: patientEmail.id,
       internal_email_id: internalEmail.id,
