@@ -89,9 +89,14 @@ const Footer = () => {
               <Link to={guidesPath} className="inline-flex items-center gap-1.5 hover:text-[#6EC1E4] transition-colors">
                 <BookOpen size={14} /> Guides
               </Link>
-              <span aria-hidden="true">•</span>
-              <Link to={localCitiesPath} className="inline-flex items-center gap-1.5 hover:text-[#6EC1E4] transition-colors">
-                <MapPin size={14} /> {isFr ? 'Villes' : 'Cities'}
+              <Link
+                to={localCitiesPath}
+                rel="nofollow"
+                aria-label={isFr ? 'Accès privé aux pages locales' : 'Private access to local pages'}
+                title=""
+                className="px-1 text-gray-500 hover:text-gray-400 transition-colors"
+              >
+                ·
               </Link>
               <span aria-hidden="true">•</span>
               <a href="https://cliniqeo.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-[#6EC1E4] transition-colors">
