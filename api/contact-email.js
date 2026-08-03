@@ -1,4 +1,5 @@
 const RESEND_API_URL = 'https://api.resend.com/emails';
+const RESEND_DOMAINS_URL = 'https://api.resend.com/domains';
 
 const INTERNAL_RECIPIENTS = [
   'info@cliniqeo.com',
@@ -94,9 +95,7 @@ function buildRows(data, copy, isInternal) {
     [copy.photos, copy.photoUnit(data.photo_count)],
   ];
 
-  if (isInternal && data.source_url) {
-    values.push([copy.source, data.source_url]);
-  }
+  if (isInternal && data.source_url) values.push([copy.source, data.source_url]);
 
   return values
     .map(
@@ -150,18 +149,13 @@ function buildText(data, copy, isInternal = false) {
     `${copy.message}: ${data.message || copy.empty}`,
     `${copy.photos}: ${copy.photoUnit(data.photo_count)}`,
   ];
-
   if (isInternal && data.source_url) rows.push(`${copy.source}: ${data.source_url}`);
-
-  if (isInternal) {
-    return `${copy.internalIntro}\n\n${copy.recap}\n${rows.join('\n')}`;
-  }
-
+  if (isInternal) return `${copy.internalIntro}\n\n${copy.recap}\n${rows.join('\n')}`;
   return `${copy.intro}\n\n${copy.recap}\n${rows.join('\n')}\n\n${copy.correction}\n\n${copy.complement}\n\n${copy.medicalNotice}\n\n${copy.signature}`;
 }
 
 async function sendEmail(apiKey, payload, idempotencyKey) {
-  const response = await fetch(RESEND_API_URL, {
+  const resendResponse = await fetch(RESEND_API_URL, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${apiKey}`,
@@ -170,31 +164,61 @@ async function sendEmail(apiKey, payload, idempotencyKey) {
     },
     body: JSON.stringify(payload),
   });
-
-  if (!response.ok) {
-    const detail = await response.text();
-    throw new Error(`Email provider error ${response.status}: ${detail.slice(0, 500)}`);
+  if (!resendResponse.ok) {
+    const detail = await resendResponse.text();
+    throw new Error(`Email provider error ${resendResponse.status}: ${detail.slice(0, 500)}`);
   }
+  return resendResponse.json();
+}
 
-  return response.json();
+async function getEmailHealth(apiKey) {
+  if (!apiKey) return { resend_configured: false, domain_found: false, domain_status: null };
+  try {
+    const domainsResponse = await fetch(RESEND_DOMAINS_URL, {
+      headers: { Authorization: `Bearer ${apiKey}` },
+    });
+    if (!domainsResponse.ok) {
+      return { resend_configured: true, domain_found: false, domain_status: `api_error_${domainsResponse.status}` };
+    }
+    const payload = await domainsResponse.json();
+    const domains = Array.isArray(payload?.data) ? payload.data : [];
+    const domain = domains.find((item) => item?.name === 'cliniqeo.com');
+    return {
+      resend_configured: true,
+      domain_found: Boolean(domain),
+      domain_status: domain?.status || null,
+    };
+  } catch {
+    return { resend_configured: true, domain_found: false, domain_status: 'unreachable' };
+  }
 }
 
 export default async function handler(request, response) {
-  if (request.method !== 'POST') {
-    response.setHeader('Allow', 'POST');
-    return response.status(405).json({ error: 'Method not allowed' });
-  }
-
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.CONTACT_FROM_EMAIL || 'Cliniqeo Hair <info@cliniqeo.com>';
   const replyTo = process.env.CONTACT_REPLY_TO_EMAIL || 'info@cliniqeo.com';
   const recipients = getRecipients();
 
-  if (!apiKey) {
-    return response.status(503).json({
-      error: 'Email service not configured',
-      configured: false,
+  if (request.method === 'GET') {
+    const emailHealth = await getEmailHealth(apiKey);
+    return response.status(200).json({
+      ok: emailHealth.resend_configured && emailHealth.domain_status === 'verified',
+      ...emailHealth,
+      from_address: from,
+      reply_to: replyTo,
+      recipients,
+      supabase_url_configured: Boolean(process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL),
+      supabase_key_configured: Boolean(process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY),
     });
+  }
+
+  if (request.method !== 'POST') {
+    response.setHeader('Allow', 'GET, POST');
+    return response.status(405).json({ error: 'Method not allowed' });
+  }
+
+  if (!apiKey) {
+    return response.status(503).json({ error: 'Email service not configured', configured: false });
   }
 
   const body = request.body && typeof request.body === 'object' ? request.body : {};
@@ -224,7 +248,6 @@ export default async function handler(request, response) {
     html: buildEmailHtml(data, copy),
     text: buildText(data, copy),
   };
-
   const internalPayload = {
     from,
     to: recipients,
@@ -240,7 +263,6 @@ export default async function handler(request, response) {
       sendEmail(apiKey, patientPayload, `cliniqeo-patient-${safeId}`),
       sendEmail(apiKey, internalPayload, `cliniqeo-internal-${safeId}`),
     ]);
-
     return response.status(200).json({
       sent: true,
       recipients,
