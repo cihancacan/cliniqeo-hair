@@ -11,7 +11,6 @@ interface LocalLeadFormProps {
   lang: 'fr' | 'en';
   cityLabel: string;
   pagePath: string;
-  service?: 'hair' | 'dental';
 }
 
 interface FormState {
@@ -30,9 +29,8 @@ const emptyForm: FormState = {
   message: '',
 };
 
-export default function LocalLeadForm({ lang, cityLabel, pagePath, service = 'hair' }: LocalLeadFormProps) {
+export default function LocalLeadForm({ lang, cityLabel, pagePath }: LocalLeadFormProps) {
   const isFr = lang === 'fr';
-  const isDental = service === 'dental';
   const [form, setForm] = useState<FormState>(emptyForm);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -48,8 +46,8 @@ export default function LocalLeadForm({ lang, cityLabel, pagePath, service = 'ha
     setError('');
 
     const sourceMessage = isFr
-      ? `[Landing locale ${isDental ? 'dentaire' : 'capillaire'} : ${cityLabel} | ${pagePath}] ${form.message || `Demande d’évaluation ${isDental ? 'dentaire' : 'capillaire'}.`}`
-      : `[Local ${isDental ? 'dental' : 'hair'} landing page: ${cityLabel} | ${pagePath}] ${form.message || `${isDental ? 'Dental treatment' : 'Hair assessment'} request.`}`;
+      ? `[Landing locale : ${cityLabel} | ${pagePath}] ${form.message || 'Demande de diagnostic capillaire.'}`
+      : `[Local landing page: ${cityLabel} | ${pagePath}] ${form.message || 'Hair assessment request.'}`;
 
     try {
       const { error: submitError } = await supabase
@@ -108,8 +106,8 @@ export default function LocalLeadForm({ lang, cityLabel, pagePath, service = 'ha
         </h2>
         <p className="text-slate-600 text-lg">
           {isFr
-            ? `Notre équipe vous contactera pour compléter l’évaluation ${isDental ? 'dentaire' : 'capillaire'} et vous expliquer les prochaines étapes.`
-            : `Our team will contact you to complete the ${isDental ? 'dental' : 'hair'} assessment and explain the next steps.`}
+            ? 'Notre équipe vous contactera pour compléter le diagnostic et vous expliquer le paiement en 10 fois.'
+            : 'Our team will contact you to complete the assessment and explain the next steps.'}
         </p>
       </div>
     );
@@ -118,7 +116,7 @@ export default function LocalLeadForm({ lang, cityLabel, pagePath, service = 'ha
   return (
     <div className="rounded-3xl bg-white p-6 md:p-10 shadow-xl border border-blue-100">
       <h2 className="text-3xl md:text-4xl font-bold text-[#224671] mb-3">
-        {isFr ? `Évaluation gratuite depuis ${cityLabel}` : `Free ${isDental ? 'dental ' : ''}assessment from ${cityLabel}`}
+        {isFr ? `Diagnostic gratuit depuis ${cityLabel}` : `Free assessment from ${cityLabel}`}
       </h2>
       <p className="text-slate-600 mb-7 leading-relaxed">
         {isFr

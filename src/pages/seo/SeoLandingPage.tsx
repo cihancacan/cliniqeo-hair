@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { CheckCircle, ArrowRight, ShieldCheck, Stethoscope, Plane, Hotel, Languages, Clock3 } from 'lucide-react';
 import SEOHead from '../../components/SEOHead';
-import { canonicalHairPath, PUBLIC_ORIGIN } from '../../config/siteRoutes';
 
 type Lang = 'fr' | 'en';
 
@@ -279,6 +278,7 @@ const related: Record<Lang, { label: string; path: string }[]> = {
 export default function SeoLandingPage({ pageKey, lang }: { pageKey: PageKey; lang: Lang }) {
   const page = pages[lang][pageKey];
   const base = lang === 'fr' ? frBase : enBase;
+  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://cliniqeo-hair.vercel.app';
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -293,9 +293,9 @@ export default function SeoLandingPage({ pageKey, lang }: { pageKey: PageKey; la
     '@type': 'MedicalWebPage',
     name: page.h1,
     description: page.description,
-    url: `${PUBLIC_ORIGIN}${canonicalHairPath(page.path)}`,
+    url: `${origin}${page.path}`,
     inLanguage: lang,
-    isPartOf: { '@type': 'WebSite', name: 'Cliniqeo Hair', url: PUBLIC_ORIGIN },
+    isPartOf: { '@type': 'WebSite', name: 'Cliniqeo Hair', url: origin },
     about: { '@type': 'MedicalProcedure', name: lang === 'fr' ? 'Greffe de cheveux' : 'Hair transplantation' },
   };
 

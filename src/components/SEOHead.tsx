@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { canonicalHairPath, PUBLIC_ORIGIN } from '../config/siteRoutes';
 
 interface Alternate {
   lang: string;
@@ -16,12 +15,10 @@ interface SEOHeadProps {
   image?: string;
   schema?: Record<string, unknown> | Record<string, unknown>[];
   robots?: string;
-  canonicalizeHair?: boolean;
-  siteName?: string;
-  contentType?: 'website' | 'article';
 }
 
-const DEFAULT_SITE_NAME = 'Cliniqeo Hair';
+const SITE_NAME = 'Cliniqeo Hair';
+const DEFAULT_ORIGIN = 'https://cliniqeo-hair.vercel.app';
 
 function setMeta(selector: string, attributes: Record<string, string>) {
   let element = document.head.querySelector<HTMLMetaElement>(selector);
@@ -42,15 +39,11 @@ export default function SEOHead({
   image,
   schema,
   robots = 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1',
-  canonicalizeHair = true,
-  siteName = DEFAULT_SITE_NAME,
-  contentType = 'article',
 }: SEOHeadProps) {
   useEffect(() => {
-    const canonicalPath = canonicalizeHair ? canonicalHairPath(path) : path;
-    const canonical = `${PUBLIC_ORIGIN}${canonicalPath}`;
-    const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
-    const imageUrl = image ? (image.startsWith('http') ? image : `${PUBLIC_ORIGIN}${image.startsWith('/') ? image : `/${image}`}`) : null;
+    const origin = window.location.origin || DEFAULT_ORIGIN;
+    const canonical = `${origin}${path}`;
+    const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
 
     document.documentElement.lang = lang;
     document.title = fullTitle;
@@ -62,19 +55,16 @@ export default function SEOHead({
     setMeta('meta[name="robots"]', { name: 'robots', content: robots });
     setMeta('meta[property="og:title"]', { property: 'og:title', content: fullTitle });
     setMeta('meta[property="og:description"]', { property: 'og:description', content: description });
-    setMeta('meta[property="og:type"]', { property: 'og:type', content: contentType });
+    setMeta('meta[property="og:type"]', { property: 'og:type', content: 'article' });
     setMeta('meta[property="og:url"]', { property: 'og:url', content: canonical });
     setMeta('meta[property="og:locale"]', { property: 'og:locale', content: lang === 'fr' ? 'fr_FR' : 'en_GB' });
     setMeta('meta[name="twitter:card"]', { name: 'twitter:card', content: 'summary_large_image' });
     setMeta('meta[name="twitter:title"]', { name: 'twitter:title', content: fullTitle });
     setMeta('meta[name="twitter:description"]', { name: 'twitter:description', content: description });
 
-    if (imageUrl) {
-      setMeta('meta[property="og:image"]', { property: 'og:image', content: imageUrl });
-      setMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: imageUrl });
-    } else {
-      document.head.querySelector('meta[property="og:image"]')?.remove();
-      document.head.querySelector('meta[name="twitter:image"]')?.remove();
+    if (image) {
+      setMeta('meta[property="og:image"]', { property: 'og:image', content: image });
+      setMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: image });
     }
 
     document.head.querySelectorAll('link[data-seo="dynamic"]').forEach((node) => node.remove());
@@ -88,8 +78,7 @@ export default function SEOHead({
       const link = document.createElement('link');
       link.rel = 'alternate';
       link.hreflang = alternateLang;
-      const alternateCanonical = canonicalizeHair ? canonicalHairPath(alternatePath) : alternatePath;
-      link.href = `${PUBLIC_ORIGIN}${alternateCanonical}`;
+      link.href = `${origin}${alternatePath}`;
       link.dataset.seo = 'dynamic';
       document.head.appendChild(link);
     });
@@ -102,7 +91,7 @@ export default function SEOHead({
       script.textContent = JSON.stringify(schema);
       document.head.appendChild(script);
     }
-  }, [title, description, path, lang, keywords, alternates, image, schema, robots, canonicalizeHair, siteName, contentType]);
+  }, [title, description, path, lang, keywords, alternates, image, schema, robots]);
 
   return null;
 }

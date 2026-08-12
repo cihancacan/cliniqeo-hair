@@ -11,16 +11,12 @@ import {
   type SiteLanguage,
 } from '../config/localizedRoutes';
 import { getWhatsAppUrl, WHATSAPP_DISPLAY } from '../config/contact';
-import { DENTAL_EN_BASE, DENTAL_FR_BASE, isPortalPath } from '../config/siteRoutes';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const location = useLocation();
   const { language, setLanguage, t } = useLanguage();
-  const isPortal = isPortalPath(location.pathname);
-  const isDental = location.pathname === DENTAL_FR_BASE || location.pathname.startsWith(`${DENTAL_FR_BASE}/`)
-    || location.pathname === DENTAL_EN_BASE || location.pathname.startsWith(`${DENTAL_EN_BASE}/`);
 
   useEffect(() => {
     const detected = getSiteLanguage(location.pathname);
@@ -28,41 +24,19 @@ const Navigation = () => {
   }, [location.pathname, language, setLanguage]);
 
   const switchLanguage = (target: SiteLanguage) => {
-    const destination = isPortal
-      ? target === 'en' ? '/en' : '/'
-      : isDental
-        ? target === 'en' ? DENTAL_EN_BASE : DENTAL_FR_BASE
-        : getAlternateRoute(location.pathname, target);
+    const destination = getAlternateRoute(location.pathname, target);
     setLanguage(target);
     setIsLangMenuOpen(false);
     setIsMenuOpen(false);
     window.location.assign(destination);
   };
 
-  const menuItems = isPortal
-    ? [
-        { label: language === 'fr' ? 'Nos expertises' : 'Our expertise', href: '#expertises' },
-        { label: language === 'fr' ? 'Votre parcours' : 'Your journey', href: '#parcours' },
-      ]
-    : isDental
-      ? language === 'fr'
-        ? [
-            { label: 'Soins dentaires', href: DENTAL_FR_BASE },
-            { label: 'Traitements', href: `${DENTAL_FR_BASE}#traitements` },
-            { label: 'Votre parcours', href: `${DENTAL_FR_BASE}#evaluation-dentaire` },
-          ]
-        : [
-            { label: 'Dental Turkey', href: DENTAL_EN_BASE },
-            { label: 'UK guides', href: `${DENTAL_EN_BASE}/uk/cities` },
-            { label: 'US guides', href: `${DENTAL_EN_BASE}/us/cities` },
-          ]
-      : getNavigationItems(language).map((item) => ({ label: t(item.key), href: item.href }));
-  const contactPath = isPortal
-    ? '#expertises'
-    : isDental
-      ? language === 'fr' ? `${DENTAL_FR_BASE}#evaluation-dentaire` : `${DENTAL_EN_BASE}#dental-assessment`
-      : getLocalizedContactPath(language);
-  const homePath = isPortal ? (language === 'en' ? '/en' : '/') : isDental ? language === 'fr' ? DENTAL_FR_BASE : DENTAL_EN_BASE : getLocalizedHomePath(language);
+  const menuItems = getNavigationItems(language).map((item) => ({
+    label: t(item.key),
+    href: item.href,
+  }));
+  const contactPath = getLocalizedContactPath(language);
+  const homePath = getLocalizedHomePath(language);
   const whatsappUrl = getWhatsAppUrl(language);
 
   const languages = [
@@ -75,9 +49,9 @@ const Navigation = () => {
       <nav className="bg-white shadow-md fixed w-full top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            <Link to={homePath} className="flex items-baseline" aria-label={isPortal ? 'Cliniqeo' : isDental ? 'Cliniqeo Dental' : 'Cliniqeo Hair'}>
+            <Link to={homePath} className="flex items-baseline" aria-label="Cliniqeo Hair">
               <span className="text-2xl font-bold text-[#224671] lowercase">cliniqeo</span>
-              {!isPortal && <span className={`text-base font-semibold ml-1 uppercase ${isDental ? 'text-[#08a9b5]' : 'text-[#2f6bfc]'}`}>{isDental ? 'Dental' : 'Hair'}</span>}
+              <span className="text-base font-semibold text-[#2f6bfc] ml-1 uppercase">Hair</span>
             </Link>
 
             <div className="hidden lg:flex items-center space-x-6">
@@ -133,7 +107,7 @@ const Navigation = () => {
               </div>
 
               <Link to={contactPath} className="bg-[#2f6bfc] text-white px-6 py-3 rounded-lg hover:bg-[#224671] font-semibold">
-                {isPortal ? language === 'fr' ? 'Choisir mon parcours' : 'Choose my pathway' : language === 'fr' ? 'Diagnostic gratuit' : 'Free assessment'}
+                {language === 'fr' ? 'Diagnostic gratuit' : 'Free assessment'}
               </Link>
             </div>
 
@@ -179,7 +153,7 @@ const Navigation = () => {
                 {language === 'fr' ? 'Appeler via WhatsApp' : 'Call via WhatsApp'}
               </a>
               <Link to={contactPath} className="block bg-[#2f6bfc] text-white px-6 py-3 rounded-lg font-semibold text-center" onClick={() => setIsMenuOpen(false)}>
-                {isPortal ? language === 'fr' ? 'Choisir mon parcours' : 'Choose my pathway' : language === 'fr' ? 'Diagnostic gratuit' : 'Free assessment'}
+                {language === 'fr' ? 'Diagnostic gratuit' : 'Free assessment'}
               </Link>
             </div>
           </div>
@@ -207,7 +181,7 @@ const Navigation = () => {
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-xl hover:scale-105 transition-transform z-40"
         title={language === 'fr' ? `Appeler via WhatsApp : ${WHATSAPP_DISPLAY}` : `Call via WhatsApp: ${WHATSAPP_DISPLAY}`}
-        aria-label={language === 'fr' ? 'Appeler Cliniqeo via WhatsApp' : 'Call Cliniqeo via WhatsApp'}
+        aria-label={language === 'fr' ? 'Appeler Cliniqeo Hair via WhatsApp' : 'Call Cliniqeo Hair via WhatsApp'}
       >
         <MessageCircle size={26} />
       </a>

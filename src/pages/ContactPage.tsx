@@ -84,7 +84,7 @@ const ContactPage = () => {
     setError('');
 
     try {
-      const photoUrls = {
+      let photoUrls = {
         photo_front_url: null as string | null,
         photo_top_url: null as string | null,
         photo_donor_url: null as string | null,

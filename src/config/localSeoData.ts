@@ -1,5 +1,3 @@
-import { HAIR_EN_BASE, HAIR_FR_BASE } from './siteRoutes';
-
 export type LocalCountry = 'fr' | 'uk' | 'us';
 export type LocalIntent = 'complete' | 'technique' | 'implant' | 'price' | 'clinic';
 
@@ -139,8 +137,8 @@ export const usLocalCities: LocalCity[] = [
 ];
 
 export function getLocalPath(country: LocalCountry, keyword: LocalKeyword, city: LocalCity) {
-  if (country === 'fr') return `${HAIR_FR_BASE}/${keyword.slug}-${city.slug}`;
-  return `${HAIR_EN_BASE}/${country}/${keyword.slug}-${city.slug}`;
+  if (country === 'fr') return `/${keyword.slug}-${city.slug}`;
+  return `/en/${country}/${keyword.slug}-${city.slug}`;
 }
 
 export function getLocalCities(country: LocalCountry) {
@@ -155,18 +153,8 @@ export function getLocalKeywords(country: LocalCountry) {
 
 export function findLocalPage(pathname: string) {
   const cleanPath = pathname.replace(/\/$/, '') || '/';
-  const canonicalUkPrefix = `${HAIR_EN_BASE}/uk/`;
-  const canonicalUsPrefix = `${HAIR_EN_BASE}/us/`;
-  const country: LocalCountry = cleanPath.startsWith(canonicalUkPrefix) || cleanPath.startsWith('/en/uk/')
-    ? 'uk'
-    : cleanPath.startsWith(canonicalUsPrefix) || cleanPath.startsWith('/en/us/')
-      ? 'us'
-      : 'fr';
-  const relative = country === 'fr'
-    ? cleanPath.replace(`${HAIR_FR_BASE}/`, '').replace(/^\//, '')
-    : cleanPath
-      .replace(`${HAIR_EN_BASE}/${country}/`, '')
-      .replace(`/en/${country}/`, '');
+  const country: LocalCountry = cleanPath.startsWith('/en/uk/') ? 'uk' : cleanPath.startsWith('/en/us/') ? 'us' : 'fr';
+  const relative = country === 'fr' ? cleanPath.slice(1) : cleanPath.replace(`/en/${country}/`, '');
   const keywords = getLocalKeywords(country);
   const cities = getLocalCities(country);
   const keyword = keywords.find((item) => relative.startsWith(`${item.slug}-`));
