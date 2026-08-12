@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { CheckCircle, Shield, Users, Award, Clock, Heart, ArrowRight, Calendar, HeartHandshake, Star, Phone } from 'lucide-react';
+import { CheckCircle, Shield, Users, Award, Heart, ArrowRight, Calendar, HeartHandshake, Star, Phone } from 'lucide-react';
 
 const HomePage = () => {
   return (

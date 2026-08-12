@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, ExternalLink, Languages, ShieldCheck } from 'lucide-react';
 import SEOHead from '../../components/SEOHead';
+import { canonicalHairPath, PUBLIC_ORIGIN } from '../../config/siteRoutes';
 
 type Lang = 'fr' | 'en';
 
@@ -575,11 +576,11 @@ export default function SeoAdvancedPage({ lang, pageKey }: SeoAdvancedPageProps)
     name: page.h1,
     headline: page.h1,
     description: page.description,
-    url: `https://cliniqeo-hair.vercel.app${page.path}`,
+    url: `${PUBLIC_ORIGIN}${canonicalHairPath(page.path)}`,
     inLanguage: lang,
     dateModified: '2026-07-31',
     about: { '@type': 'MedicalProcedure', name: isFr ? 'Greffe de cheveux' : 'Hair transplantation' },
-    publisher: { '@type': 'Organization', name: 'Cliniqeo Hair', url: 'https://cliniqeo-hair.vercel.app' },
+    publisher: { '@type': 'Organization', name: 'Cliniqeo Hair', url: PUBLIC_ORIGIN },
   };
 
   return (

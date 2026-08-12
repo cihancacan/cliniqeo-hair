@@ -1,3 +1,5 @@
+import { canonicalHairPath, HAIR_EN_BASE, HAIR_FR_BASE } from './siteRoutes';
+
 export type SiteLanguage = 'fr' | 'en';
 
 interface RouteGroup {
@@ -97,13 +99,19 @@ const enToFr = new Map<string, string>();
 const englishPaths = new Set<string>();
 
 for (const group of routeGroups) {
-  const canonicalFr = group.fr[0];
-  const canonicalEn = group.en[0];
+  const canonicalFr = group.fr[0] === '/' ? '/' : canonicalHairPath(group.fr[0]);
+  const canonicalEn = group.en[0] === '/en' ? '/en' : canonicalHairPath(group.en[0]);
 
-  group.fr.forEach((path) => frToEn.set(path, canonicalEn));
+  group.fr.forEach((path) => {
+    frToEn.set(path, canonicalEn);
+    frToEn.set(path === '/' ? path : canonicalHairPath(path), canonicalEn);
+  });
   group.en.forEach((path) => {
     enToFr.set(path, canonicalFr);
     englishPaths.add(path);
+    const canonicalPath = path === '/en' ? path : canonicalHairPath(path);
+    enToFr.set(canonicalPath, canonicalFr);
+    englishPaths.add(canonicalPath);
   });
 }
 
@@ -131,31 +139,31 @@ export const getNavigationItems = (language: SiteLanguage) => {
   if (language === 'en') {
     return [
       { key: 'nav.home', href: '/en' },
-      { key: 'nav.techniques', href: '/en/techniques' },
-      { key: 'nav.pricing', href: '/en/pricing' },
-      { key: 'nav.why_turkey', href: '/en/why-turkey' },
-      { key: 'nav.about', href: '/en/about' },
-      { key: 'nav.faq', href: '/en/faq' },
-      { key: 'nav.contact', href: '/en/contact' },
+      { key: 'nav.techniques', href: `${HAIR_EN_BASE}/techniques` },
+      { key: 'nav.pricing', href: `${HAIR_EN_BASE}/pricing` },
+      { key: 'nav.why_turkey', href: `${HAIR_EN_BASE}/why-turkey` },
+      { key: 'nav.about', href: `${HAIR_EN_BASE}/about` },
+      { key: 'nav.faq', href: `${HAIR_EN_BASE}/faq` },
+      { key: 'nav.contact', href: `${HAIR_EN_BASE}/contact` },
     ];
   }
 
   return [
-    { key: 'nav.home', href: '/' },
-    { key: 'nav.techniques', href: '/techniques' },
-    { key: 'nav.pricing', href: '/tarifs' },
-    { key: 'nav.why_turkey', href: '/turquie' },
-    { key: 'nav.about', href: '/a-propos' },
-    { key: 'nav.faq', href: '/faq' },
-    { key: 'nav.contact', href: '/contact' },
+    { key: 'nav.home', href: HAIR_FR_BASE },
+    { key: 'nav.techniques', href: `${HAIR_FR_BASE}/techniques` },
+    { key: 'nav.pricing', href: `${HAIR_FR_BASE}/tarifs` },
+    { key: 'nav.why_turkey', href: `${HAIR_FR_BASE}/turquie` },
+    { key: 'nav.about', href: `${HAIR_FR_BASE}/a-propos` },
+    { key: 'nav.faq', href: `${HAIR_FR_BASE}/faq` },
+    { key: 'nav.contact', href: `${HAIR_FR_BASE}/contact` },
   ];
 };
 
 export const getLocalizedContactPath = (language: SiteLanguage) =>
-  language === 'en' ? '/en/contact' : '/contact';
+  language === 'en' ? `${HAIR_EN_BASE}/contact` : `${HAIR_FR_BASE}/contact`;
 
 export const getLocalizedHomePath = (language: SiteLanguage) =>
-  language === 'en' ? '/en' : '/';
+  language === 'en' ? HAIR_EN_BASE : HAIR_FR_BASE;
 
 export const getLocalizedGuidesPath = (language: SiteLanguage) =>
-  language === 'en' ? '/en/hair-transplant-guides' : '/guides-greffe-cheveux';
+  language === 'en' ? `${HAIR_EN_BASE}/guides` : `${HAIR_FR_BASE}/guides`;

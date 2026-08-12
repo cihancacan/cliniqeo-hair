@@ -3,6 +3,7 @@ import { CheckCircle, Languages, Plane, ShieldCheck, Stethoscope, WalletCards } 
 import SEOHead from '../../components/SEOHead';
 import LocalLeadForm from '../../components/LocalLeadForm';
 import { findLocalPage, type LocalIntent } from '../../config/localSeoData';
+import { HAIR_EN_BASE, HAIR_FR_BASE, PUBLIC_ORIGIN } from '../../config/siteRoutes';
 
 interface IntentCopy {
   title: string;
@@ -134,8 +135,8 @@ function LocalSeoPage() {
   const cityLabel = country === 'us' ? `${city.name}, ${city.region}` : city.name;
   const imageNumber = (hashValue(path) % 6) + 1;
   const image = `/greffe.cheveux.avant.apres${imageNumber}.jpg`;
-  const pricePath = isFr ? '/tarifs' : '/en/pricing';
-  const homePath = isFr ? '/' : '/en';
+  const pricePath = isFr ? `${HAIR_FR_BASE}/tarifs` : `${HAIR_EN_BASE}/pricing`;
+  const homePath = isFr ? HAIR_FR_BASE : HAIR_EN_BASE;
   const title = isFr
     ? `${copy.title} à ${city.name} : prix, clinique et alternative Istanbul`
     : `${copy.title} in ${cityLabel}: Cost, Clinic and Istanbul Option`;
@@ -180,9 +181,9 @@ function LocalSeoPage() {
       name: title,
       description,
       inLanguage: isFr ? 'fr-FR' : 'en',
-      url: `https://cliniqeo-hair.vercel.app${path}`,
+      url: `${PUBLIC_ORIGIN}${path}`,
       about: { '@type': 'MedicalProcedure', name: isFr ? 'Greffe de cheveux' : 'Hair transplantation' },
-      provider: { '@type': 'Organization', name: 'Cliniqeo Hair', url: 'https://cliniqeo-hair.vercel.app' },
+      provider: { '@type': 'Organization', name: 'Cliniqeo Hair', url: `${PUBLIC_ORIGIN}${homePath}` },
     },
     {
       '@context': 'https://schema.org',
@@ -193,8 +194,8 @@ function LocalSeoPage() {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: isFr ? 'Accueil' : 'Home', item: `https://cliniqeo-hair.vercel.app${homePath}` },
-        { '@type': 'ListItem', position: 2, name: cityLabel, item: `https://cliniqeo-hair.vercel.app${path}` },
+        { '@type': 'ListItem', position: 1, name: isFr ? 'Accueil' : 'Home', item: `${PUBLIC_ORIGIN}${homePath}` },
+        { '@type': 'ListItem', position: 2, name: cityLabel, item: `${PUBLIC_ORIGIN}${path}` },
       ],
     },
   ];

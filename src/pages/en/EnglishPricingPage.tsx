@@ -101,12 +101,14 @@ const marketCards = [
     price: '£1,000–£30,000',
     label: 'Broad UK range published by the NHS',
     notes: ['Procedure price varies widely', 'Hotel and travel normally separate', 'Clinic-specific aftercare'],
+    featured: false,
   },
   {
     country: 'UNITED STATES',
     price: '$6,000–$15,000',
     label: 'ASPS examples from small to large cases',
     notes: ['Often priced by case size or graft count', 'Hotel and travel normally separate', 'Follow-up depends on the provider'],
+    featured: false,
   },
   {
     country: 'CLINIQEO TURKEY',

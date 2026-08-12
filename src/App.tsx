@@ -4,7 +4,10 @@ import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import { useLanguage } from './contexts/LanguageContext';
 import { getSiteLanguage } from './config/localizedRoutes';
+import { canonicalHairPath, DENTAL_EN_BASE, HAIR_EN_BASE, HAIR_FR_BASE } from './config/siteRoutes';
+import SEOHead from './components/SEOHead';
 
+const PortalHomePage = lazy(() => import('./pages/PortalHomePage'));
 const HomePage = lazy(() => import('./pages/HomePage'));
 const TechniquesPage = lazy(() => import('./pages/TechniquesPage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
@@ -30,6 +33,9 @@ const BestClinicPage = lazy(() => import('./pages/seo/BestClinicPage'));
 const LocalSeoPage = lazy(() => import('./pages/seo/LocalSeoPage'));
 const LocalSeoDirectoryPage = lazy(() => import('./pages/seo/LocalSeoDirectoryPage'));
 const LocalSeoMasterDirectoryPage = lazy(() => import('./pages/seo/LocalSeoMasterDirectoryPage'));
+const EnglishDentalHomePage = lazy(() => import('./pages/dental/EnglishDentalHomePage'));
+const DentalLocalSeoPage = lazy(() => import('./pages/dental/DentalLocalSeoPage'));
+const DentalLocalDirectoryPage = lazy(() => import('./pages/dental/DentalLocalDirectoryPage'));
 
 function LanguageRouteSync() {
   const { pathname } = useLocation();
@@ -48,6 +54,53 @@ function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => window.scrollTo(0, 0), [pathname]);
   return null;
+}
+
+const departmentMetadata = {
+  [HAIR_FR_BASE]: {
+    title: 'Greffe de cheveux en Turquie : FUE, DHI, prix et accompagnement',
+    description: 'Préparez votre greffe de cheveux en Turquie : diagnostic, FUE ou DHI, prix, hôtel, transferts, suivi et accompagnement francophone.',
+  },
+  [`${HAIR_FR_BASE}/techniques`]: {
+    title: 'Techniques de greffe de cheveux : FUE Saphir et DHI',
+    description: 'Comparez la FUE Saphir et la DHI, leurs indications, leurs limites et les critères médicaux qui déterminent le choix de la technique.',
+  },
+  [`${HAIR_FR_BASE}/tarifs`]: {
+    title: 'Prix d’une greffe de cheveux en Turquie et prestations incluses',
+    description: 'Consultez les tarifs de greffe capillaire en Turquie, les prestations incluses, les conditions et les éléments à comparer dans chaque devis.',
+  },
+  [`${HAIR_FR_BASE}/turquie`]: {
+    title: 'Pourquoi choisir la Turquie pour une greffe de cheveux ?',
+    description: 'Comprenez les avantages, les limites et les critères de sécurité à vérifier avant d’organiser une greffe de cheveux en Turquie.',
+  },
+  [`${HAIR_FR_BASE}/a-propos`]: {
+    title: 'À propos de Cliniqeo Hair',
+    description: 'Découvrez le rôle de Cliniqeo Hair dans l’accompagnement et l’organisation des parcours de greffe de cheveux en Turquie.',
+  },
+  [`${HAIR_FR_BASE}/faq`]: {
+    title: 'Questions fréquentes sur la greffe de cheveux en Turquie',
+    description: 'Réponses sur la FUE, la DHI, la douleur, les greffons, le séjour, le suivi, les risques et les résultats d’une greffe capillaire.',
+  },
+  [`${HAIR_FR_BASE}/contact`]: {
+    title: 'Diagnostic capillaire et devis personnalisé',
+    description: 'Contactez Cliniqeo Hair pour une première évaluation de votre projet de greffe de cheveux en Turquie et un devis détaillé.',
+  },
+  [`${HAIR_FR_BASE}/avant-apres`]: {
+    title: 'Greffe de cheveux avant après : résultats et évolution',
+    description: 'Consultez des résultats avant après et comprenez l’évolution d’une greffe de cheveux au fil des mois, de la cicatrisation à la repousse.',
+  },
+  [HAIR_EN_BASE]: {
+    title: 'Hair transplant in Turkey: FUE, DHI, cost and support',
+    description: 'Plan a hair transplant in Turkey with English-speaking support: assessment, FUE or DHI, written cost, hotel, transfers and follow-up.',
+  },
+} as const;
+
+function DepartmentRouteSEO() {
+  const { pathname } = useLocation();
+  const metadata = departmentMetadata[pathname as keyof typeof departmentMetadata];
+  if (!metadata) return null;
+  const isEnglish = pathname === HAIR_EN_BASE;
+  return <SEOHead title={metadata.title} description={metadata.description} path={pathname} lang={isEnglish ? 'en' : 'fr'} contentType="website" />;
 }
 
 function PageLoader() {
@@ -155,86 +208,192 @@ const localSeoPatterns = [
   '/en/us/hair-transplant-clinic-:citySlug',
 ] as const;
 
+const canonicalLocalSeoPatterns = [
+  `${HAIR_FR_BASE}/greffe-de-cheveux-:citySlug`,
+  `${HAIR_FR_BASE}/greffe-capillaire-:citySlug`,
+  `${HAIR_FR_BASE}/implant-capillaire-:citySlug`,
+  `${HAIR_FR_BASE}/prix-greffe-cheveux-:citySlug`,
+  `${HAIR_FR_BASE}/clinique-greffe-cheveux-:citySlug`,
+  `${HAIR_EN_BASE}/uk/hair-transplant-:citySlug`,
+  `${HAIR_EN_BASE}/uk/hair-restoration-:citySlug`,
+  `${HAIR_EN_BASE}/uk/hair-implants-:citySlug`,
+  `${HAIR_EN_BASE}/uk/hair-transplant-cost-:citySlug`,
+  `${HAIR_EN_BASE}/uk/hair-transplant-clinic-:citySlug`,
+  `${HAIR_EN_BASE}/us/hair-transplant-:citySlug`,
+  `${HAIR_EN_BASE}/us/hair-restoration-:citySlug`,
+  `${HAIR_EN_BASE}/us/hair-implants-:citySlug`,
+  `${HAIR_EN_BASE}/us/hair-transplant-cost-:citySlug`,
+  `${HAIR_EN_BASE}/us/hair-transplant-clinic-:citySlug`,
+] as const;
+
+const dentalLocalPatterns = [
+  `${DENTAL_EN_BASE}/uk/dentist-:citySlug`,
+  `${DENTAL_EN_BASE}/uk/dental-clinic-:citySlug`,
+  `${DENTAL_EN_BASE}/uk/dental-centre-:citySlug`,
+  `${DENTAL_EN_BASE}/uk/dental-implants-:citySlug`,
+  `${DENTAL_EN_BASE}/uk/cosmetic-dentist-:citySlug`,
+  `${DENTAL_EN_BASE}/uk/veneers-:citySlug`,
+  `${DENTAL_EN_BASE}/us/dentist-:citySlug`,
+  `${DENTAL_EN_BASE}/us/dental-clinic-:citySlug`,
+  `${DENTAL_EN_BASE}/us/dental-center-:citySlug`,
+  `${DENTAL_EN_BASE}/us/dental-implants-:citySlug`,
+  `${DENTAL_EN_BASE}/us/cosmetic-dentist-:citySlug`,
+  `${DENTAL_EN_BASE}/us/veneers-:citySlug`,
+] as const;
+
 function AppContent() {
   return (
     <div className="min-h-screen bg-white">
       <LanguageRouteSync />
       <ScrollToTop />
+      <DepartmentRouteSEO />
       <Navigation />
       <main>
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/techniques" element={<TechniquesPage />} />
-            <Route path="/tarifs" element={<PricingPage />} />
-            <Route path="/turquie" element={<WhyTurkeyPage />} />
-            <Route path="/a-propos" element={<AboutPage />} />
-            <Route path="/faq" element={<FAQPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/guides-greffe-cheveux" element={<GuidesPage lang="fr" />} />
-            <Route path="/greffe-cheveux/avant-apres" element={<BeforeAfterPage />} />
-            <Route path="/greffe-cheveux-france" element={<LocalSeoDirectoryPage country="fr" />} />
+            <Route path="/" element={<PortalHomePage />} />
+            <Route path="/en" element={<PortalHomePage />} />
 
-            <Route path="/en" element={<EnglishHomePage />} />
-            <Route path="/en/techniques" element={<EnglishGeneralPage pageKey="techniques" />} />
-            <Route path="/en/pricing" element={<EnglishPricingPage />} />
-            <Route path="/en/why-turkey" element={<EnglishGeneralPage pageKey="whyTurkey" />} />
-            <Route path="/en/about" element={<EnglishGeneralPage pageKey="about" />} />
-            <Route path="/en/faq" element={<EnglishGeneralPage pageKey="faq" />} />
-            <Route path="/en/contact" element={<EnglishContactPage />} />
-            <Route path="/en/before-after" element={<EnglishGeneralPage pageKey="beforeAfter" />} />
-            <Route path="/en/hair-transplant-guides" element={<GuidesPage lang="en" />} />
-            <Route path="/en/hair-transplant-by-city" element={<LocalSeoMasterDirectoryPage />} />
-            <Route path="/en/uk/hair-transplant-cities" element={<LocalSeoDirectoryPage country="uk" />} />
-            <Route path="/en/us/hair-transplant-cities" element={<LocalSeoDirectoryPage country="us" />} />
+            <Route path={HAIR_FR_BASE} element={<HomePage />} />
+            <Route path={`${HAIR_FR_BASE}/techniques`} element={<TechniquesPage />} />
+            <Route path={`${HAIR_FR_BASE}/tarifs`} element={<PricingPage />} />
+            <Route path={`${HAIR_FR_BASE}/turquie`} element={<WhyTurkeyPage />} />
+            <Route path={`${HAIR_FR_BASE}/a-propos`} element={<AboutPage />} />
+            <Route path={`${HAIR_FR_BASE}/faq`} element={<FAQPage />} />
+            <Route path={`${HAIR_FR_BASE}/contact`} element={<ContactPage />} />
+            <Route path={`${HAIR_FR_BASE}/guides`} element={<GuidesPage lang="fr" />} />
+            <Route path={`${HAIR_FR_BASE}/avant-apres`} element={<BeforeAfterPage />} />
+            <Route path={`${HAIR_FR_BASE}/villes`} element={<LocalSeoDirectoryPage country="fr" />} />
 
+            <Route path={HAIR_EN_BASE} element={<EnglishHomePage />} />
+            <Route path={`${HAIR_EN_BASE}/techniques`} element={<EnglishGeneralPage pageKey="techniques" />} />
+            <Route path={`${HAIR_EN_BASE}/pricing`} element={<EnglishPricingPage />} />
+            <Route path={`${HAIR_EN_BASE}/why-turkey`} element={<EnglishGeneralPage pageKey="whyTurkey" />} />
+            <Route path={`${HAIR_EN_BASE}/about`} element={<EnglishGeneralPage pageKey="about" />} />
+            <Route path={`${HAIR_EN_BASE}/faq`} element={<EnglishGeneralPage pageKey="faq" />} />
+            <Route path={`${HAIR_EN_BASE}/contact`} element={<EnglishContactPage />} />
+            <Route path={`${HAIR_EN_BASE}/before-after`} element={<EnglishGeneralPage pageKey="beforeAfter" />} />
+            <Route path={`${HAIR_EN_BASE}/guides`} element={<GuidesPage lang="en" />} />
+            <Route path={`${HAIR_EN_BASE}/cities`} element={<LocalSeoMasterDirectoryPage />} />
+            <Route path={`${HAIR_EN_BASE}/uk/cities`} element={<LocalSeoDirectoryPage country="uk" />} />
+            <Route path={`${HAIR_EN_BASE}/us/cities`} element={<LocalSeoDirectoryPage country="us" />} />
+
+            <Route path={DENTAL_EN_BASE} element={<EnglishDentalHomePage />} />
+            <Route path={`${DENTAL_EN_BASE}/uk/cities`} element={<DentalLocalDirectoryPage country="uk" />} />
+            <Route path={`${DENTAL_EN_BASE}/us/cities`} element={<DentalLocalDirectoryPage country="us" />} />
+            {dentalLocalPatterns.map((path) => <Route key={path} path={path} element={<DentalLocalSeoPage />} />)}
+
+            {canonicalLocalSeoPatterns.map((path) => <Route key={path} path={path} element={<LocalSeoPage />} />)}
             {localSeoPatterns.map((path) => <Route key={path} path={path} element={<LocalSeoPage />} />)}
 
-            <Route path="/about" element={<Navigate to="/a-propos" replace />} />
-            <Route path="/pricing" element={<Navigate to="/tarifs" replace />} />
+            <Route path="/techniques" element={<Navigate to={`${HAIR_FR_BASE}/techniques`} replace />} />
+            <Route path="/tarifs" element={<Navigate to={`${HAIR_FR_BASE}/tarifs`} replace />} />
+            <Route path="/pricing" element={<Navigate to={`${HAIR_FR_BASE}/tarifs`} replace />} />
+            <Route path="/turquie" element={<Navigate to={`${HAIR_FR_BASE}/turquie`} replace />} />
+            <Route path="/a-propos" element={<Navigate to={`${HAIR_FR_BASE}/a-propos`} replace />} />
+            <Route path="/about" element={<Navigate to={`${HAIR_FR_BASE}/a-propos`} replace />} />
+            <Route path="/faq" element={<Navigate to={`${HAIR_FR_BASE}/faq`} replace />} />
+            <Route path="/contact" element={<Navigate to={`${HAIR_FR_BASE}/contact`} replace />} />
+            <Route path="/guides-greffe-cheveux" element={<Navigate to={`${HAIR_FR_BASE}/guides`} replace />} />
+            <Route path="/greffe-cheveux/avant-apres" element={<Navigate to={`${HAIR_FR_BASE}/avant-apres`} replace />} />
+            <Route path="/greffe-cheveux-france" element={<Navigate to={`${HAIR_FR_BASE}/villes`} replace />} />
+            <Route path="/en/techniques" element={<Navigate to={`${HAIR_EN_BASE}/techniques`} replace />} />
+            <Route path="/en/pricing" element={<Navigate to={`${HAIR_EN_BASE}/pricing`} replace />} />
+            <Route path="/en/why-turkey" element={<Navigate to={`${HAIR_EN_BASE}/why-turkey`} replace />} />
+            <Route path="/en/about" element={<Navigate to={`${HAIR_EN_BASE}/about`} replace />} />
+            <Route path="/en/faq" element={<Navigate to={`${HAIR_EN_BASE}/faq`} replace />} />
+            <Route path="/en/contact" element={<Navigate to={`${HAIR_EN_BASE}/contact`} replace />} />
+            <Route path="/en/before-after" element={<Navigate to={`${HAIR_EN_BASE}/before-after`} replace />} />
+            <Route path="/en/hair-transplant-guides" element={<Navigate to={`${HAIR_EN_BASE}/guides`} replace />} />
+            <Route path="/en/hair-transplant-by-city" element={<Navigate to={`${HAIR_EN_BASE}/cities`} replace />} />
+            <Route path="/en/uk/hair-transplant-cities" element={<Navigate to={`${HAIR_EN_BASE}/uk/cities`} replace />} />
+            <Route path="/en/us/hair-transplant-cities" element={<Navigate to={`${HAIR_EN_BASE}/us/cities`} replace />} />
 
-            <Route path="/greffe-de-cheveux-turquie" element={<GreffeCheveuxTurquie />} />
-            <Route path="/implant-capillaire-turquie" element={<GreffeCheveuxTurquie />} />
-            <Route path="/implant-cheveux-turquie" element={<GreffeCheveuxTurquie />} />
-            <Route path="/greffe-de-cheveux-fue-turquie" element={<GreffeCheveuxFUETurquie />} />
-            <Route path="/greffe-de-cheveux-dhi-turquie" element={<GreffeCheveuxDHITurquie />} />
-            <Route path="/prix-greffe-de-cheveux-turquie" element={<PrixGreffeCheveuxTurquie />} />
-            <Route path="/greffe-cheveux-prix-turquie" element={<PrixGreffeCheveuxTurquie />} />
-            <Route path="/prix-implant-capillaire-turquie" element={<PrixGreffeCheveuxTurquie />} />
-            <Route path="/implant-cheveux-turquie-prix" element={<PrixGreffeCheveuxTurquie />} />
+            {[
+              ['/greffe-de-cheveux-turquie', <GreffeCheveuxTurquie />],
+              ['/implant-capillaire-turquie', <GreffeCheveuxTurquie />],
+              ['/implant-cheveux-turquie', <GreffeCheveuxTurquie />],
+              ['/greffe-de-cheveux-fue-turquie', <GreffeCheveuxFUETurquie />],
+              ['/greffe-de-cheveux-dhi-turquie', <GreffeCheveuxDHITurquie />],
+              ['/prix-greffe-de-cheveux-turquie', <PrixGreffeCheveuxTurquie />],
+              ['/greffe-cheveux-prix-turquie', <PrixGreffeCheveuxTurquie />],
+              ['/prix-implant-capillaire-turquie', <PrixGreffeCheveuxTurquie />],
+              ['/implant-cheveux-turquie-prix', <PrixGreffeCheveuxTurquie />],
+            ].map(([legacyPath, element]) => (
+              <Route key={legacyPath as string} path={canonicalHairPath(legacyPath as string)} element={element} />
+            ))}
 
-            <Route path="/meilleure-clinique-greffe-cheveux-turquie" element={<BestClinicPage lang="fr" variant="bestClinic" />} />
-            <Route path="/meilleure-clinique-implant-cheveux-turquie" element={<BestClinicPage lang="fr" variant="medicalTeam" />} />
-            <Route path="/meilleure-clinique-implant-capillaire-turquie" element={<BestClinicPage lang="fr" variant="bookingChecklist" />} />
+            <Route path={canonicalHairPath('/meilleure-clinique-greffe-cheveux-turquie')} element={<BestClinicPage lang="fr" variant="bestClinic" />} />
+            <Route path={canonicalHairPath('/meilleure-clinique-implant-cheveux-turquie')} element={<BestClinicPage lang="fr" variant="medicalTeam" />} />
+            <Route path={canonicalHairPath('/meilleure-clinique-implant-capillaire-turquie')} element={<BestClinicPage lang="fr" variant="bookingChecklist" />} />
 
             {frLandingRoutes.map(([path, pageKey]) => (
-              <Route key={path} path={path} element={<SeoLandingPage lang="fr" pageKey={pageKey} />} />
+              <Route key={`canonical-${path}`} path={canonicalHairPath(path)} element={<SeoLandingPage lang="fr" pageKey={pageKey} />} />
             ))}
             {frAdvancedRoutes.map(([path, pageKey]) => (
-              <Route key={path} path={path} element={<SeoAdvancedPage lang="fr" pageKey={pageKey} />} />
+              <Route key={`canonical-${path}`} path={canonicalHairPath(path)} element={<SeoAdvancedPage lang="fr" pageKey={pageKey} />} />
             ))}
 
-            <Route path="/hair-transplant-turkey" element={<HairTransplantTurkey />} />
-            <Route path="/turkey-hair-transplant" element={<HairTransplantTurkey />} />
-            <Route path="/hair-transplant-in-turkey" element={<HairTransplantTurkey />} />
-            <Route path="/fue-hair-transplant-turkey" element={<HairTransplantTurkey />} />
-            <Route path="/dhi-hair-transplant-turkey" element={<HairTransplantTurkey />} />
-            <Route path="/turkey-hair-transplant-cost" element={<TurkeyHairTransplantCost />} />
-            <Route path="/hair-transplant-turkey-cost" element={<TurkeyHairTransplantCost />} />
-            <Route path="/hair-transplant-turkey-price" element={<TurkeyHairTransplantCost />} />
-            <Route path="/turkey-hair-transplant-prices" element={<TurkeyHairTransplantCost />} />
-            <Route path="/how-much-hair-transplant-turkey" element={<TurkeyHairTransplantCost />} />
+            {[
+              ['/hair-transplant-turkey', <HairTransplantTurkey />],
+              ['/turkey-hair-transplant', <HairTransplantTurkey />],
+              ['/hair-transplant-in-turkey', <HairTransplantTurkey />],
+              ['/fue-hair-transplant-turkey', <HairTransplantTurkey />],
+              ['/dhi-hair-transplant-turkey', <HairTransplantTurkey />],
+              ['/turkey-hair-transplant-cost', <TurkeyHairTransplantCost />],
+              ['/hair-transplant-turkey-cost', <TurkeyHairTransplantCost />],
+              ['/hair-transplant-turkey-price', <TurkeyHairTransplantCost />],
+              ['/turkey-hair-transplant-prices', <TurkeyHairTransplantCost />],
+              ['/how-much-hair-transplant-turkey', <TurkeyHairTransplantCost />],
+            ].map(([legacyPath, element]) => (
+              <Route key={legacyPath as string} path={canonicalHairPath(legacyPath as string)} element={element} />
+            ))}
 
-            <Route path="/best-hair-transplant-clinic-turkey" element={<BestClinicPage lang="en" variant="bestClinic" />} />
-            <Route path="/best-clinic-for-hair-transplant-turkey" element={<BestClinicPage lang="en" variant="medicalTeam" />} />
-            <Route path="/best-hair-implant-clinic-turkey" element={<BestClinicPage lang="en" variant="bookingChecklist" />} />
-            <Route path="/best-hair-transplant-turkey" element={<Navigate to="/best-hair-transplant-clinic-turkey" replace />} />
+            <Route path={canonicalHairPath('/best-hair-transplant-clinic-turkey')} element={<BestClinicPage lang="en" variant="bestClinic" />} />
+            <Route path={canonicalHairPath('/best-clinic-for-hair-transplant-turkey')} element={<BestClinicPage lang="en" variant="medicalTeam" />} />
+            <Route path={canonicalHairPath('/best-hair-implant-clinic-turkey')} element={<BestClinicPage lang="en" variant="bookingChecklist" />} />
+            <Route path={canonicalHairPath('/best-hair-transplant-turkey')} element={<BestClinicPage lang="en" variant="bestClinic" />} />
 
             {enLandingRoutes.map(([path, pageKey]) => (
-              <Route key={path} path={path} element={<SeoLandingPage lang="en" pageKey={pageKey} />} />
+              <Route key={`canonical-${path}`} path={canonicalHairPath(path)} element={<SeoLandingPage lang="en" pageKey={pageKey} />} />
             ))}
             {enAdvancedRoutes.map(([path, pageKey]) => (
-              <Route key={path} path={path} element={<SeoAdvancedPage lang="en" pageKey={pageKey} />} />
+              <Route key={`canonical-${path}`} path={canonicalHairPath(path)} element={<SeoAdvancedPage lang="en" pageKey={pageKey} />} />
+            ))}
+
+            {[
+              ...frLandingRoutes.map(([path]) => path),
+              ...frAdvancedRoutes.map(([path]) => path),
+              ...enLandingRoutes.map(([path]) => path),
+              ...enAdvancedRoutes.map(([path]) => path),
+              '/greffe-de-cheveux-turquie',
+              '/implant-capillaire-turquie',
+              '/implant-cheveux-turquie',
+              '/greffe-de-cheveux-fue-turquie',
+              '/greffe-de-cheveux-dhi-turquie',
+              '/prix-greffe-de-cheveux-turquie',
+              '/greffe-cheveux-prix-turquie',
+              '/prix-implant-capillaire-turquie',
+              '/implant-cheveux-turquie-prix',
+              '/meilleure-clinique-greffe-cheveux-turquie',
+              '/meilleure-clinique-implant-cheveux-turquie',
+              '/meilleure-clinique-implant-capillaire-turquie',
+              '/hair-transplant-turkey',
+              '/turkey-hair-transplant',
+              '/hair-transplant-in-turkey',
+              '/fue-hair-transplant-turkey',
+              '/dhi-hair-transplant-turkey',
+              '/turkey-hair-transplant-cost',
+              '/hair-transplant-turkey-cost',
+              '/hair-transplant-turkey-price',
+              '/turkey-hair-transplant-prices',
+              '/how-much-hair-transplant-turkey',
+              '/best-hair-transplant-clinic-turkey',
+              '/best-clinic-for-hair-transplant-turkey',
+              '/best-hair-implant-clinic-turkey',
+              '/best-hair-transplant-turkey',
+            ].map((path) => (
+              <Route key={`legacy-${path}`} path={path} element={<Navigate to={canonicalHairPath(path)} replace />} />
             ))}
 
             <Route path="*" element={<Navigate to="/" replace />} />

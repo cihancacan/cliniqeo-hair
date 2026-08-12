@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cliniqeo-hair.vercel.app/sitemap.xml
-Sitemap: https://cliniqeo-hair.vercel.app/sitemap-advanced.xml
-Sitemap: https://cliniqeo-hair.vercel.app/sitemap-core-en.xml
+Sitemap: https://cliniqeo.com/sitemap.xml

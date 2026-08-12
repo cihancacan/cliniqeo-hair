@@ -5,6 +5,7 @@ import './index.css';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { getSiteLanguage, localizeInternalPath } from './config/localizedRoutes';
 import { getWhatsAppUrl, WHATSAPP_DISPLAY } from './config/contact';
+import { canonicalHairPath, HAIR_EN_BASE, HAIR_FR_BASE } from './config/siteRoutes';
 
 /**
  * SEO pages are pre-rendered as real HTML files. A full document navigation
@@ -37,9 +38,14 @@ document.addEventListener(
 
     const currentLanguage = getSiteLanguage(window.location.pathname);
     const localizedPath = localizeInternalPath(destination.pathname, currentLanguage);
+    const currentIsHair = window.location.pathname === HAIR_FR_BASE ||
+      window.location.pathname.startsWith(`${HAIR_FR_BASE}/`) ||
+      window.location.pathname === HAIR_EN_BASE ||
+      window.location.pathname.startsWith(`${HAIR_EN_BASE}/`);
+    const policyPath = currentIsHair ? canonicalHairPath(localizedPath) : localizedPath;
 
     event.preventDefault();
-    window.location.assign(`${localizedPath}${destination.search}${destination.hash}`);
+    window.location.assign(`${policyPath}${destination.search}${destination.hash}`);
   },
   true,
 );
@@ -59,7 +65,7 @@ createRoot(root).render(
 );
 
 function addHomepageHeroMedia() {
-  if (!['/', '/en'].includes(window.location.pathname)) return;
+  if (![HAIR_FR_BASE, HAIR_EN_BASE].includes(window.location.pathname)) return;
 
   const page = document.querySelector<HTMLElement>('main > div.pt-20');
   if (!page) return;
@@ -72,7 +78,7 @@ function addHomepageHeroMedia() {
 }
 
 function addEnglishPatientReviews() {
-  if (window.location.pathname !== '/en') return;
+  if (window.location.pathname !== HAIR_EN_BASE) return;
   if (document.getElementById('english-patient-reviews')) return;
 
   const sections = document.querySelectorAll<HTMLElement>('main > div.pt-20 > section');
@@ -152,12 +158,12 @@ function createEnglishBestClinicSection() {
 }
 
 function addEnglishBestClinicLinks() {
-  if (!['/en', '/en/hair-transplant-guides'].includes(window.location.pathname)) return;
+  if (![HAIR_EN_BASE, `${HAIR_EN_BASE}/guides`].includes(window.location.pathname)) return;
   if (document.getElementById('english-best-clinic-guides')) return;
 
   const section = createEnglishBestClinicSection();
 
-  if (window.location.pathname === '/en') {
+  if (window.location.pathname === HAIR_EN_BASE) {
     const reviews = document.getElementById('english-patient-reviews');
     if (!reviews) return;
     reviews.insertAdjacentElement('afterend', section);
