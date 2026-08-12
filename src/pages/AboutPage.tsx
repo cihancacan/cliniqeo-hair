@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Shield, Heart, Users, Award, CheckCircle, Star } from 'lucide-react';
+import { getHairAssetUrl } from '../config/hostedPath';
 
 const AboutPage = () => {
   return (
@@ -25,7 +26,7 @@ const AboutPage = () => {
 
           <div className="mb-16">
             <img
-              src="/IMAGE ACCEUIL CLINIQEO PARIS.png"
+              src={getHairAssetUrl('/IMAGE ACCEUIL CLINIQEO PARIS.png')}
               alt="Équipe Cliniqeo"
               className="w-full max-w-5xl mx-auto rounded-2xl shadow-2xl"
             />

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CheckCircle, Send } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
+import { getHairApiUrl } from '../config/hostedPath';
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -69,7 +70,7 @@ export default function LocalLeadForm({ lang, cityLabel, pagePath }: LocalLeadFo
 
       if (submitError) throw submitError;
 
-      void fetch('/api/contact-email', {
+      void fetch(getHairApiUrl('/api/contact-email'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

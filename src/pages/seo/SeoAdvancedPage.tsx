@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, ExternalLink, Languages, ShieldCheck } from 'lucide-react';
 import SEOHead from '../../components/SEOHead';
+import { mountHairPath } from '../../config/hostedPath';
 
 type Lang = 'fr' | 'en';
 
@@ -560,6 +561,7 @@ export interface SeoAdvancedPageProps {
 export default function SeoAdvancedPage({ lang, pageKey }: SeoAdvancedPageProps) {
   const page = pages[lang][pageKey];
   const isFr = lang === 'fr';
+  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://cliniqeo-hair.vercel.app';
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -575,11 +577,11 @@ export default function SeoAdvancedPage({ lang, pageKey }: SeoAdvancedPageProps)
     name: page.h1,
     headline: page.h1,
     description: page.description,
-    url: `https://cliniqeo-hair.vercel.app${page.path}`,
+    url: `${origin}${mountHairPath(page.path)}`,
     inLanguage: lang,
     dateModified: '2026-07-31',
     about: { '@type': 'MedicalProcedure', name: isFr ? 'Greffe de cheveux' : 'Hair transplantation' },
-    publisher: { '@type': 'Organization', name: 'Cliniqeo Hair', url: 'https://cliniqeo-hair.vercel.app' },
+    publisher: { '@type': 'Organization', name: 'Cliniqeo Hair', url: `${origin}${mountHairPath('/')}` },
   };
 
   return (

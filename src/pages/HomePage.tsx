@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { CheckCircle, Shield, Users, Award, Clock, Heart, ArrowRight, Calendar, HeartHandshake, Star, Phone } from 'lucide-react';
+import { CheckCircle, Shield, Users, Award, Heart, ArrowRight, Calendar, HeartHandshake, Star, Phone } from 'lucide-react';
+import { getHairAssetUrl } from '../config/hostedPath';
 
 const HomePage = () => {
   return (
@@ -369,7 +370,7 @@ const HomePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             <div className="bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 hover:shadow-2xl transition-all duration-300">
               <img
-                src="/greffe cheveux turquie avant apres.png"
+                src={getHairAssetUrl('/greffe cheveux turquie avant apres.png')}
                 alt="greffe de cheveux avant après homme résultat naturel"
                 className="w-full h-auto"
               />
@@ -381,7 +382,7 @@ const HomePage = () => {
 
             <div className="bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 hover:shadow-2xl transition-all duration-300">
               <img
-                src="/greffe cheveux turquie avant après copy.png"
+                src={getHairAssetUrl('/greffe cheveux turquie avant après copy.png')}
                 alt="greffe cheveux FUE avant après résultat"
                 className="w-full h-auto"
               />
@@ -393,7 +394,7 @@ const HomePage = () => {
 
             <div className="bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 hover:shadow-2xl transition-all duration-300">
               <img
-                src="/greffe cheveux turquie avant après copy copy.png"
+                src={getHairAssetUrl('/greffe cheveux turquie avant après copy copy.png')}
                 alt="implant capillaire turquie avant après"
                 className="w-full h-auto"
               />
@@ -405,7 +406,7 @@ const HomePage = () => {
 
             <div className="bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 hover:shadow-2xl transition-all duration-300">
               <img
-                src="/greffe cheveux turquie avant après, cliniqeo.png"
+                src={getHairAssetUrl('/greffe cheveux turquie avant après, cliniqeo.png')}
                 alt="greffe cheveux turquie cliniqeo résultat"
                 className="w-full h-auto"
               />
@@ -417,7 +418,7 @@ const HomePage = () => {
 
             <div className="bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 hover:shadow-2xl transition-all duration-300">
               <img
-                src="/greffe cheveux turquie avant après copy copy copy.png"
+                src={getHairAssetUrl('/greffe cheveux turquie avant après copy copy copy.png')}
                 alt="DHI implantation directe résultat avant après"
                 className="w-full h-auto"
               />
@@ -429,7 +430,7 @@ const HomePage = () => {
 
             <div className="bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 hover:shadow-2xl transition-all duration-300">
               <img
-                src="/greffe cheveux turquie avant après copy copy copy copy.png"
+                src={getHairAssetUrl('/greffe cheveux turquie avant après copy copy copy copy.png')}
                 alt="greffe capillaire turquie avant après"
                 className="w-full h-auto"
               />

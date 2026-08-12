@@ -1,10 +1,14 @@
 (() => {
-  const pathname = window.location.pathname.replace(/\/$/, '') || '/';
+  const MOUNT_PATH = '/greffe-cheveux-turquie';
+  const mounted = window.location.pathname === MOUNT_PATH || window.location.pathname.startsWith(`${MOUNT_PATH}/`);
+  const appPathname = mounted ? (window.location.pathname.slice(MOUNT_PATH.length) || '/') : window.location.pathname;
+  const pathname = appPathname.replace(/\/$/, '') || '/';
+  const assetUrl = (path) => mounted ? `https://cliniqeo-hair.vercel.app${path}` : path;
   const isEnglish = pathname.startsWith('/en');
   const media = {
-    about: '/cliniqeo.apropos.jpg',
-    photoGuide: '/exemple.photos.pour.greffe.capillaire.turquie.jpg',
-    results: Array.from({ length: 6 }, (_, index) => `/greffe.cheveux.avant.apres${index + 1}.jpg`),
+    about: assetUrl('/cliniqeo.apropos.jpg'),
+    photoGuide: assetUrl('/exemple.photos.pour.greffe.capillaire.turquie.jpg'),
+    results: Array.from({ length: 6 }, (_, index) => assetUrl(`/greffe.cheveux.avant.apres${index + 1}.jpg`)),
   };
 
   const beforeAfterPaths = new Set([

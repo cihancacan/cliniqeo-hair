@@ -10,6 +10,7 @@ import {
   Users,
 } from 'lucide-react';
 import SEOHead from '../../components/SEOHead';
+import { getHairAssetUrl } from '../../config/hostedPath';
 
 type Lang = 'fr' | 'en';
 type Variant = 'bestClinic' | 'medicalTeam' | 'bookingChecklist';
@@ -244,7 +245,7 @@ export default function BestClinicPage({ lang, variant }: { lang: Lang; variant:
         path={page.path}
         lang={lang}
         keywords={page.keywords}
-        image="/home.cliniqeo.hair.jpg"
+        image={getHairAssetUrl('/home.cliniqeo.hair.jpg')}
         alternates={[
           { lang, path: page.path },
           { lang: isFr ? 'en' : 'fr', path: page.alternatePath },
@@ -255,7 +256,7 @@ export default function BestClinicPage({ lang, variant }: { lang: Lang; variant:
 
       <section className="relative overflow-hidden bg-slate-950 text-white">
         <div className="absolute inset-0">
-          <img src="/home.cliniqeo.hair.jpg" alt="" className="h-full w-full object-cover object-center opacity-30" fetchPriority="high" />
+          <img src={getHairAssetUrl('/home.cliniqeo.hair.jpg')} alt="" className="h-full w-full object-cover object-center opacity-30" fetchPriority="high" />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-900/45" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">

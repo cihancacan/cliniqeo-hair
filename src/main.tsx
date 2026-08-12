@@ -5,6 +5,7 @@ import './index.css';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { getSiteLanguage, localizeInternalPath } from './config/localizedRoutes';
 import { getWhatsAppUrl, WHATSAPP_DISPLAY } from './config/contact';
+import { getAppPathname, mountHairPath, stripHairMountPath } from './config/hostedPath';
 
 /**
  * SEO pages are pre-rendered as real HTML files. A full document navigation
@@ -35,11 +36,11 @@ document.addEventListener(
     const destination = new URL(anchor.href, window.location.href);
     if (destination.origin !== window.location.origin) return;
 
-    const currentLanguage = getSiteLanguage(window.location.pathname);
-    const localizedPath = localizeInternalPath(destination.pathname, currentLanguage);
+    const currentLanguage = getSiteLanguage(getAppPathname());
+    const localizedPath = localizeInternalPath(stripHairMountPath(destination.pathname), currentLanguage);
 
     event.preventDefault();
-    window.location.assign(`${localizedPath}${destination.search}${destination.hash}`);
+    window.location.assign(`${mountHairPath(localizedPath)}${destination.search}${destination.hash}`);
   },
   true,
 );
@@ -59,7 +60,7 @@ createRoot(root).render(
 );
 
 function addHomepageHeroMedia() {
-  if (!['/', '/en'].includes(window.location.pathname)) return;
+  if (!['/', '/en'].includes(getAppPathname())) return;
 
   const page = document.querySelector<HTMLElement>('main > div.pt-20');
   if (!page) return;
@@ -72,7 +73,7 @@ function addHomepageHeroMedia() {
 }
 
 function addEnglishPatientReviews() {
-  if (window.location.pathname !== '/en') return;
+  if (getAppPathname() !== '/en') return;
   if (document.getElementById('english-patient-reviews')) return;
 
   const sections = document.querySelectorAll<HTMLElement>('main > div.pt-20 > section');
@@ -152,12 +153,12 @@ function createEnglishBestClinicSection() {
 }
 
 function addEnglishBestClinicLinks() {
-  if (!['/en', '/en/hair-transplant-guides'].includes(window.location.pathname)) return;
+  if (!['/en', '/en/hair-transplant-guides'].includes(getAppPathname())) return;
   if (document.getElementById('english-best-clinic-guides')) return;
 
   const section = createEnglishBestClinicSection();
 
-  if (window.location.pathname === '/en') {
+  if (getAppPathname() === '/en') {
     const reviews = document.getElementById('english-patient-reviews');
     if (!reviews) return;
     reviews.insertAdjacentElement('afterend', section);
@@ -173,7 +174,7 @@ function addEnglishBestClinicLinks() {
 }
 
 function enforceWhatsAppOnlyContact() {
-  const language = getSiteLanguage(window.location.pathname);
+  const language = getSiteLanguage(getAppPathname());
   const whatsappUrl = getWhatsAppUrl(language);
 
   document.querySelectorAll<HTMLAnchorElement>('a[href^="tel:"]').forEach((anchor) => {
@@ -212,14 +213,14 @@ function enforceWhatsAppOnlyContact() {
   textNodes.forEach((node) => {
     const original = node.nodeValue ?? '';
     let updated = original
-      .replaceAll('+33 1 88 84 22 22', WHATSAPP_DISPLAY)
-      .replaceAll('01 88 84 22 22', WHATSAPP_DISPLAY)
-      .replaceAll('Appel gratuit', 'Appel via WhatsApp')
-      .replaceAll('Numéro gratuit', 'Appel WhatsApp')
-      .replaceAll('Free number', 'WhatsApp call')
-      .replaceAll('Call +33', 'Call via WhatsApp +33')
-      .replaceAll('être rappelé', 'être appelé via WhatsApp')
-      .replaceAll('be called back', 'receive a WhatsApp call');
+      .replace(/\+33 1 88 84 22 22/g, WHATSAPP_DISPLAY)
+      .replace(/01 88 84 22 22/g, WHATSAPP_DISPLAY)
+      .replace(/Appel gratuit/g, 'Appel via WhatsApp')
+      .replace(/Numéro gratuit/g, 'Appel WhatsApp')
+      .replace(/Free number/g, 'WhatsApp call')
+      .replace(/Call \+33/g, 'Call via WhatsApp +33')
+      .replace(/être rappelé/g, 'être appelé via WhatsApp')
+      .replace(/be called back/g, 'receive a WhatsApp call');
 
     const trimmed = updated.trim();
     if (trimmed === 'Téléphone') {

@@ -1,3 +1,5 @@
+import { getAppPathname } from './hostedPath';
+
 export const WHATSAPP_NUMBER = '33756872961';
 export const WHATSAPP_DISPLAY = '+33 7 56 87 29 61';
 
@@ -88,7 +90,7 @@ function setReactInputValue(input: HTMLInputElement, value: string) {
 }
 
 function ensureEnglishFormFieldNames() {
-  if (window.location.pathname !== '/en/contact') return;
+  if (getAppPathname() !== '/en/contact') return;
 
   const form = document.querySelector<HTMLFormElement>('main form');
   if (!form) return;
@@ -158,7 +160,7 @@ function buildCountrySelect(language: ContactLanguage, selectedCountry: string) 
 }
 
 function enhancePhoneFields() {
-  const language: ContactLanguage = window.location.pathname.startsWith('/en') ? 'en' : 'fr';
+  const language: ContactLanguage = getAppPathname().startsWith('/en') ? 'en' : 'fr';
   ensureEnglishFormFieldNames();
 
   document

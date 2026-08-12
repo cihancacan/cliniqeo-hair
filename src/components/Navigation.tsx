@@ -11,6 +11,7 @@ import {
   type SiteLanguage,
 } from '../config/localizedRoutes';
 import { getWhatsAppUrl, WHATSAPP_DISPLAY } from '../config/contact';
+import { mountHairPath } from '../config/hostedPath';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,7 +29,7 @@ const Navigation = () => {
     setLanguage(target);
     setIsLangMenuOpen(false);
     setIsMenuOpen(false);
-    window.location.assign(destination);
+    window.location.assign(mountHairPath(destination));
   };
 
   const menuItems = getNavigationItems(language).map((item) => ({

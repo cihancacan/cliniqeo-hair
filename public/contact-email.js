@@ -1,6 +1,10 @@
 (() => {
+  const MOUNT_PATH = '/greffe-cheveux-turquie';
+  const mounted = window.location.pathname === MOUNT_PATH || window.location.pathname.startsWith(`${MOUNT_PATH}/`);
+  const pathname = mounted ? (window.location.pathname.slice(MOUNT_PATH.length) || '/') : window.location.pathname;
+  const apiUrl = mounted ? `${MOUNT_PATH}/api/contact-email` : '/api/contact-email';
   const CONTACT_PATHS = new Set(['/contact', '/en/contact']);
-  if (!CONTACT_PATHS.has(window.location.pathname)) return;
+  if (!CONTACT_PATHS.has(pathname)) return;
 
   let pendingRequest = null;
   let confirmationTriggered = false;
@@ -85,7 +89,7 @@
 
       pendingRequest = {
         submission_id: createSubmissionId(),
-        language: window.location.pathname.startsWith('/en') ? 'en' : 'fr',
+        language: pathname.startsWith('/en') ? 'en' : 'fr',
         first_name: getValue(formData, 'first_name'),
         last_name: getValue(formData, 'last_name'),
         email: getValue(formData, 'email'),
@@ -109,7 +113,7 @@
     confirmationTriggered = true;
 
     try {
-      const response = await fetch('/api/contact-email', {
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(pendingRequest),

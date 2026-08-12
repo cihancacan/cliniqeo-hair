@@ -1,12 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
 import { findLocalSeoPage } from './config/findLocalSeoPage';
+import { getAppPathname, getHairApiUrl } from './config/hostedPath';
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
   import.meta.env.VITE_SUPABASE_ANON_KEY,
 );
 
-const page = findLocalSeoPage(window.location.pathname);
+const page = findLocalSeoPage(getAppPathname());
 const isFr = page?.country === 'fr';
 const cityLabel = page
   ? page.country === 'us'
@@ -30,7 +31,7 @@ mobileMenu?.querySelectorAll('a').forEach((link) => {
   });
 });
 
-document.querySelectorAll<HTMLAnchorElement>('a[href="/contact"], a[href="/en/contact"]').forEach((link) => {
+document.querySelectorAll<HTMLAnchorElement>('a[href$="/contact"]').forEach((link) => {
   link.href = '#diagnostic-form';
 });
 
@@ -177,7 +178,7 @@ form?.addEventListener('submit', async (event) => {
     if (submitError) throw submitError;
 
     const photoCount = Object.values(photoUrls).filter(Boolean).length;
-    void fetch('/api/contact-email', {
+    void fetch(getHairApiUrl('/api/contact-email'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

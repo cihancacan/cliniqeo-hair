@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { CheckCircle, Languages, Plane, ShieldCheck, Stethoscope, WalletCards } from 'lucide-react';
 import SEOHead from '../../components/SEOHead';
+import { mountHairPath } from '../../config/hostedPath';
 import LocalLeadForm from '../../components/LocalLeadForm';
 import { findLocalPage, type LocalIntent } from '../../config/localSeoData';
 
@@ -180,9 +181,9 @@ function LocalSeoPage() {
       name: title,
       description,
       inLanguage: isFr ? 'fr-FR' : 'en',
-      url: `https://cliniqeo-hair.vercel.app${path}`,
+      url: `${window.location.origin}${mountHairPath(path)}`,
       about: { '@type': 'MedicalProcedure', name: isFr ? 'Greffe de cheveux' : 'Hair transplantation' },
-      provider: { '@type': 'Organization', name: 'Cliniqeo Hair', url: 'https://cliniqeo-hair.vercel.app' },
+      provider: { '@type': 'Organization', name: 'Cliniqeo Hair', url: `${window.location.origin}${mountHairPath('/')}` },
     },
     {
       '@context': 'https://schema.org',
@@ -193,8 +194,8 @@ function LocalSeoPage() {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: isFr ? 'Accueil' : 'Home', item: `https://cliniqeo-hair.vercel.app${homePath}` },
-        { '@type': 'ListItem', position: 2, name: cityLabel, item: `https://cliniqeo-hair.vercel.app${path}` },
+        { '@type': 'ListItem', position: 1, name: isFr ? 'Accueil' : 'Home', item: `${window.location.origin}${mountHairPath(homePath)}` },
+        { '@type': 'ListItem', position: 2, name: cityLabel, item: `${window.location.origin}${mountHairPath(path)}` },
       ],
     },
   ];

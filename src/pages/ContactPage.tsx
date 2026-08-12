@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Phone, Mail, MapPin, Send, CheckCircle, Upload, X } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
+import { getHairAssetUrl } from '../config/hostedPath';
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -84,7 +85,7 @@ const ContactPage = () => {
     setError('');
 
     try {
-      let photoUrls = {
+      const photoUrls = {
         photo_front_url: null as string | null,
         photo_top_url: null as string | null,
         photo_donor_url: null as string | null,
@@ -430,7 +431,7 @@ const ContactPage = () => {
 
                       <div className="mb-4">
                         <img
-                          src="/greffe capillaire turquie.png"
+                          src={getHairAssetUrl('/greffe capillaire turquie.png')}
                           alt="Guide des photos nécessaires pour le diagnostic capillaire"
                           className="w-full rounded-lg shadow-md"
                         />

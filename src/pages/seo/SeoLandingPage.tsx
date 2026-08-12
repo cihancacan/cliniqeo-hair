@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { CheckCircle, ArrowRight, ShieldCheck, Stethoscope, Plane, Hotel, Languages, Clock3 } from 'lucide-react';
 import SEOHead from '../../components/SEOHead';
+import { mountHairPath } from '../../config/hostedPath';
 
 type Lang = 'fr' | 'en';
 
@@ -293,9 +294,9 @@ export default function SeoLandingPage({ pageKey, lang }: { pageKey: PageKey; la
     '@type': 'MedicalWebPage',
     name: page.h1,
     description: page.description,
-    url: `${origin}${page.path}`,
+    url: `${origin}${mountHairPath(page.path)}`,
     inLanguage: lang,
-    isPartOf: { '@type': 'WebSite', name: 'Cliniqeo Hair', url: origin },
+    isPartOf: { '@type': 'WebSite', name: 'Cliniqeo Hair', url: `${origin}${mountHairPath('/')}` },
     about: { '@type': 'MedicalProcedure', name: lang === 'fr' ? 'Greffe de cheveux' : 'Hair transplantation' },
   };
 

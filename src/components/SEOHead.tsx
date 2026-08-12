@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { mountHairPath } from '../config/hostedPath';
 
 interface Alternate {
   lang: string;
@@ -42,7 +43,7 @@ export default function SEOHead({
 }: SEOHeadProps) {
   useEffect(() => {
     const origin = window.location.origin || DEFAULT_ORIGIN;
-    const canonical = `${origin}${path}`;
+    const canonical = `${origin}${mountHairPath(path)}`;
     const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
 
     document.documentElement.lang = lang;
@@ -78,7 +79,7 @@ export default function SEOHead({
       const link = document.createElement('link');
       link.rel = 'alternate';
       link.hreflang = alternateLang;
-      link.href = `${origin}${alternatePath}`;
+      link.href = `${origin}${mountHairPath(alternatePath)}`;
       link.dataset.seo = 'dynamic';
       document.head.appendChild(link);
     });

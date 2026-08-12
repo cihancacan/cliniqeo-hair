@@ -1,5 +1,8 @@
 (() => {
-  if ((window.location.pathname.replace(/\/$/, '') || '/') !== '/') return;
+  const MOUNT_PATH = '/greffe-cheveux-turquie';
+  const mounted = window.location.pathname === MOUNT_PATH || window.location.pathname.startsWith(`${MOUNT_PATH}/`);
+  const appPathname = mounted ? (window.location.pathname.slice(MOUNT_PATH.length) || '/') : window.location.pathname;
+  if ((appPathname.replace(/\/$/, '') || '/') !== '/') return;
 
   const applyHomepageGalleryPlacement = () => {
     const heading = Array.from(document.querySelectorAll('h2')).find((item) =>

@@ -1,8 +1,11 @@
 (() => {
-  const pathname = window.location.pathname.replace(/\/$/, '') || '/';
+  const MOUNT_PATH = '/greffe-cheveux-turquie';
+  const mounted = window.location.pathname === MOUNT_PATH || window.location.pathname.startsWith(`${MOUNT_PATH}/`);
+  const appPathname = mounted ? (window.location.pathname.slice(MOUNT_PATH.length) || '/') : window.location.pathname;
+  const pathname = appPathname.replace(/\/$/, '') || '/';
   if (!['/a-propos', '/en/about', '/about'].includes(pathname)) return;
 
-  const JPG_SOURCE = '/cliniqeo.apropos.jpg';
+  const JPG_SOURCE = mounted ? 'https://cliniqeo-hair.vercel.app/cliniqeo.apropos.jpg' : '/cliniqeo.apropos.jpg';
 
   function isAboutImage(image) {
     if (!(image instanceof HTMLImageElement)) return false;

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle } from 'lucide-react';
+import { getHairAssetUrl } from '../config/hostedPath';
 
 const BeforeAfterPage = () => {
   const results = [
@@ -111,7 +112,7 @@ const BeforeAfterPage = () => {
       description: 'Excellence médicale et résultat optimal',
       context: 'Patient de 44 ans accompagné par notre équipe parisienne. Ce cas illustre parfaitement notre engagement qualité : diagnostic précis, intervention experte et suivi rigoureux pour un résultat qui dépasse les attentes.'
     }
-  ];
+  ].map((result) => ({ ...result, image: getHairAssetUrl(result.image) }));
 
   return (
     <div className="pt-20">

@@ -4,6 +4,7 @@ import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import { useLanguage } from './contexts/LanguageContext';
 import { getSiteLanguage } from './config/localizedRoutes';
+import { getHairRouterBasename } from './config/hostedPath';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const TechniquesPage = lazy(() => import('./pages/TechniquesPage'));
@@ -248,7 +249,7 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
+    <Router basename={getHairRouterBasename()}>
       <AppContent />
     </Router>
   );
