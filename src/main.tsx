@@ -212,15 +212,20 @@ function enforceWhatsAppOnlyContact() {
 
   textNodes.forEach((node) => {
     const original = node.nodeValue ?? '';
-    let updated = original
-      .replace(/\+33 1 88 84 22 22/g, WHATSAPP_DISPLAY)
-      .replace(/01 88 84 22 22/g, WHATSAPP_DISPLAY)
-      .replace(/Appel gratuit/g, 'Appel via WhatsApp')
-      .replace(/Numéro gratuit/g, 'Appel WhatsApp')
-      .replace(/Free number/g, 'WhatsApp call')
-      .replace(/Call \+33/g, 'Call via WhatsApp +33')
-      .replace(/être rappelé/g, 'être appelé via WhatsApp')
-      .replace(/be called back/g, 'receive a WhatsApp call');
+    const replacements: Array<[string, string]> = [
+      ['+33 1 88 84 22 22', WHATSAPP_DISPLAY],
+      ['01 88 84 22 22', WHATSAPP_DISPLAY],
+      ['Appel gratuit', 'Appel via WhatsApp'],
+      ['Numéro gratuit', 'Appel WhatsApp'],
+      ['Free number', 'WhatsApp call'],
+      ['Call +33', 'Call via WhatsApp +33'],
+      ['être rappelé', 'être appelé via WhatsApp'],
+      ['be called back', 'receive a WhatsApp call'],
+    ];
+    let updated = replacements.reduce(
+      (value, [search, replacement]) => value.split(search).join(replacement),
+      original,
+    );
 
     const trimmed = updated.trim();
     if (trimmed === 'Téléphone') {
