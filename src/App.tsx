@@ -4,7 +4,7 @@ import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import { useLanguage } from './contexts/LanguageContext';
 import { getSiteLanguage } from './config/localizedRoutes';
-import { canonicalHairPath, DENTAL_EN_BASE, HAIR_EN_BASE, HAIR_FR_BASE } from './config/siteRoutes';
+import { canonicalHairPath, DENTAL_EN_BASE, DENTAL_FR_BASE, HAIR_EN_BASE, HAIR_FR_BASE } from './config/siteRoutes';
 import SEOHead from './components/SEOHead';
 
 const PortalHomePage = lazy(() => import('./pages/PortalHomePage'));
@@ -33,6 +33,7 @@ const BestClinicPage = lazy(() => import('./pages/seo/BestClinicPage'));
 const LocalSeoPage = lazy(() => import('./pages/seo/LocalSeoPage'));
 const LocalSeoDirectoryPage = lazy(() => import('./pages/seo/LocalSeoDirectoryPage'));
 const LocalSeoMasterDirectoryPage = lazy(() => import('./pages/seo/LocalSeoMasterDirectoryPage'));
+const FrenchDentalHomePage = lazy(() => import('./pages/dental/FrenchDentalHomePage'));
 const EnglishDentalHomePage = lazy(() => import('./pages/dental/EnglishDentalHomePage'));
 const DentalLocalSeoPage = lazy(() => import('./pages/dental/DentalLocalSeoPage'));
 const DentalLocalDirectoryPage = lazy(() => import('./pages/dental/DentalLocalDirectoryPage'));
@@ -278,6 +279,7 @@ function AppContent() {
             <Route path={`${HAIR_EN_BASE}/uk/cities`} element={<LocalSeoDirectoryPage country="uk" />} />
             <Route path={`${HAIR_EN_BASE}/us/cities`} element={<LocalSeoDirectoryPage country="us" />} />
 
+            <Route path={DENTAL_FR_BASE} element={<FrenchDentalHomePage />} />
             <Route path={DENTAL_EN_BASE} element={<EnglishDentalHomePage />} />
             <Route path={`${DENTAL_EN_BASE}/uk/cities`} element={<DentalLocalDirectoryPage country="uk" />} />
             <Route path={`${DENTAL_EN_BASE}/us/cities`} element={<DentalLocalDirectoryPage country="us" />} />

@@ -19,7 +19,8 @@ const Navigation = () => {
   const location = useLocation();
   const { language, setLanguage, t } = useLanguage();
   const isPortal = isPortalPath(location.pathname);
-  const isDental = location.pathname === DENTAL_EN_BASE || location.pathname.startsWith(`${DENTAL_EN_BASE}/`);
+  const isDental = location.pathname === DENTAL_FR_BASE || location.pathname.startsWith(`${DENTAL_FR_BASE}/`)
+    || location.pathname === DENTAL_EN_BASE || location.pathname.startsWith(`${DENTAL_EN_BASE}/`);
 
   useEffect(() => {
     const detected = getSiteLanguage(location.pathname);
@@ -44,18 +45,24 @@ const Navigation = () => {
         { label: language === 'fr' ? 'Votre parcours' : 'Your journey', href: '#parcours' },
       ]
     : isDental
-      ? [
-          { label: 'Dental Turkey', href: DENTAL_EN_BASE },
-          { label: 'UK guides', href: `${DENTAL_EN_BASE}/uk/cities` },
-          { label: 'US guides', href: `${DENTAL_EN_BASE}/us/cities` },
-        ]
+      ? language === 'fr'
+        ? [
+            { label: 'Soins dentaires', href: DENTAL_FR_BASE },
+            { label: 'Traitements', href: `${DENTAL_FR_BASE}#traitements` },
+            { label: 'Votre parcours', href: `${DENTAL_FR_BASE}#evaluation-dentaire` },
+          ]
+        : [
+            { label: 'Dental Turkey', href: DENTAL_EN_BASE },
+            { label: 'UK guides', href: `${DENTAL_EN_BASE}/uk/cities` },
+            { label: 'US guides', href: `${DENTAL_EN_BASE}/us/cities` },
+          ]
       : getNavigationItems(language).map((item) => ({ label: t(item.key), href: item.href }));
   const contactPath = isPortal
     ? '#expertises'
     : isDental
-      ? `${DENTAL_EN_BASE}#dental-assessment`
+      ? language === 'fr' ? `${DENTAL_FR_BASE}#evaluation-dentaire` : `${DENTAL_EN_BASE}#dental-assessment`
       : getLocalizedContactPath(language);
-  const homePath = isPortal ? (language === 'en' ? '/en' : '/') : isDental ? DENTAL_EN_BASE : getLocalizedHomePath(language);
+  const homePath = isPortal ? (language === 'en' ? '/en' : '/') : isDental ? language === 'fr' ? DENTAL_FR_BASE : DENTAL_EN_BASE : getLocalizedHomePath(language);
   const whatsappUrl = getWhatsAppUrl(language);
 
   const languages = [

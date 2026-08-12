@@ -11,7 +11,8 @@ const Footer = () => {
   const { pathname } = useLocation();
   const isFr = language === 'fr';
   const isPortal = isPortalPath(pathname);
-  const isDental = pathname === DENTAL_EN_BASE || pathname.startsWith(`${DENTAL_EN_BASE}/`);
+  const isDental = pathname === DENTAL_FR_BASE || pathname.startsWith(`${DENTAL_FR_BASE}/`)
+    || pathname === DENTAL_EN_BASE || pathname.startsWith(`${DENTAL_EN_BASE}/`);
   const guidesPath = getLocalizedGuidesPath(language);
   const localCitiesPath = isFr ? `${HAIR_FR_BASE}/villes` : `${HAIR_EN_BASE}/cities`;
   const whatsappUrl = getWhatsAppUrl(language);
@@ -21,11 +22,17 @@ const Footer = () => {
         { key: isFr ? 'Greffe de cheveux' : 'Hair transplant', href: isFr ? HAIR_FR_BASE : HAIR_EN_BASE },
       ]
     : isDental
-      ? [
-          { key: 'Dental treatment in Turkey', href: DENTAL_EN_BASE },
-          { key: 'UK dental guides', href: `${DENTAL_EN_BASE}/uk/cities` },
-          { key: 'US dental guides', href: `${DENTAL_EN_BASE}/us/cities` },
-        ]
+      ? isFr
+        ? [
+            { key: 'Soins dentaires en Turquie', href: DENTAL_FR_BASE },
+            { key: 'Demander une évaluation', href: `${DENTAL_FR_BASE}#evaluation-dentaire` },
+            { key: 'Découvrir la greffe de cheveux', href: HAIR_FR_BASE },
+          ]
+        : [
+            { key: 'Dental treatment in Turkey', href: DENTAL_EN_BASE },
+            { key: 'UK dental guides', href: `${DENTAL_EN_BASE}/uk/cities` },
+            { key: 'US dental guides', href: `${DENTAL_EN_BASE}/us/cities` },
+          ]
       : getNavigationItems(language).filter((item) =>
           ['nav.home', 'nav.techniques', 'nav.pricing', 'nav.why_turkey', 'nav.faq', 'nav.contact'].includes(item.key),
         );
@@ -34,7 +41,9 @@ const Footer = () => {
       ? 'Cliniqeo coordonne des parcours de soins dentaires et de greffe de cheveux en Turquie, avec un accompagnement avant, pendant et après le séjour.'
       : 'Cliniqeo coordinates dental treatment and hair transplant journeys in Turkey, with support before, during and after travel.'
     : isDental
-      ? 'Dental treatment travel coordination in Turkey, with English-speaking support before, during and after treatment.'
+      ? isFr
+        ? 'Organisation de parcours de soins dentaires en Turquie, avec accompagnement francophone avant, pendant et après le traitement.'
+        : 'Dental treatment travel coordination in Turkey, with English-speaking support before, during and after treatment.'
       : isFr
         ? 'Organisation de séjours pour greffe de cheveux en Turquie, avec accompagnement francophone avant, pendant et après le traitement.'
         : 'Hair transplant travel coordination in Turkey, with English-speaking support before, during and after treatment.';
@@ -122,10 +131,10 @@ const Footer = () => {
               </>}
               {!isPortal && <>
                 <span aria-hidden="true">•</span>
-                <Link to={isDental ? HAIR_EN_BASE : isFr ? DENTAL_FR_BASE : DENTAL_EN_BASE} className="inline-flex items-center gap-1.5 hover:text-[#6EC1E4] transition-colors">
+                <Link to={isDental ? isFr ? HAIR_FR_BASE : HAIR_EN_BASE : isFr ? DENTAL_FR_BASE : DENTAL_EN_BASE} className="inline-flex items-center gap-1.5 hover:text-[#6EC1E4] transition-colors">
                 <Smile size={14} />
                   {isDental
-                    ? 'Discover our hair transplant support in Turkey'
+                    ? isFr ? 'Découvrez notre accompagnement pour la greffe de cheveux en Turquie' : 'Discover our hair transplant support in Turkey'
                     : isFr
                       ? 'Découvrez aussi notre accompagnement pour les soins dentaires en Turquie'
                       : 'Discover our support for dental treatment in Turkey'}

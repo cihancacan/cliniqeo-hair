@@ -7,6 +7,7 @@ const origin = 'https://cliniqeo.com';
 const oldOrigin = 'https://cliniqeo-hair.vercel.app';
 const hairFrBase = '/greffe-cheveux-turquie';
 const hairEnBase = '/en/hair-transplant-turkey';
+const dentalFrBase = '/soins-dentaires-turquie';
 const dentalEnBase = '/en/dental-treatment-turkey';
 
 const frCore = new Map([
@@ -45,6 +46,7 @@ function normalizePath(value) {
 function canonicalHairPath(value) {
   const path = normalizePath(value);
   if (path === hairFrBase || path.startsWith(`${hairFrBase}/`) || path === hairEnBase || path.startsWith(`${hairEnBase}/`)) return path;
+  if (path === dentalFrBase || path.startsWith(`${dentalFrBase}/`)) return path;
   if (path === dentalEnBase || path.startsWith(`${dentalEnBase}/`)) return path;
   if (frCore.has(path)) return frCore.get(path);
   if (enCore.has(path)) return enCore.get(path);
@@ -92,7 +94,7 @@ function canonicalizeAbsoluteUrls(html) {
     const path = suffixMatch?.[1] || '/';
     const suffix = suffixMatch?.[2] || '';
     if (path.startsWith('/assets/') || /\.[a-z0-9]{2,5}$/i.test(path)) return url;
-    if (path === '/' || path === '/en' || path.startsWith(dentalEnBase) || path.startsWith(hairFrBase) || path.startsWith(hairEnBase)) return url;
+    if (path === '/' || path === '/en' || path.startsWith(dentalFrBase) || path.startsWith(dentalEnBase) || path.startsWith(hairFrBase) || path.startsWith(hairEnBase)) return url;
     return `${origin}${canonicalHairPath(path)}${suffix}`;
   });
 }
@@ -104,7 +106,7 @@ function canonicalizeHtml(input, canonicalRoute) {
     `${origin}/$1`,
   );
   html = canonicalizeAbsoluteUrls(html);
-  if (!(canonicalRoute === dentalEnBase || canonicalRoute.startsWith(`${dentalEnBase}/`))) {
+  if (!(canonicalRoute === dentalFrBase || canonicalRoute.startsWith(`${dentalFrBase}/`) || canonicalRoute === dentalEnBase || canonicalRoute.startsWith(`${dentalEnBase}/`))) {
     html = html.replace(/href=(["'])(\/[^"']*)\1/gi, (full, quote, value) => {
       const match = value.match(/^([^?#]*)([?#].*)?$/);
       const path = match?.[1] || '/';
@@ -146,6 +148,7 @@ canonicalRoutes.add('/');
 canonicalRoutes.add('/en');
 canonicalRoutes.add(hairFrBase);
 canonicalRoutes.add(hairEnBase);
+canonicalRoutes.add(dentalFrBase);
 canonicalRoutes.add(dentalEnBase);
 
 const sitemapEntries = [];
@@ -157,7 +160,7 @@ for (const route of [...canonicalRoutes].sort((a, b) => a.localeCompare(b))) {
   }
   if (/name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(html)) continue;
   const priority = route === '/' || route === '/en' ? '1.0'
-    : route === hairFrBase || route === hairEnBase || route === dentalEnBase ? '0.9'
+    : route === hairFrBase || route === hairEnBase || route === dentalFrBase || route === dentalEnBase ? '0.9'
       : route.includes('/uk/') || route.includes('/us/') ? '0.7' : '0.6';
   sitemapEntries.push(`  <url><loc>${origin}${route}</loc><lastmod>2026-08-12</lastmod><changefreq>monthly</changefreq><priority>${priority}</priority></url>`);
 }

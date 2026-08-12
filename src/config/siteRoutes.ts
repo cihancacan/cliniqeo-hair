@@ -78,6 +78,7 @@ export function canonicalHairPath(value: string): string {
 
   if (path === HAIR_FR_BASE || path.startsWith(`${HAIR_FR_BASE}/`)) return path;
   if (path === HAIR_EN_BASE || path.startsWith(`${HAIR_EN_BASE}/`)) return path;
+  if (path === DENTAL_FR_BASE || path.startsWith(`${DENTAL_FR_BASE}/`)) return path;
   if (path === DENTAL_EN_BASE || path.startsWith(`${DENTAL_EN_BASE}/`)) return path;
 
   const frCore = frCoreRoutes.get(path);
