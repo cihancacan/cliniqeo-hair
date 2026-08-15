@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import { Phone, Mail, MapPin, Send, CheckCircle, Upload, X } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../lib/supabase';
 import { getHairAssetUrl } from '../config/hostedPath';
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
