@@ -136,10 +136,20 @@
     void sendConfirmation();
   };
 
-  const observer = new MutationObserver(refreshContactPage);
-  observer.observe(document.documentElement, { childList: true, subtree: true });
-  document.addEventListener('DOMContentLoaded', refreshContactPage, { once: true });
-  window.addEventListener('load', refreshContactPage, { once: true });
-  window.addEventListener('resize', refreshContactPage);
-  refreshContactPage();
+  let refreshFrame = 0;
+  const scheduleRefresh = () => {
+    if (refreshFrame) return;
+    refreshFrame = window.requestAnimationFrame(() => {
+      refreshFrame = 0;
+      refreshContactPage();
+    });
+  };
+
+  const observerRoot = document.getElementById('root') || document.documentElement;
+  const observer = new MutationObserver(scheduleRefresh);
+  observer.observe(observerRoot, { childList: true, subtree: true });
+  document.addEventListener('DOMContentLoaded', scheduleRefresh, { once: true });
+  window.addEventListener('load', scheduleRefresh, { once: true });
+  window.addEventListener('resize', scheduleRefresh);
+  scheduleRefresh();
 })();
