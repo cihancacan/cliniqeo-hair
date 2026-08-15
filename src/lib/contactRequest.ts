@@ -10,12 +10,13 @@ export type ContactRequest = {
 };
 
 const REQUEST_TIMEOUT_MS = 15000;
-const MOUNT_PATH = '/greffe-cheveux-turquie';
+const MOUNT_PATHS = ['/greffe-cheveux-turquie', '/en/hair-transplant-turkey'];
 
 function getContactEndpoint() {
-  const mounted = window.location.pathname === MOUNT_PATH
-    || window.location.pathname.startsWith(`${MOUNT_PATH}/`);
-  return mounted ? `${MOUNT_PATH}/api/contact-email` : '/api/contact-email';
+  const mountPath = MOUNT_PATHS.find((candidate) =>
+    window.location.pathname === candidate || window.location.pathname.startsWith(`${candidate}/`),
+  );
+  return mountPath ? `${mountPath}/api/contact-email` : '/api/contact-email';
 }
 
 export async function sendContactRequest(request: ContactRequest) {
