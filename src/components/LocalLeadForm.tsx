@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import { CheckCircle, Send } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../lib/supabase';
 import { getHairApiUrl } from '../config/hostedPath';
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY,
-);
 
 interface LocalLeadFormProps {
   lang: 'fr' | 'en';
