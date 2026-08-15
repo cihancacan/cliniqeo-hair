@@ -4,7 +4,7 @@ import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import { useLanguage } from './contexts/LanguageContext';
 import { getSiteLanguage } from './config/localizedRoutes';
-import { getHairRouterBasename } from './config/hostedPath';
+import { getHairRouterBasename, isEnglishMountedHairPath } from './config/hostedPath';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const TechniquesPage = lazy(() => import('./pages/TechniquesPage'));
@@ -37,7 +37,7 @@ function LanguageRouteSync() {
   const { language, setLanguage } = useLanguage();
 
   useLayoutEffect(() => {
-    const detected = getSiteLanguage(pathname);
+    const detected = isEnglishMountedHairPath() ? 'en' : getSiteLanguage(pathname);
     if (detected !== language) setLanguage(detected);
     document.documentElement.lang = detected;
   }, [pathname, language, setLanguage]);
@@ -157,6 +157,8 @@ const localSeoPatterns = [
 ] as const;
 
 function AppContent() {
+  const englishMounted = isEnglishMountedHairPath();
+
   return (
     <div className="min-h-screen bg-white">
       <LanguageRouteSync />
@@ -165,16 +167,26 @@ function AppContent() {
       <main>
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/techniques" element={<TechniquesPage />} />
+            <Route path="/" element={englishMounted ? <HairTransplantTurkey /> : <HomePage />} />
+            <Route path="/techniques" element={englishMounted ? <EnglishGeneralPage pageKey="techniques" /> : <TechniquesPage />} />
             <Route path="/tarifs" element={<PricingPage />} />
             <Route path="/turquie" element={<WhyTurkeyPage />} />
             <Route path="/a-propos" element={<AboutPage />} />
-            <Route path="/faq" element={<FAQPage />} />
-            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/faq" element={englishMounted ? <EnglishGeneralPage pageKey="faq" /> : <FAQPage />} />
+            <Route path="/contact" element={englishMounted ? <EnglishContactPage /> : <ContactPage />} />
             <Route path="/guides-greffe-cheveux" element={<GuidesPage lang="fr" />} />
             <Route path="/greffe-cheveux/avant-apres" element={<BeforeAfterPage />} />
             <Route path="/greffe-cheveux-france" element={<LocalSeoDirectoryPage country="fr" />} />
+            {englishMounted && (
+              <>
+                <Route path="/why-turkey" element={<EnglishGeneralPage pageKey="whyTurkey" />} />
+                <Route path="/before-after" element={<EnglishGeneralPage pageKey="beforeAfter" />} />
+                <Route path="/hair-transplant-guides" element={<GuidesPage lang="en" />} />
+                <Route path="/hair-transplant-by-city" element={<LocalSeoMasterDirectoryPage />} />
+                <Route path="/uk/hair-transplant-cities" element={<LocalSeoDirectoryPage country="uk" />} />
+                <Route path="/us/hair-transplant-cities" element={<LocalSeoDirectoryPage country="us" />} />
+              </>
+            )}
 
             <Route path="/en" element={<EnglishHomePage />} />
             <Route path="/en/techniques" element={<EnglishGeneralPage pageKey="techniques" />} />
@@ -190,9 +202,12 @@ function AppContent() {
             <Route path="/en/us/hair-transplant-cities" element={<LocalSeoDirectoryPage country="us" />} />
 
             {localSeoPatterns.map((path) => <Route key={path} path={path} element={<LocalSeoPage />} />)}
+            {englishMounted && localSeoPatterns
+              .filter((path) => path.startsWith('/en/'))
+              .map((path) => <Route key={`mounted-${path}`} path={path.slice(3)} element={<LocalSeoPage />} />)}
 
-            <Route path="/about" element={<Navigate to="/a-propos" replace />} />
-            <Route path="/pricing" element={<Navigate to="/tarifs" replace />} />
+            <Route path="/about" element={englishMounted ? <EnglishGeneralPage pageKey="about" /> : <Navigate to="/a-propos" replace />} />
+            <Route path="/pricing" element={englishMounted ? <EnglishPricingPage /> : <Navigate to="/tarifs" replace />} />
 
             <Route path="/greffe-de-cheveux-turquie" element={<GreffeCheveuxTurquie />} />
             <Route path="/implant-capillaire-turquie" element={<GreffeCheveuxTurquie />} />
@@ -234,8 +249,16 @@ function AppContent() {
             {enLandingRoutes.map(([path, pageKey]) => (
               <Route key={path} path={path} element={<SeoLandingPage lang="en" pageKey={pageKey} />} />
             ))}
+            {englishMounted && enLandingRoutes
+              .filter(([path]) => path.startsWith('/en/'))
+              .map(([path, pageKey]) => (
+                <Route key={`mounted-${path}`} path={path.slice(3)} element={<SeoLandingPage lang="en" pageKey={pageKey} />} />
+              ))}
             {enAdvancedRoutes.map(([path, pageKey]) => (
               <Route key={path} path={path} element={<SeoAdvancedPage lang="en" pageKey={pageKey} />} />
+            ))}
+            {englishMounted && enAdvancedRoutes.map(([path, pageKey]) => (
+              <Route key={`mounted-${path}`} path={path.slice(3)} element={<SeoAdvancedPage lang="en" pageKey={pageKey} />} />
             ))}
 
             <Route path="*" element={<Navigate to="/" replace />} />
