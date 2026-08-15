@@ -53,9 +53,9 @@ const pages = [
   {
     path: '/en/contact', alternate: '/contact',
     title: 'Free Hair Transplant Assessment | Cliniqeo Hair',
-    description: 'Send your details and scalp photographs for a free initial hair transplant assessment and personalised quotation within 24 hours.',
+    description: 'Send your details for a free initial hair transplant assessment and personalised quotation within 24 hours.',
     h1: 'Free hair transplant assessment',
-    intro: 'Send clear photographs of the front, top and donor area for an initial review and personalised quotation.',
+    intro: 'Describe your situation for personalised initial guidance and a quotation within 24 hours.',
   },
   {
     path: '/en/before-after', alternate: '/greffe-cheveux/avant-apres',

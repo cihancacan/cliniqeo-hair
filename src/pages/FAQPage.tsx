@@ -205,13 +205,13 @@ const FAQPage = () => {
     },
     {
       category: 'Cliniqeo',
-      question: 'Comment envoyer mes photos pour un diagnostic ?',
-      answer: 'Cliquez sur "Diagnostic Gratuit" et remplissez le formulaire. Envoyez 4 photos : face (0°), profil (45° gauche/droite), dessus (90°), zone donneuse arrière. Vous recevez une réponse sous 24h avec estimation greffons et devis.'
+      question: 'Comment demander un diagnostic gratuit ?',
+      answer: 'Cliquez sur « Diagnostic Gratuit » et remplissez le formulaire avec vos coordonnées et une description de votre situation. Un conseiller vous recontacte sous 24 heures pour vous expliquer les prochaines étapes.'
     },
     {
       category: 'Cliniqeo',
       question: 'Comment obtenir un devis pour ma greffe ?',
-      answer: 'Le devis est gratuit et sans engagement. Envoyez vos photos via notre formulaire de contact, ou appelez-nous directement. Un conseiller analyse votre cas et vous envoie un devis détaillé personnalisé sous 24h.'
+      answer: 'Le devis est gratuit et sans engagement. Remplissez notre formulaire de contact ou contactez-nous directement sur WhatsApp. Un conseiller étudie votre demande et vous répond sous 24 heures.'
     },
   ];
 

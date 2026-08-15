@@ -219,9 +219,9 @@ const EnglishHomePage = () => {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Users className="mx-auto mb-6 text-[#6EC1E4]" size={54} />
           <h2 className="text-4xl md:text-6xl font-bold mb-6">Start with a personalised assessment</h2>
-          <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto mb-5">Send photographs of the front, top and donor area together with your age, medical history and expectations.</p>
+          <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto mb-5">Tell us about your hair-loss situation, relevant history and expectations.</p>
           <p className="text-lg text-blue-100 mb-10">Free initial review • No obligation • Response usually within 24 hours</p>
-          <Link to="/en/contact" className="inline-flex items-center rounded-2xl bg-[#6EC1E4] px-10 py-5 text-xl font-bold text-[#224671] hover:bg-white">Send my photographs <ArrowRight className="ml-3" size={24} /></Link>
+          <Link to="/en/contact" className="inline-flex items-center rounded-2xl bg-[#6EC1E4] px-10 py-5 text-xl font-bold text-[#224671] hover:bg-white">Request my assessment <ArrowRight className="ml-3" size={24} /></Link>
           <div className="mt-12 flex justify-center items-center gap-2 text-sm text-blue-100">
             {[1, 2, 3, 4, 5].map((star) => <Star key={star} className="fill-yellow-400 text-yellow-400" size={17} />)}
             <span className="ml-2">English-speaking patient coordination</span>

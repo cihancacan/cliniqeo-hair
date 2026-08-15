@@ -394,7 +394,7 @@ export default function SeoLandingPage({ pageKey, lang }: { pageKey: PageKey; la
       <section className="py-16 bg-gradient-to-r from-[#224671] to-[#2f6bfc] text-white text-center">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">{lang === 'fr' ? 'Obtenez une évaluation adaptée à votre zone donneuse' : 'Get an assessment tailored to your donor area'}</h2>
-          <p className="text-lg text-blue-100 mb-8">{lang === 'fr' ? 'Envoyez vos photos pour recevoir une première orientation personnalisée.' : 'Send your photos for a preliminary personalised review.'}</p>
+          <p className="text-lg text-blue-100 mb-8">{lang === 'fr' ? 'Décrivez votre situation pour recevoir une première orientation personnalisée.' : 'Tell us about your situation for personalised initial guidance.'}</p>
           <Link to="/contact" className="inline-block bg-white text-[#224671] px-9 py-4 rounded-lg font-bold hover:bg-blue-50 transition">{base.cta}</Link>
         </div>
       </section>

@@ -299,7 +299,7 @@ export default function EnglishPricingPage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-5">Receive your personalised Cliniqeo Turkey quotation</h2>
           <p className="text-xl text-blue-100 mb-8">
-            Send clear photographs for an initial review of the donor area, recipient zones and likely treatment options.
+            Describe your situation for personalised initial guidance on treatment options and next steps.
           </p>
           <Link to="/en/contact" className="inline-block bg-white text-[#2f6bfc] px-10 py-4 rounded-xl text-lg font-bold hover:bg-blue-50 transition-colors">
             Start my free assessment

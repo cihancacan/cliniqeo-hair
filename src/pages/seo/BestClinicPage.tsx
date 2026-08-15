@@ -426,7 +426,7 @@ export default function BestClinicPage({ lang, variant }: { lang: Lang; variant:
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <CheckCircle className="mx-auto mb-5 text-[#6EC1E4]" size={48} />
             <h2 className="text-3xl md:text-4xl font-bold mb-5">{isFr ? 'Recevez une première analyse de votre situation' : 'Request an initial assessment of your case'}</h2>
-            <p className="text-lg text-blue-50 mb-8">{isFr ? "Envoyez des photos standardisées et vos informations essentielles. La faisabilité, la technique et le nombre de greffons resteront soumis à confirmation médicale." : 'Send standardised photographs and essential information. Eligibility, technique and graft count remain subject to medical confirmation.'}</p>
+            <p className="text-lg text-blue-50 mb-8">{isFr ? "Décrivez votre situation et vos objectifs. La faisabilité, la technique et le nombre de greffons resteront soumis à confirmation médicale." : 'Describe your situation and goals. Eligibility, technique and graft count remain subject to medical confirmation.'}</p>
             <Link to={contactPath} className="inline-flex items-center rounded-xl bg-white px-8 py-4 font-bold text-[#224671] hover:bg-blue-50 transition">
               {isFr ? 'Demander mon analyse' : 'Request my assessment'}<ArrowRight className="ml-2" size={19} />
             </Link>

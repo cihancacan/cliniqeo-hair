@@ -7,7 +7,6 @@
   const isEnglish = pathname.startsWith('/en');
   const media = {
     about: assetUrl('/cliniqeo.apropos.jpg'),
-    photoGuide: assetUrl('/exemple.photos.pour.greffe.capillaire.turquie.jpg'),
     results: Array.from({ length: 6 }, (_, index) => assetUrl(`/greffe.cheveux.avant.apres${index + 1}.jpg`)),
   };
 
@@ -20,9 +19,6 @@
 
   const copy = isEnglish
     ? {
-        guideAlt: 'Example of the photographs required for a hair transplant assessment',
-        guideCaption: 'Use this guide to frame the front, top and donor-area photographs clearly.',
-        guideOptional: 'Photos are optional at this stage. You can submit the form now and send them later via WhatsApp or email.',
         aboutAlt: 'Cliniqeo Hair medical coordination and patient support',
         aboutCaption: 'Cliniqeo Hair coordinates each stage of the treatment journey with its partner medical teams.',
         galleryTitle: 'Illustrated before-and-after examples',
@@ -39,9 +35,6 @@
         cardCaption: 'Illustrative example — individual results vary',
       }
     : {
-        guideAlt: 'Exemple des photographies nécessaires pour un diagnostic de greffe capillaire',
-        guideCaption: 'Utilisez ce guide pour cadrer clairement les photos de face, du dessus et de la zone donneuse.',
-        guideOptional: '',
         aboutAlt: 'Accompagnement médical et coordination Cliniqeo Hair',
         aboutCaption: 'Cliniqeo Hair coordonne chaque étape du parcours avec ses équipes médicales partenaires.',
         galleryTitle: 'Exemples visuels Avant / Après',
@@ -65,7 +58,6 @@
     style.textContent = `
       .cliniqeo-media-figure{margin:0}.cliniqeo-media-figure img{display:block;width:100%;height:auto;border-radius:16px;box-shadow:0 18px 45px rgba(34,70,113,.14)}
       .cliniqeo-media-figure figcaption{margin-top:12px;color:#64748b;font-size:.9rem;line-height:1.55;text-align:center}
-      #cliniqeo-photo-guide{margin:0 0 12px}#cliniqeo-photo-guide-note{margin:12px 0 24px;padding:12px 14px;border:1px solid #bfdbfe;border-radius:12px;background:#eff6ff;color:#334155;font-size:.95rem;font-weight:600;line-height:1.55}
       #cliniqeo-about-media{padding:56px 16px 8px;background:#fff}#cliniqeo-about-media .cliniqeo-about-media-inner{max-width:1120px;margin:0 auto}
       #cliniqeo-results-gallery,#cliniqeo-home-results-gallery{padding:64px 16px;background:#fff}#cliniqeo-home-results-gallery{padding-top:20px}
       #cliniqeo-results-gallery .cliniqeo-results-inner,#cliniqeo-home-results-gallery .cliniqeo-results-inner{max-width:1280px;margin:0 auto}
@@ -117,62 +109,6 @@
       figure.append(figcaption);
     }
     return figure;
-  }
-
-  function isPhotoGuide(image) {
-    const source = image.getAttribute('src') || '';
-    const alt = image.getAttribute('alt') || '';
-    return /exemple\.photos\.pour\.greffe\.capillaire\.turquie|greffe[ ._-]*capillaire[ ._-]*turquie/i.test(source)
-      || /photos nécessaires|photographs required|photographs for a hair transplant/i.test(alt);
-  }
-
-  function ensureEnglishOptionalNote(anchor) {
-    if (!isEnglish || !copy.guideOptional) return;
-    document.querySelectorAll('input[type="file"]').forEach((input) => {
-      input.required = false;
-      input.removeAttribute('required');
-      input.setAttribute('aria-required', 'false');
-    });
-    if (document.getElementById('cliniqeo-photo-guide-note')) return;
-    const note = document.createElement('p');
-    note.id = 'cliniqeo-photo-guide-note';
-    note.textContent = copy.guideOptional;
-    anchor.insertAdjacentElement('afterend', note);
-  }
-
-  function enhanceContactPhotoGuide() {
-    if (!['/contact', '/en/contact'].includes(pathname)) return;
-    const form = document.querySelector('form');
-    if (!form) return;
-
-    const uploadHeading = Array.from(form.querySelectorAll('p,label,h2,h3,h4')).find((element) =>
-      /Photographs for the assessment|Photos pour le diagnostic/i.test(element.textContent || ''),
-    );
-    if (isEnglish && uploadHeading && !/optional/i.test(uploadHeading.textContent || '')) {
-      uploadHeading.textContent = `${(uploadHeading.textContent || '').trim()} (optional)`;
-    }
-
-    const guides = Array.from(form.querySelectorAll('img')).filter(isPhotoGuide);
-    if (guides.length) {
-      const primary = guides.find((image) => !image.closest('#cliniqeo-photo-guide')) || guides[0];
-      configureImage(primary, { src: media.photoGuide, alt: copy.guideAlt, priority: 'low' });
-      primary.style.width = '100%';
-      primary.style.height = 'auto';
-      primary.style.borderRadius = '16px';
-      primary.style.boxShadow = '0 18px 45px rgba(34,70,113,.14)';
-      guides.forEach((image) => {
-        if (image === primary) return;
-        const generated = image.closest('#cliniqeo-photo-guide');
-        (generated || image).remove();
-      });
-      ensureEnglishOptionalNote(primary.closest('figure') || primary);
-      return;
-    }
-
-    if (!uploadHeading || document.getElementById('cliniqeo-photo-guide')) return;
-    const figure = buildFigure('cliniqeo-photo-guide', media.photoGuide, copy.guideAlt, copy.guideCaption);
-    uploadHeading.insertAdjacentElement('afterend', figure);
-    ensureEnglishOptionalNote(figure);
   }
 
   function enhanceAboutPage() {
@@ -287,7 +223,6 @@
 
   function enhanceMedia() {
     installStyles();
-    enhanceContactPhotoGuide();
     enhanceAboutPage();
     enhanceHomepageResults();
     enhanceBeforeAfterPages();

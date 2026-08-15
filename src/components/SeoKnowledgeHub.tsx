@@ -156,7 +156,7 @@ const copy: Record<Lang, Record<Category, Copy>> = {
       factorsTitle: 'Signes qui nécessitent un contact médical',
       factors: ['Douleur croissante ou inhabituelle', 'Fièvre ou malaise', 'Rougeur qui s’étend', 'Écoulement ou odeur anormale', 'Saignement persistant', 'Gonflement important ou réaction médicamenteuse'],
       questionsTitle: 'Questions de sécurité à poser',
-      questions: ['Quel professionnel sera responsable en cas de complication ?', 'Comment évaluez-vous la miniaturisation donneuse ?', 'Combien de greffons ont déjà été prélevés lors des interventions précédentes ?', 'Quels risques sont spécifiques à mon cas ?', 'Quels médicaments seront prescrits et pourquoi ?', 'Quand dois-je envoyer mes premières photos de contrôle ?', 'Quels symptômes sont normaux et lesquels ne le sont pas ?', 'Comment joindre l’équipe le soir ou le week-end ?'],
+      questions: ['Quel professionnel sera responsable en cas de complication ?', 'Comment évaluez-vous la miniaturisation donneuse ?', 'Combien de greffons ont déjà été prélevés lors des interventions précédentes ?', 'Quels risques sont spécifiques à mon cas ?', 'Quels médicaments seront prescrits et pourquoi ?', 'Quel calendrier de suivi est prévu ?', 'Quels symptômes sont normaux et lesquels ne le sont pas ?', 'Comment joindre l’équipe le soir ou le week-end ?'],
       timelineTitle: 'Suivi recommandé',
       timeline: [
         { period: '24 à 72 heures', text: 'Contrôle initial, surveillance du gonflement, du saignement et de la douleur.' },
@@ -262,7 +262,7 @@ const copy: Record<Lang, Record<Category, Copy>> = {
       factorsTitle: 'Symptoms requiring medical contact',
       factors: ['Increasing or unusual pain', 'Fever or malaise', 'Spreading redness', 'Discharge or unusual odour', 'Persistent bleeding', 'Severe swelling or drug reaction'],
       questionsTitle: 'Safety questions to ask',
-      questions: ['Who is medically responsible?', 'How is donor miniaturisation assessed?', 'How many grafts were previously removed?', 'Which risks apply to me?', 'Which medicines will be prescribed?', 'When should I send follow-up photographs?', 'Which symptoms are normal?', 'How can I contact the team outside office hours?'],
+      questions: ['Who is medically responsible?', 'How is donor miniaturisation assessed?', 'How many grafts were previously removed?', 'Which risks apply to me?', 'Which medicines will be prescribed?', 'What follow-up schedule is provided?', 'Which symptoms are normal?', 'How can I contact the team outside office hours?'],
       timelineTitle: 'Suggested follow-up',
       timeline: [
         { period: '24–72 hours', text: 'Initial review of swelling, bleeding and pain.' },

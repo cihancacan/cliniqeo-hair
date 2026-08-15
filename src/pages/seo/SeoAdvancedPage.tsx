@@ -676,7 +676,7 @@ export default function SeoAdvancedPage({ lang, pageKey }: SeoAdvancedPageProps)
       <section className="bg-gradient-to-r from-[#224671] to-[#2f6bfc] text-white py-14">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-5">{isFr ? 'Obtenez une analyse personnalisée' : 'Get a personalised assessment'}</h2>
-          <p className="text-xl text-blue-100 mb-8">{isFr ? 'Envoyez vos photos pour recevoir une première estimation de votre zone donneuse et de vos besoins.' : 'Send your photos for an initial review of your donor area and treatment needs.'}</p>
+          <p className="text-xl text-blue-100 mb-8">{isFr ? 'Décrivez votre situation pour recevoir une première orientation personnalisée.' : 'Tell us about your situation for personalised initial guidance.'}</p>
           <Link to="/contact" className="inline-flex items-center gap-2 bg-white text-[#2f6bfc] px-8 py-4 rounded-lg font-bold hover:bg-blue-50">
             {isFr ? 'Commencer le diagnostic' : 'Start the assessment'} <ArrowRight size={20} />
           </Link>

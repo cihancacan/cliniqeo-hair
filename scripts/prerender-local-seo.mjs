@@ -90,7 +90,7 @@ function faqItems(country, city) {
   if (country === 'fr') {
     return [
       [`Cliniqeo Hair possède-t-il une clinique à ${city.name} ?`, `Non. La page répond aux recherches effectuées autour de ${city.name}, mais l’intervention est réalisée à Istanbul par les professionnels de santé partenaires, avec accompagnement francophone.`],
-      [`Comment obtenir un devis depuis ${city.name} ?`, 'Envoyez des photos de face, du dessus, des profils et de la zone donneuse. Une première analyse permet d’évaluer la faisabilité, la technique et une estimation de greffons.'],
+      [`Comment obtenir un devis depuis ${city.name} ?`, 'Remplissez le formulaire et décrivez votre situation. Un conseiller vous contacte pour expliquer les prochaines étapes et les informations nécessaires à l’étude médicale.'],
       ['Le paiement en 10 fois est-il disponible ?', 'Un paiement en 10 fois peut être proposé aux patients en France, sous réserve d’acceptation du dossier et des conditions communiquées avant la réservation.'],
       [`Comment organiser le départ depuis ${city.name} ?`, `Le trajet peut être préparé autour de ${city.airport} (${city.airportCode}) ou d’un autre aéroport adapté au calendrier de traitement.`],
       ['Peut-on économiser jusqu’à 80 % ?', 'L’écart dépend du devis français, de la technique et des prestations comparées. Toute économie doit être calculée sur des offres détaillées et réellement équivalentes.'],
@@ -99,7 +99,7 @@ function faqItems(country, city) {
   const label = cityLabel(country, city);
   return [
     [`Does Cliniqeo Hair operate a clinic in ${label}?`, `No. This page serves people researching treatment around ${label}, while the medical procedure takes place in Istanbul through partner healthcare professionals.`],
-    [`How can I obtain an assessment from ${label}?`, 'Send clear front, top, side and donor-area photographs. The initial review considers donor capacity, hair-loss pattern, technique and an estimated graft range.'],
+    [`How can I obtain an assessment from ${label}?`, 'Complete the contact form and describe your situation. An adviser will contact you to explain the next steps and the information required for a medical review.'],
     ['What can an Istanbul package include?', 'The written proposal can include the procedure, accommodation, local transfers, English-speaking coordination, medication guidance and postoperative follow-up.'],
     [`How is travel planned from ${city.name}?`, `Travel can be organised around ${city.airport} (${city.airportCode}) or another airport offering a suitable itinerary.`],
     ['Is the cheapest clinic always the best option?', 'No. Compare medical responsibility, donor management, technique, inclusions, daily patient volume and access to follow-up.'],
@@ -129,13 +129,13 @@ function renderLocalArticle(country, keyword, city, pagePath) {
     `Pour une personne située à ${city.name}, en ${city.region}, la recherche locale répond souvent à trois priorités : comprendre le prix, identifier le professionnel responsable et conserver un suivi accessible après l’intervention.`,
     `Le bassin de ${city.name} permet de comparer plusieurs offres françaises, mais une comparaison sérieuse doit aussi examiner le temps consacré au diagnostic, le nombre de patients pris en charge le même jour et la stratégie de conservation de la zone donneuse.`,
     `Depuis ${city.name}, le choix ne se limite pas à « près de chez moi » ou « à l’étranger ». Il s’agit surtout de comparer la qualité du plan médical, la transparence du devis et l’organisation du suivi sur douze mois.`,
-    `Les patients de ${city.region} peuvent commencer par un diagnostic photo à distance avant tout déplacement. Cette étape évite de réserver un voyage sans savoir si la zone donneuse permet réellement le projet envisagé.`,
+    `Les patients de ${city.region} peuvent commencer par une première orientation à distance avant tout déplacement. Le plan médical définitif reste confirmé après examen.`,
   ];
   const localParagraphsEn = [
     `For someone based in ${label}, a local search usually reflects three priorities: understanding cost, identifying medical responsibility and keeping follow-up accessible after treatment.`,
     `Patients in ${city.region} can compare local providers with an Istanbul route by examining diagnosis time, clinician involvement, donor preservation and the number of patients treated each day.`,
     `The decision is not simply “near me” versus “abroad”. It is a comparison of medical planning, written inclusions, travel organisation and the quality of follow-up over the full growth period.`,
-    `A remote photo assessment can be completed from ${label} before travel. This helps determine whether donor capacity and hair-loss pattern make surgery a reasonable option.`
+    `Patients in ${label} can request initial guidance before travel. The final medical plan remains subject to an in-person examination.`
   ];
 
   const content = isFr ? `
@@ -150,12 +150,12 @@ function renderLocalArticle(country, keyword, city, pagePath) {
     <h2>Départ de ${escapeHtml(city.name)} vers Istanbul</h2>
     <p>Le voyage peut être organisé autour de ${escapeHtml(city.airport)} (${escapeHtml(city.airportCode)}), ou d’un autre aéroport selon les dates et les correspondances. Le programme doit laisser le temps nécessaire à la consultation, à l’intervention, au contrôle et au premier lavage avant le retour. ${escapeHtml(nearby)}</p>
     <h2>Diagnostic médical et nombre de greffons</h2>
-    <p>Le diagnostic commence par des photographies nettes de la ligne frontale, du dessus, des profils et de la zone donneuse. L’âge, les antécédents, les traitements, l’évolution de la chute et les attentes doivent être pris en compte. Une estimation de greffons donnée sans ces informations reste imprécise.</p>
+    <p>La première orientation tient compte de l’âge, des antécédents, des traitements, de l’évolution de la chute et des attentes. Le nombre de greffons et le plan médical définitif doivent être confirmés après examen direct.</p>
     <p>La FUE Saphir et la DHI peuvent toutes deux produire un résultat naturel lorsqu’elles sont correctement indiquées. La priorité reste la protection de la zone donneuse et un plan compatible avec une éventuelle progression de la calvitie.</p>
     <h2>Ce que doit contenir un devis complet</h2>
     <ul><li>Identité et rôle du médecin</li><li>Technique proposée et estimation de greffons</li><li>Actes et analyses inclus</li><li>Hôtel et transferts précisés</li><li>Médicaments et consignes</li><li>Organisation du suivi</li><li>Conditions du paiement en 10 fois</li></ul>
     <h2>Étapes du parcours depuis ${escapeHtml(city.name)}</h2>
-    <ol><li>Envoi des photos et du questionnaire médical</li><li>Analyse de la zone donneuse et de la zone receveuse</li><li>Proposition écrite et comparaison des prestations</li><li>Choix du calendrier et organisation du voyage</li><li>Consultation médicale à Istanbul</li><li>Intervention et premier contrôle</li><li>Retour en France avec suivi photo</li><li>Évaluation progressive à 3, 6, 9 et 12 mois</li></ol>
+    <ol><li>Formulaire et informations essentielles</li><li>Échange avec un conseiller</li><li>Proposition écrite et comparaison des prestations</li><li>Choix du calendrier et organisation du voyage</li><li>Consultation médicale à Istanbul</li><li>Intervention et premier contrôle</li><li>Suivi après le retour en France</li><li>Évaluation progressive à 3, 6, 9 et 12 mois</li></ol>
   ` : `
     <p>${escapeHtml(localParagraphsEn[variant])}</p>
     <p>${escapeHtml(intent.lead)} This page focuses on ${escapeHtml(intent.angle)}.</p>
@@ -168,12 +168,12 @@ function renderLocalArticle(country, keyword, city, pagePath) {
     <h2>Travel from ${escapeHtml(city.name)} to Istanbul</h2>
     <p>Travel can be planned around ${escapeHtml(city.airport)} (${escapeHtml(city.airportCode)}) or another suitable airport. The itinerary should allow time for consultation, treatment and the first postoperative control before the return journey. ${escapeHtml(nearby)}</p>
     <h2>Assessment and graft planning</h2>
-    <p>The initial assessment requires clear photographs of the front, top, sides and donor area, together with relevant medical information and the history of hair loss. A graft number offered without this information is not a reliable treatment plan.</p>
+    <p>Initial guidance considers relevant medical information, hair-loss history and treatment goals. A final graft number requires direct medical examination and should not be treated as confirmed before that assessment.</p>
     <p>FUE, Sapphire FUE and DHI can all be appropriate in selected cases. The main priorities are donor safety, natural direction, realistic density and a strategy that considers future hair-loss progression.</p>
     <h2>What a complete proposal should explain</h2>
     <ul><li>Named clinician and medical responsibilities</li><li>Technique and estimated graft range</li><li>Included procedure and tests</li><li>Accommodation and Istanbul transfers</li><li>Medication and first-wash instructions</li><li>Postoperative follow-up process</li><li>Payment and cancellation conditions</li></ul>
     <h2>Patient journey from ${escapeHtml(label)}</h2>
-    <ol><li>Send photographs and medical information</li><li>Review donor and recipient areas</li><li>Receive a written treatment and cost proposal</li><li>Choose dates and organise travel</li><li>Attend the Istanbul medical consultation</li><li>Complete treatment and first control</li><li>Return home with written instructions</li><li>Submit progress photographs through the maturation period</li></ol>
+    <ol><li>Complete the form with essential information</li><li>Speak with an adviser</li><li>Receive a written treatment and cost proposal</li><li>Choose dates and organise travel</li><li>Attend the Istanbul medical consultation</li><li>Complete treatment and first control</li><li>Return home with written instructions</li><li>Follow progress through the maturation period</li></ol>
   `;
 
   const faqHtml = faqs.map(([question, answer]) => `<details><summary>${escapeHtml(question)}</summary><p>${escapeHtml(answer)}</p></details>`).join('');

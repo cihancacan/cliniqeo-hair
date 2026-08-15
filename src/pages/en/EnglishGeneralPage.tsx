@@ -111,7 +111,7 @@ const pages: Record<PageKey, PageContent> = {
     sections: [
       {
         title: 'Before the trip',
-        paragraphs: ['We collect the information and photographs required for an initial review, explain the proposed journey and clarify the services included in the quotation.'],
+        paragraphs: ['We collect the information required for initial guidance, explain the proposed journey and clarify the services included in the quotation. The medical plan is confirmed after examination.'],
       },
       {
         title: 'During the stay',
@@ -244,7 +244,7 @@ export default function EnglishGeneralPage({ pageKey }: { pageKey: PageKey }) {
       <section className="bg-gradient-to-r from-[#224671] to-[#2f6bfc] text-white py-14">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-5">Request a personalised assessment</h2>
-          <p className="text-xl text-blue-100 mb-8">Send your photographs for an initial review of your donor area and treatment needs.</p>
+          <p className="text-xl text-blue-100 mb-8">Tell us about your situation for personalised initial guidance on the next steps.</p>
           <Link to="/en/contact" className="inline-flex items-center gap-2 bg-white text-[#2f6bfc] px-8 py-4 rounded-lg font-bold hover:bg-blue-50">
             Start my free assessment <ArrowRight size={20} />
           </Link>

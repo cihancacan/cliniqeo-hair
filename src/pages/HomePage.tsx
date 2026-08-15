@@ -109,7 +109,7 @@ const HomePage = () => {
               Obtenez votre diagnostic gratuit en 30 secondes
             </p>
             <p className="text-base md:text-lg text-gray-300 mb-6">
-              Envoyez simplement 3 photos, recevez votre analyse sous 24h
+              Décrivez simplement votre situation, recevez une réponse sous 24h
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center">
@@ -117,7 +117,7 @@ const HomePage = () => {
                 to="/contact"
                 className="group inline-flex items-center justify-center bg-[#6EC1E4] text-[#224671] px-8 md:px-10 py-4 md:py-5 rounded-2xl text-base md:text-lg font-bold hover:bg-white transition-all duration-300 shadow-2xl hover:shadow-3xl hover:scale-105"
               >
-                <span>Envoyer mes photos</span>
+                <span>Demander mon diagnostic</span>
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform flex-shrink-0" size={20} />
               </Link>
               <a
@@ -918,7 +918,7 @@ const HomePage = () => {
             Votre transformation commence maintenant
           </h2>
           <p className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto leading-relaxed">
-            Envoyez 3 photos de votre cuir chevelu et recevez votre diagnostic personnalisé sous 24h
+            Décrivez votre situation et recevez une première orientation personnalisée sous 24h
           </p>
           <p className="text-lg mb-12 text-gray-300 max-w-2xl mx-auto">
             Gratuit • Sans engagement • Réponse garantie en 24h par nos chirurgiens experts
@@ -928,7 +928,7 @@ const HomePage = () => {
             to="/contact"
             className="group inline-flex items-center justify-center bg-[#6EC1E4] text-[#224671] px-16 py-7 rounded-2xl text-2xl font-bold hover:bg-white transition-all duration-300 shadow-2xl hover:shadow-3xl hover:scale-105 mb-12"
           >
-            Envoyer mes photos maintenant
+            Envoyer ma demande maintenant
             <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" size={28} />
           </Link>
 

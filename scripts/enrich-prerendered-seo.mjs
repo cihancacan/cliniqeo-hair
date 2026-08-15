@@ -77,7 +77,7 @@ const content = {
       assessment: ['Stabilité et miniaturisation de la zone donneuse', 'Maladies, traitements et risque de saignement', 'Cause d’un résultat antérieur insuffisant', 'Inflammation, infection ou maladie dermatologique', 'Possibilité d’un suivi médical après le retour'],
       process: ['Questionnaire et examen avant l’intervention', 'Consentement et objectifs réalistes', 'Asepsie et répartition homogène des prélèvements', 'Consignes, médicaments et protocole de lavage', 'Contrôles photographiques et bilan final'],
       factors: ['Douleur croissante', 'Fièvre ou malaise', 'Rougeur qui s’étend', 'Écoulement ou odeur inhabituelle', 'Saignement persistant', 'Gonflement important ou réaction médicamenteuse'],
-      questions: ['Qui est médicalement responsable ?', 'Comment mesurez-vous la zone donneuse ?', 'Quels risques sont spécifiques à mon cas ?', 'Quels médicaments seront prescrits ?', 'Quand envoyer les photos de contrôle ?', 'Comment joindre l’équipe en urgence ?'],
+      questions: ['Qui est médicalement responsable ?', 'Comment mesurez-vous la zone donneuse ?', 'Quels risques sont spécifiques à mon cas ?', 'Quels médicaments seront prescrits ?', 'Quel calendrier de suivi est prévu ?', 'Comment joindre l’équipe en urgence ?'],
       timeline: [['24 à 72 heures', 'Contrôle du gonflement, du saignement et de la douleur.'], ['Jours 7 à 14', 'Vérification du lavage et de la cicatrisation.'], ['Mois 1 à 3', 'Surveillance de la chute transitoire et des rougeurs.'], ['Mois 6', 'Évaluation intermédiaire de la repousse.'], ['Mois 12 à 15', 'Bilan avant toute retouche ou deuxième séance.']],
     },
   },

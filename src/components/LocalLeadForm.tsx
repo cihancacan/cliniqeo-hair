@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { CheckCircle, Send } from 'lucide-react';
-import { supabase } from '../lib/supabase';
-import { getHairApiUrl } from '../config/hostedPath';
+import { sendContactRequest } from '../lib/contactRequest';
 
 
 interface LocalLeadFormProps {
@@ -47,38 +46,15 @@ export default function LocalLeadForm({ lang, cityLabel, pagePath }: LocalLeadFo
       : `[Local landing page: ${cityLabel} | ${pagePath}] ${form.message || 'Hair assessment request.'}`;
 
     try {
-      const { error: submitError } = await supabase
-        .from('diagnostic_requests')
-        .insert([
-          {
-            first_name: form.first_name,
-            last_name: form.last_name,
-            email: form.email,
-            phone: form.phone,
-            age: null,
-            message: sourceMessage,
-            status: 'pending',
-            photo_front_url: null,
-            photo_top_url: null,
-            photo_donor_url: null,
-          },
-        ]);
-
-      if (submitError) throw submitError;
-
-      void fetch(getHairApiUrl('/api/contact-email'), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          language: lang,
-          first_name: form.first_name,
-          last_name: form.last_name,
-          email: form.email,
-          phone: form.phone,
-          message: sourceMessage,
-          photo_count: 0,
-        }),
-      }).catch(() => undefined);
+      await sendContactRequest({
+        language: lang,
+        first_name: form.first_name,
+        last_name: form.last_name,
+        email: form.email,
+        phone: form.phone,
+        message: sourceMessage,
+        source_path: pagePath,
+      });
 
       setForm(emptyForm);
       setIsSuccess(true);
@@ -117,8 +93,8 @@ export default function LocalLeadForm({ lang, cityLabel, pagePath }: LocalLeadFo
       </h2>
       <p className="text-slate-600 mb-7 leading-relaxed">
         {isFr
-          ? 'Remplissez le formulaire maintenant. Les photos sont facultatives à cette étape et pourront être envoyées plus tard par WhatsApp ou par email.'
-          : 'Submit the form now. Photos are optional at this stage and can be sent later by WhatsApp or email.'}
+          ? 'Remplissez ce formulaire simple. Un conseiller vous recontactera pour étudier votre demande et répondre à vos questions.'
+          : 'Complete this simple form. An adviser will contact you to review your request and answer your questions.'}
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-5">

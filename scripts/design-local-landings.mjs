@@ -199,7 +199,7 @@ function nativeForm(isFr, label) {
         <div class="rounded-3xl border border-blue-100 bg-white p-6 shadow-2xl md:p-10">
           <p class="mb-3 text-sm font-bold uppercase tracking-wider text-[#2f6bfc]">${isFr ? 'Réponse sous 24 heures' : 'Response within 24 hours'}</p>
           <h2 class="mb-3 text-3xl font-bold text-[#224671] md:text-4xl">${isFr ? `Diagnostic gratuit depuis ${label}` : `Free assessment from ${label}`}</h2>
-          <p class="mb-8 text-lg leading-relaxed text-slate-600">${isFr ? 'Remplissez le formulaire maintenant. Les photos sont facultatives à cette étape et pourront être envoyées plus tard par WhatsApp ou par email.' : 'Submit the form now. Photos are optional at this stage and can be sent later by WhatsApp or email.'}</p>
+          <p class="mb-8 text-lg leading-relaxed text-slate-600">${isFr ? 'Remplissez ce formulaire simple. Un conseiller vous recontactera pour étudier votre demande et répondre à vos questions.' : 'Complete this simple form. An adviser will contact you to review your request and answer your questions.'}</p>
           <form id="local-native-form" class="space-y-5">
             <div class="grid gap-5 md:grid-cols-2"><label class="block font-bold text-[#224671]">${isFr ? 'Prénom' : 'First name'} *<input name="first_name" required autocomplete="given-name" class="mt-2 w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 font-normal text-slate-900 outline-none focus:border-[#2f6bfc]"></label><label class="block font-bold text-[#224671]">${isFr ? 'Nom' : 'Last name'} *<input name="last_name" required autocomplete="family-name" class="mt-2 w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 font-normal text-slate-900 outline-none focus:border-[#2f6bfc]"></label></div>
             <div class="grid gap-5 md:grid-cols-2"><label class="block font-bold text-[#224671]">Email *<input name="email" type="email" required autocomplete="email" class="mt-2 w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 font-normal text-slate-900 outline-none focus:border-[#2f6bfc]"></label><label class="block font-bold text-[#224671]">${isFr ? 'Numéro WhatsApp' : 'WhatsApp number'} *<input name="phone" type="tel" required autocomplete="tel" class="mt-2 w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 font-normal text-slate-900 outline-none focus:border-[#2f6bfc]"></label></div>
@@ -227,12 +227,12 @@ function buildPage(country, keyword, city, pagePath) {
     `Depuis ${label}, la recherche d’une solution locale répond souvent à trois priorités : comprendre le prix, identifier le responsable médical et conserver un suivi accessible.`,
     `Le bassin de ${label} permet de comparer plusieurs offres. Une comparaison sérieuse doit aussi mesurer le temps consacré au diagnostic et la stratégie de préservation de la zone donneuse.`,
     `Le choix ne se résume pas à « près de chez moi » ou « à l’étranger ». Il faut comparer le plan médical, le prix total, les responsabilités et le suivi sur douze mois.`,
-    `Les patients de ${city.region} peuvent commencer par un diagnostic photo à distance afin de vérifier la faisabilité avant de réserver un déplacement.`,
+    `Les patients de ${city.region} peuvent demander une première orientation à distance avant de réserver un déplacement. Le plan médical définitif reste confirmé après examen.`,
   ] : [
     `For patients in ${label}, a local search usually reflects three priorities: clear cost, named medical responsibility and accessible follow-up.`,
     `The ${label} area offers local options, but a serious comparison should also examine donor preservation, clinician involvement and postoperative access.`,
     `The decision is not simply “near me” versus “abroad”. It is a comparison of medical planning, total cost, written responsibilities and long-term follow-up.`,
-    `Patients in ${city.region} can begin with a remote photo assessment before arranging travel, helping confirm whether surgery is a reasonable option.`,
+    `Patients in ${city.region} can request initial guidance before arranging travel. The final medical plan remains subject to an in-person examination.`,
   ];
   const localOpening = localOpeningVariants[hash(pagePath) % localOpeningVariants.length];
   const faq = isFr ? [
@@ -245,7 +245,7 @@ function buildPage(country, keyword, city, pagePath) {
     [`Does Cliniqeo Hair operate a clinic in ${label}?`, `No. This page serves people researching treatment around ${label}. The medical procedure takes place in Istanbul through partner healthcare professionals, with English-speaking coordination.`],
     [`How much does a hair transplant cost in ${label}?`, 'Local prices depend on graft requirements, technique and provider. The comparison on this page is indicative and a personalised written quotation is still required.'],
     ['What can the Cliniqeo Turkey package include?', 'Depending on the confirmed plan: procedure, accommodation, Istanbul transfers, English-speaking coordination, postoperative instructions and twelve-month follow-up.'],
-    ['How do I obtain an assessment?', 'Send clear front, top, side and donor-area photographs with relevant medical information. Photos can also be sent later by WhatsApp or email.'],
+    ['How do I obtain an assessment?', 'Complete the contact form and describe your situation. An adviser will explain the next steps and the information required for a medical review.'],
     [`How is travel planned from ${city.name}?`, `Travel can be organised around ${city.airport} (${city.airportCode}) or another suitable airport.`],
   ];
 
@@ -275,7 +275,7 @@ function buildPage(country, keyword, city, pagePath) {
             <p class="mb-5 text-2xl font-bold text-[#6EC1E4]">${escapeHtml(copy.subtitle)}</p>
             <p class="mb-8 max-w-2xl text-lg leading-relaxed text-slate-200">${escapeHtml(copy.intro)}</p>
             <div class="flex flex-col gap-4 sm:flex-row"><a href="#diagnostic-form" class="rounded-xl bg-[#6EC1E4] px-7 py-4 text-center font-bold text-[#224671] no-underline transition hover:bg-white">${isFr ? 'Recevoir mon diagnostic gratuit' : 'Get my free assessment'}</a><a href="#price-comparison" class="rounded-xl border-2 border-white/40 bg-white/10 px-7 py-4 text-center font-bold text-white no-underline backdrop-blur transition hover:bg-white/20">${isFr ? 'Comparer les prix' : 'Compare prices'}</a></div>
-            <div class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-slate-300"><span>✓ ${isFr ? 'Sans engagement' : 'No obligation'}</span><span>✓ ${isFr ? 'Photos facultatives maintenant' : 'Photos optional now'}</span><span>✓ ${isFr ? 'Réponse sous 24 h' : 'Response within 24h'}</span></div>
+            <div class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-slate-300"><span>✓ ${isFr ? 'Sans engagement' : 'No obligation'}</span><span>✓ ${isFr ? 'Formulaire rapide' : 'Quick form'}</span><span>✓ ${isFr ? 'Réponse sous 24 h' : 'Response within 24h'}</span></div>
           </div>
           <div class="relative"><div class="overflow-hidden rounded-3xl border border-white/20 bg-white/10 p-2 shadow-2xl backdrop-blur"><img src="${image}" alt="${escapeHtml(`${keyword.label} ${label} avant après`)}" width="1448" height="1086" loading="eager" fetchpriority="high" class="h-auto w-full rounded-2xl"></div><div class="absolute -bottom-6 left-6 right-6 rounded-2xl bg-white p-5 text-[#224671] shadow-xl"><p class="text-sm font-bold uppercase tracking-wide text-[#2f6bfc]">${isFr ? 'Cliniqeo Hair Turquie' : 'Cliniqeo Hair Turkey'}</p><p class="mt-1 text-3xl font-bold">${isFr ? 'dès 1 990€' : 'from €1,990'}</p><p class="text-sm text-slate-600">${isFr ? 'FUE jusqu’à 5 000 greffons selon diagnostic' : 'FUE up to 5,000 grafts subject to assessment'}</p></div></div>
         </div>

@@ -95,7 +95,7 @@ const enIntent: Record<LocalIntent, IntentCopy> = {
     title: 'Hair transplant cost',
     promise: 'Compare the complete cost of local care and treatment in Istanbul',
     intro: 'A useful cost comparison includes the procedure, medical team, technique, accommodation, transfers, medication, aftercare and the practical cost of travel. Headline prices alone can be misleading.',
-    focus: 'Cliniqeo Hair provides a written treatment proposal after photo assessment. The aim is to compare like with like and identify what is included before a patient commits to travel.',
+    focus: 'Cliniqeo Hair provides initial guidance after reviewing the information supplied. The aim is to compare like with like and identify what is included before a patient commits to travel; the medical plan is confirmed after examination.',
     sectionTitle: 'How to compare complete costs',
     sectionText: 'A headline procedure price should not be compared with a package that includes accommodation, Istanbul transfers, postoperative medication, first wash and follow-up.',
     points: ['Written total cost', 'Clear inclusions and exclusions', 'Travel and recovery budget considered'],
@@ -148,13 +148,13 @@ function LocalSeoPage() {
     `Pour une personne située à ${city.name}, en ${city.region}, la recherche locale répond généralement à trois priorités : comprendre le prix, identifier le responsable médical et conserver un suivi accessible.`,
     `Le bassin de ${city.name} permet de comparer plusieurs offres, mais une comparaison sérieuse doit aussi examiner le temps consacré au diagnostic, la gestion de la zone donneuse et la qualité du suivi.`,
     `Depuis ${city.name}, le choix ne se limite pas à « près de chez moi » ou « à l’étranger ». Il faut surtout comparer la qualité du plan médical, la transparence du devis et l’organisation sur douze mois.`,
-    `Les patients de ${city.region} peuvent commencer par un diagnostic photo à distance avant tout déplacement, afin de vérifier la faisabilité du projet et la qualité de la zone donneuse.`,
+    `Les patients de ${city.region} peuvent commencer par une première orientation à distance avant tout déplacement. Le plan médical définitif reste confirmé après examen.`,
   ];
   const openingsEn = [
     `For someone based in ${cityLabel}, a local search usually reflects three priorities: understanding cost, identifying medical responsibility and keeping follow-up accessible.`,
     `Patients in ${city.region} can compare local providers with an Istanbul route by examining diagnosis time, clinician involvement, donor preservation and postoperative access.`,
     `The decision is not simply “near me” versus “abroad”. It is a comparison of medical planning, written inclusions, travel organisation and follow-up quality.`,
-    `A remote photo assessment can be completed from ${cityLabel} before travel, helping determine whether donor capacity and hair-loss pattern make surgery reasonable.`,
+    `Patients in ${cityLabel} can request initial guidance before travel. The final medical plan remains subject to an in-person examination.`,
   ];
   const localOpening = (isFr ? openingsFr : openingsEn)[hashValue(path) % 4];
 
@@ -168,7 +168,7 @@ function LocalSeoPage() {
       ]
     : [
         { q: `Does Cliniqeo Hair operate a clinic in ${cityLabel}?`, a: `No. This page serves people researching treatment around ${cityLabel}, while the medical procedure takes place in Istanbul through partner healthcare professionals.` },
-        { q: `How can I obtain an assessment from ${cityLabel}?`, a: 'Send clear front, top, side and donor-area photographs. The initial review considers donor capacity, hair-loss pattern, possible technique and an estimated graft range.' },
+        { q: `How can I obtain an assessment from ${cityLabel}?`, a: 'Complete the contact form and describe your situation. An adviser will contact you to discuss the next steps and the information required for a medical review.' },
         { q: 'What can the Istanbul package include?', a: 'The written proposal can include the procedure, accommodation, local transfers, English-speaking coordination, postoperative instructions and remote follow-up.' },
         { q: `How is travel arranged from ${city.name}?`, a: `Travel planning can be based around ${city.airport} (${city.airportCode}) or another suitable airport.` },
         { q: 'Is the lowest price the best option?', a: 'No. Compare medical responsibility, donor management, technique, inclusions and follow-up. A low headline price is not useful when essential services are unclear.' },
@@ -320,8 +320,8 @@ function LocalSeoPage() {
             <div className="flex items-center gap-3 mb-5"><Stethoscope className="text-[#2f6bfc]" size={30} /><h2 className="text-3xl font-bold text-[#224671]">{isFr ? 'Du diagnostic au suivi : les étapes' : 'From assessment to follow-up'}</h2></div>
             <div className="grid md:grid-cols-2 gap-5">
               {(isFr
-                ? ['Envoi des photos et informations médicales', 'Analyse de la zone donneuse et de la calvitie', 'Proposition écrite et paiement en 10× selon éligibilité', 'Confirmation du séjour et des transferts', 'Consultation médicale et dessin de la ligne frontale', 'Intervention, premier lavage et consignes', 'Suivi photo après le retour en France', 'Évaluation progressive jusqu’à la maturation']
-                : ['Send photographs and relevant medical information', 'Review donor capacity and hair-loss pattern', 'Receive a written treatment and cost proposal', 'Confirm travel, accommodation and transfers', 'Attend the medical consultation and hairline planning', 'Complete treatment and first postoperative wash', 'Send follow-up photographs after returning home', 'Review progressive growth through the maturation period']).map((item, index) => (
+                ? ['Formulaire et informations essentielles', 'Échange avec un conseiller', 'Proposition écrite et paiement en 10× selon éligibilité', 'Confirmation du séjour et des transferts', 'Consultation médicale et dessin de la ligne frontale', 'Intervention, premier lavage et consignes', 'Suivi après le retour en France', 'Évaluation progressive jusqu’à la maturation']
+                : ['Contact form and essential information', 'Discussion with an adviser', 'Receive a written treatment and cost proposal', 'Confirm travel, accommodation and transfers', 'Attend the medical consultation and hairline planning', 'Complete treatment and first postoperative wash', 'Follow-up after returning home', 'Review progressive growth through the maturation period']).map((item, index) => (
                   <div key={item} className="flex gap-4 rounded-xl bg-white border border-slate-200 p-5"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#2f6bfc] text-white font-bold">{index + 1}</span><p className="text-slate-700 font-medium">{item}</p></div>
                 ))}
             </div>

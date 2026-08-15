@@ -210,7 +210,7 @@ const BeforeAfterPage = () => {
             <div className="bg-gradient-to-br from-[#2f6bfc] to-[#6EC1E4] rounded-3xl p-10 text-white">
               <h3 className="text-3xl font-bold mb-6">À votre tour de transformer votre vie</h3>
               <p className="text-lg mb-8 opacity-90">
-                Envoyez 3 photos de votre cuir chevelu et recevez votre diagnostic personnalisé sous 24h
+                Décrivez votre situation et recevez une première orientation personnalisée sous 24h
               </p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center">
