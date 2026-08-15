@@ -1,8 +1,11 @@
 (() => {
-  const MOUNT_PATH = '/greffe-cheveux-turquie';
-  const mounted = window.location.pathname === MOUNT_PATH || window.location.pathname.startsWith(`${MOUNT_PATH}/`);
-  const pathname = mounted ? (window.location.pathname.slice(MOUNT_PATH.length) || '/') : window.location.pathname;
-  const apiUrl = mounted ? `${MOUNT_PATH}/api/contact-email` : '/api/contact-email';
+  const ENGLISH_MOUNT_PATH = '/en/hair-transplant-turkey';
+  const MOUNT_PATHS = [ENGLISH_MOUNT_PATH, '/greffe-cheveux-turquie'];
+  const mountPath = MOUNT_PATHS.find(
+    (candidate) => window.location.pathname === candidate || window.location.pathname.startsWith(`${candidate}/`),
+  );
+  const pathname = mountPath ? (window.location.pathname.slice(mountPath.length) || '/') : window.location.pathname;
+  const apiUrl = mountPath ? `${mountPath}/api/contact-email` : '/api/contact-email';
   const CONTACT_PATHS = new Set(['/contact', '/en/contact']);
   if (!CONTACT_PATHS.has(pathname)) return;
 
@@ -89,7 +92,7 @@
 
       pendingRequest = {
         submission_id: createSubmissionId(),
-        language: pathname.startsWith('/en') ? 'en' : 'fr',
+        language: mountPath === ENGLISH_MOUNT_PATH || pathname.startsWith('/en') ? 'en' : 'fr',
         first_name: getValue(formData, 'first_name'),
         last_name: getValue(formData, 'last_name'),
         email: getValue(formData, 'email'),
@@ -105,7 +108,7 @@
 
   const successIsVisible = () => {
     const pageText = document.body.textContent || '';
-    return pageText.includes('Demande envoyée !') || pageText.includes('Request sent!');
+    return pageText.includes('Demande envoyée') || pageText.includes('Request sent');
   };
 
   const sendConfirmation = async () => {
