@@ -5,9 +5,8 @@ import './index.css';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { getSiteLanguage, localizeInternalPath } from './config/localizedRoutes';
 import { getWhatsAppUrl, WHATSAPP_DISPLAY } from './config/contact';
-import { getAppPathname, mountHairPath, prepareHairRouterPath, restoreMountedHairUrl, stripHairMountPath } from './config/hostedPath';
+import { getAppPathname, mountHairPath, stripHairMountPath } from './config/hostedPath';
 
-prepareHairRouterPath();
 
 /**
  * SEO pages are pre-rendered as real HTML files. A full document navigation
@@ -61,7 +60,6 @@ createRoot(root).render(
   </StrictMode>,
 );
 
-window.requestAnimationFrame(restoreMountedHairUrl);
 
 function addHomepageHeroMedia() {
   if (!['/', '/en'].includes(getAppPathname())) return;
