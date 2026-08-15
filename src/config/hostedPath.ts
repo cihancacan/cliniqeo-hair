@@ -21,9 +21,7 @@ function detectMountPath(pathname: string): HairMountPath | null {
 }
 
 const initialBrowserPath = typeof window !== 'undefined' ? normalisePath(window.location.pathname) : '/';
-let activeMountPath: HairMountPath | null = detectMountPath(initialBrowserPath);
-let preparedEnglishAppPath: string | null = null;
-let originalEnglishPublicPath: string | null = null;
+const activeMountPath: HairMountPath | null = detectMountPath(initialBrowserPath);
 
 function toEnglishAppPath(pathname: string) {
   const normalised = normalisePath(pathname);
@@ -41,35 +39,13 @@ function toEnglishAppPath(pathname: string) {
   return `/en${suffix === '/' ? '' : suffix}`;
 }
 
-export function prepareHairRouterPath() {
-  if (typeof window === 'undefined') return;
-  activeMountPath = detectMountPath(window.location.pathname) ?? activeMountPath;
-  if (activeMountPath !== ENGLISH_HAIR_MOUNT_PATH) return;
-
-  originalEnglishPublicPath = normalisePath(window.location.pathname);
-  preparedEnglishAppPath = toEnglishAppPath(originalEnglishPublicPath);
-  window.history.replaceState(
-    window.history.state,
-    '',
-    `${preparedEnglishAppPath}${window.location.search}${window.location.hash}`,
-  );
-}
-
-export function restoreMountedHairUrl() {
-  if (
-    typeof window === 'undefined' ||
-    activeMountPath !== ENGLISH_HAIR_MOUNT_PATH ||
-    !originalEnglishPublicPath ||
-    !preparedEnglishAppPath ||
-    normalisePath(window.location.pathname) !== preparedEnglishAppPath
-  ) {
-    return;
-  }
-
-  window.history.replaceState(
-    window.history.state,
-    '',
-    `${originalEnglishPublicPath}${window.location.search}${window.location.hash}`,
+export function isEnglishMountedHairPath(
+  pathname = typeof window !== 'undefined' ? window.location.pathname : '/',
+) {
+  return detectMountPath(pathname) === ENGLISH_HAIR_MOUNT_PATH || (
+    typeof window !== 'undefined' &&
+    pathname === window.location.pathname &&
+    activeMountPath === ENGLISH_HAIR_MOUNT_PATH
   );
 }
 
@@ -100,7 +76,7 @@ export function getAppPathname() {
 }
 
 export function getHairRouterBasename() {
-  return activeMountPath === HAIR_MOUNT_PATH ? HAIR_MOUNT_PATH : undefined;
+  return activeMountPath ?? undefined;
 }
 
 export function mountHairPath(pathname: string) {
