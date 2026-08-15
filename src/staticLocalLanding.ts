@@ -1,11 +1,7 @@
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from './lib/supabase';
 import { findLocalSeoPage } from './config/findLocalSeoPage';
 import { getAppPathname, getHairApiUrl } from './config/hostedPath';
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY,
-);
 
 const page = findLocalSeoPage(getAppPathname());
 const isFr = page?.country === 'fr';
