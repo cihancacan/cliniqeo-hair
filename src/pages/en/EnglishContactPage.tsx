@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import { CheckCircle, Mail, MapPin, Phone, Send, Upload } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../../lib/supabase';
 import SEOHead from '../../components/SEOHead';
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY,
-);
 
 type PhotoType = 'front' | 'top' | 'back';
 
