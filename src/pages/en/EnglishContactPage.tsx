@@ -25,6 +25,24 @@ const initialPhotos: Record<PhotoType, File | null> = {
   back: null,
 };
 
+const REQUEST_TIMEOUT_MS = 30000;
+
+function withTimeout<T>(operation: PromiseLike<T>, message: string): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timer = window.setTimeout(() => reject(new Error(message)), REQUEST_TIMEOUT_MS);
+    Promise.resolve(operation).then(
+      (value) => {
+        window.clearTimeout(timer);
+        resolve(value);
+      },
+      (operationError) => {
+        window.clearTimeout(timer);
+        reject(operationError);
+      },
+    );
+  });
+}
+
 export default function EnglishContactPage() {
   const [formData, setFormData] = useState(initialForm);
   const [photos, setPhotos] = useState(initialPhotos);
@@ -65,9 +83,9 @@ export default function EnglishContactPage() {
       uploadPhoto('front', 'photo_front_url');
       uploadPhoto('top', 'photo_top_url');
       uploadPhoto('back', 'photo_donor_url');
-      await Promise.all(uploads);
+      await withTimeout(Promise.all(uploads), 'Photograph upload timed out.');
 
-      const { error: submitError } = await supabase.from('diagnostic_requests').insert([
+      const { error: submitError } = await withTimeout(supabase.from('diagnostic_requests').insert([
         {
           first_name: formData.first_name,
           last_name: formData.last_name,
@@ -78,7 +96,7 @@ export default function EnglishContactPage() {
           status: 'pending',
           ...photoUrls,
         },
-      ]);
+      ]), 'Request save timed out.');
 
       if (submitError) throw submitError;
 
@@ -180,28 +198,28 @@ export default function EnglishContactPage() {
 
                 <div className="grid md:grid-cols-2 gap-5">
                   <label className="font-semibold text-[#224671]">First name *
-                    <input type="text" required value={formData.first_name} onChange={(event) => setFormData({ ...formData, first_name: event.target.value })} className="mt-2 w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:border-[#2f6bfc] focus:outline-none" />
+                    <input type="text" name="first_name" autoComplete="given-name" required value={formData.first_name} onChange={(event) => setFormData({ ...formData, first_name: event.target.value })} className="mt-2 w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:border-[#2f6bfc] focus:outline-none" />
                   </label>
                   <label className="font-semibold text-[#224671]">Last name *
-                    <input type="text" required value={formData.last_name} onChange={(event) => setFormData({ ...formData, last_name: event.target.value })} className="mt-2 w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:border-[#2f6bfc] focus:outline-none" />
+                    <input type="text" name="last_name" autoComplete="family-name" required value={formData.last_name} onChange={(event) => setFormData({ ...formData, last_name: event.target.value })} className="mt-2 w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:border-[#2f6bfc] focus:outline-none" />
                   </label>
                 </div>
 
                 <label className="block font-semibold text-[#224671]">Email *
-                  <input type="email" required value={formData.email} onChange={(event) => setFormData({ ...formData, email: event.target.value })} className="mt-2 w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:border-[#2f6bfc] focus:outline-none" />
+                  <input type="email" name="email" autoComplete="email" required value={formData.email} onChange={(event) => setFormData({ ...formData, email: event.target.value })} className="mt-2 w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:border-[#2f6bfc] focus:outline-none" />
                 </label>
 
                 <div className="grid md:grid-cols-2 gap-5">
                   <label className="font-semibold text-[#224671]">Telephone *
-                    <input type="tel" required value={formData.phone} onChange={(event) => setFormData({ ...formData, phone: event.target.value })} className="mt-2 w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:border-[#2f6bfc] focus:outline-none" />
+                    <input type="tel" name="phone" autoComplete="tel" required value={formData.phone} onChange={(event) => setFormData({ ...formData, phone: event.target.value })} className="mt-2 w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:border-[#2f6bfc] focus:outline-none" />
                   </label>
                   <label className="font-semibold text-[#224671]">Age
-                    <input type="number" min="18" max="99" value={formData.age} onChange={(event) => setFormData({ ...formData, age: event.target.value })} className="mt-2 w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:border-[#2f6bfc] focus:outline-none" />
+                    <input type="number" name="age" min="18" max="99" value={formData.age} onChange={(event) => setFormData({ ...formData, age: event.target.value })} className="mt-2 w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:border-[#2f6bfc] focus:outline-none" />
                   </label>
                 </div>
 
                 <label className="block font-semibold text-[#224671]">Describe your situation
-                  <textarea rows={5} value={formData.message} onChange={(event) => setFormData({ ...formData, message: event.target.value })} placeholder="Hair-loss pattern, previous treatments, expectations and questions..." className="mt-2 w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:border-[#2f6bfc] focus:outline-none resize-none" />
+                  <textarea name="message" rows={5} value={formData.message} onChange={(event) => setFormData({ ...formData, message: event.target.value })} placeholder="Hair-loss pattern, previous treatments, expectations and questions..." className="mt-2 w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:border-[#2f6bfc] focus:outline-none resize-none" />
                 </label>
 
                 <div>
