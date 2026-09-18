@@ -1,3 +1,5 @@
+import { trackLeadCreated } from './openAiMeasurement';
+
 export type ContactRequest = {
   first_name: string;
   last_name: string;
@@ -37,6 +39,8 @@ export async function sendContactRequest(request: ContactRequest) {
     if (!response.ok) {
       throw new Error(`Contact request failed with status ${response.status}`);
     }
+
+    trackLeadCreated();
   } finally {
     window.clearTimeout(timeout);
   }
