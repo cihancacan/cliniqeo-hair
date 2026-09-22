@@ -175,6 +175,12 @@ for (const file of htmlFiles) {
     return script.replace(/https:\/\/cliniqeo-hair\.vercel\.app(?:\/[A-Za-z0-9._~!$&'()*+,;=:@%\/-]*)?/g, (url) => rewriteAbsoluteSeoUrl(url));
   });
 
+  // Local French guides and their directory use the same public mount everywhere.
+  html = html.replace(/(<a\b[^>]*\bhref=["'])(\/(?:greffe-de-cheveux-|greffe-capillaire-|implant-capillaire-|prix-greffe-cheveux-|clinique-greffe-cheveux-|greffe-cheveux-france)[^"']*)(["'])/gi, (match, before, href, after) => {
+    const parsed = new URL(href, UPSTREAM_ORIGIN);
+    return `${before}${publicUrlForRoute(aliases.get(parsed.pathname) || parsed.pathname)}${parsed.search}${parsed.hash}${after}`;
+  });
+
   // Crawlable links must agree with the canonical English mount, including old aliases.
   html = html.replace(/(<a\b[^>]*\bhref=["'])([^"']+)(["'])/gi, (match, before, href, after) => {
     if (!/^(?:\/en(?:\/|$)|https:\/\/(?:cliniqeo-hair\.vercel\.app|cliniqeo\.com)\/)/.test(href)) return match;

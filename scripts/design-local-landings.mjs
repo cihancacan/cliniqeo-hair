@@ -1,6 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
+import { frenchCityComparison, frenchCityJourney } from './french-city-comparison.mjs';
 import { englishCityComparison, englishCityJourney } from './english-city-comparison.mjs';
 
 const root = process.cwd();
@@ -326,6 +327,14 @@ for (const [country, cities, keywords] of [
         page = page.replace('Different hair-loss patterns and restoration approaches.', 'Illustrative treatment examples, not a record of patients from this city. Individual outcomes vary; ask for documented cases relevant to your assessment.');
         page = page.replace('Depending on the confirmed plan: procedure, accommodation, Istanbul transfers, English-speaking coordination, postoperative instructions and twelve-month follow-up.', 'Depending on the confirmed plan: procedure, accommodation, Istanbul transfers, English-speaking coordination, postoperative instructions and twelve-month follow-up. Flights are not included; companion costs must be confirmed separately.');
       }
+      if (country === 'fr') {
+        page = page.replace(/<section id="price-comparison"[\s\S]*?<\/section>/, frenchCityComparison(city, keyword.intent));
+        page = page.replace(nativeForm(true, city.name), frenchCityJourney(city, keyword, frKeywords) + nativeForm(true, city.name));
+        page = page.replace('rel="nofollow" aria-label="Private access" class="px-1 text-slate-500">·</a>', 'class="underline">Guides par ville en France</a>');
+        page = page.replace(/alt="[^"]*"/g, (alt) => alt.includes(city.name) ? 'alt="Exemple avant et après une greffe de cheveux ; les résultats varient"' : alt);
+        page = page.replace('Différents profils de calvitie et différentes stratégies de restauration capillaire.', 'Exemples de traitements, sans indication que ces patients viennent de cette ville. Les résultats individuels varient ; demandez des cas documentés comparables à votre situation.');
+        page = page.replace('Le devis précise chaque inclusion.', 'Le devis précise chaque inclusion. Les vols ne sont pas inclus et les éventuels frais pour un accompagnant sont à confirmer.');
+      }
       const files = [
         join(dist, `${route.replace(/^\//, '')}.html`),
         join(dist, route.replace(/^\//, ''), 'index.html'),
@@ -333,16 +342,16 @@ for (const [country, cities, keywords] of [
       for (const file of files) {
         let html = await readFile(file, 'utf8');
         html = html.replace(/<div id="root">[\s\S]*?<\/div>\s*(?=<script)/, `<div id="root">${page}</div>\n    `);
-        if (country !== 'fr') {
-          const title = `${intentCopy.en[keyword.intent].title} in ${cityLabel(country, city)} vs Turkey | Cliniqeo`;
-          const description = `Considering ${keyword.label} in ${cityLabel(country, city)}? Compare local care with Istanbul: costs, hotel, transfers and follow-up. Flights excluded.`;
+        {
+          const title = country === 'fr' ? `${intentCopy.fr[keyword.intent].title} à ${city.name} ou en Turquie | Cliniqeo` : `${intentCopy.en[keyword.intent].title} in ${cityLabel(country, city)} vs Turkey | Cliniqeo`;
+          const description = country === 'fr' ? `Vous recherchez ${keyword.label} à ${city.name} ? Comparez l’option locale et Istanbul : prix, hôtel, transferts et suivi. Vols non inclus.` : `Considering ${keyword.label} in ${cityLabel(country, city)}? Compare local care with Istanbul: costs, hotel, transfers and follow-up. Flights excluded.`;
           html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`);
           html = html.replace(/<meta (name="description"|property="og:description") content="[^"]*"[^>]*>/g, (_, key) => `<meta ${key} content="${escapeHtml(description)}">`);
           html = html.replace(/<meta property="og:title" content="[^"]*"[^>]*>/g, `<meta property="og:title" content="${escapeHtml(title)}">`);
           // The earlier prerenderer describes its old article. Rebuild from the visible page.
           const faqItems = [...page.matchAll(/<summary[^>]*>([\s\S]*?)<\/summary><p[^>]*>([\s\S]*?)<\/p>/g)].map(([, question, answer]) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } }));
-          const url = `https://cliniqeo.com/en/hair-transplant-turkey/${country}/${keyword.slug}-${city.slug}`;
-          const schema = [{ '@context': 'https://schema.org', '@type': 'WebPage', name: title, description, url, inLanguage: country === 'uk' ? 'en-GB' : 'en-US', publisher: { '@type': 'Organization', name: 'Cliniqeo Hair' } }, { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqItems }];
+          const url = country === 'fr' ? `https://cliniqeo.com/greffe-cheveux-turquie/${keyword.slug}-${city.slug}` : `https://cliniqeo.com/en/hair-transplant-turkey/${country}/${keyword.slug}-${city.slug}`;
+          const schema = [{ '@context': 'https://schema.org', '@type': 'WebPage', name: title, description, url, inLanguage: country === 'fr' ? 'fr-FR' : country === 'uk' ? 'en-GB' : 'en-US', publisher: { '@type': 'Organization', name: 'Cliniqeo Hair' } }, { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqItems }];
           html = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '');
           html = html.replace('</head>', `<script type="application/ld+json">${JSON.stringify(schema).replaceAll('<', '\\u003c')}</script></head>`);
         }

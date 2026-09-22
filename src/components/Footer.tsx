@@ -91,12 +91,11 @@ const Footer = () => {
               </Link>
               <Link
                 to={localCitiesPath}
-                rel={isFr ? 'nofollow' : undefined}
-                aria-label={isFr ? 'Accès privé aux pages locales' : 'US and UK city guides'}
+                aria-label={isFr ? 'Guides par ville en France' : 'US and UK city guides'}
                 title=""
                 className="px-1 text-gray-500 hover:text-gray-400 transition-colors"
               >
-                {isFr ? '·' : 'US & UK city guides'}
+                {isFr ? 'Guides par ville en France' : 'US & UK city guides'}
               </Link>
               <span aria-hidden="true">•</span>
               <a href="https://cliniqeo.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-[#6EC1E4] transition-colors">
