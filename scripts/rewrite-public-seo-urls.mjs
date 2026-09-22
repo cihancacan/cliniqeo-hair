@@ -175,6 +175,15 @@ for (const file of htmlFiles) {
     return script.replace(/https:\/\/cliniqeo-hair\.vercel\.app(?:\/[A-Za-z0-9._~!$&'()*+,;=:@%\/-]*)?/g, (url) => rewriteAbsoluteSeoUrl(url));
   });
 
+  // Crawlable links must agree with the canonical English mount, including old aliases.
+  html = html.replace(/(<a\b[^>]*\bhref=["'])([^"']+)(["'])/gi, (match, before, href, after) => {
+    if (!/^(?:\/en(?:\/|$)|https:\/\/(?:cliniqeo-hair\.vercel\.app|cliniqeo\.com)\/)/.test(href)) return match;
+    const parsed = new URL(href, UPSTREAM_ORIGIN);
+    const target = routeFromAbsoluteUrl(parsed.href);
+    if (!target || !isEnglishRoute(target)) return match;
+    return `${before}${publicUrlForRoute(aliases.get(target) || target)}${parsed.search}${parsed.hash}${after}`;
+  });
+
   if (html !== original) {
     await writeFile(file, html, 'utf8');
     htmlCount += 1;

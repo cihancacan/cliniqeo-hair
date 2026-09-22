@@ -1,6 +1,8 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
+import { englishCityComparison, englishCityJourney } from './english-city-comparison.mjs';
+
 const root = process.cwd();
 const dist = join(root, 'dist');
 const source = await readFile(join(root, 'src', 'config', 'localSeoData.ts'), 'utf8');
@@ -315,7 +317,15 @@ for (const [country, cities, keywords] of [
   for (const city of cities) {
     for (const keyword of keywords) {
       const route = pathFor(country, keyword, city);
-      const page = buildPage(country, keyword, city, route);
+      let page = buildPage(country, keyword, city, route);
+      if (country !== 'fr') {
+        page = page.replace(/<section id="price-comparison"[\s\S]*?<\/section>/, englishCityComparison(country, city, keyword.intent));
+        page = page.replace(nativeForm(false, cityLabel(country, city)), englishCityJourney(country, city, keyword, enKeywords) + nativeForm(false, cityLabel(country, city)));
+        page = page.replace('rel="nofollow" aria-label="Private access" class="px-1 text-slate-500">·</a>', 'class="underline">US &amp; UK city guides</a>');
+        page = page.replace(/alt="[^"]*"/g, (alt) => alt.includes(city.name) ? 'alt="Hair transplant before-and-after example; individual results vary"' : alt);
+        page = page.replace('Different hair-loss patterns and restoration approaches.', 'Illustrative treatment examples, not a record of patients from this city. Individual outcomes vary; ask for documented cases relevant to your assessment.');
+        page = page.replace('Depending on the confirmed plan: procedure, accommodation, Istanbul transfers, English-speaking coordination, postoperative instructions and twelve-month follow-up.', 'Depending on the confirmed plan: procedure, accommodation, Istanbul transfers, English-speaking coordination, postoperative instructions and twelve-month follow-up. Flights are not included; companion costs must be confirmed separately.');
+      }
       const files = [
         join(dist, `${route.replace(/^\//, '')}.html`),
         join(dist, route.replace(/^\//, ''), 'index.html'),
@@ -323,6 +333,19 @@ for (const [country, cities, keywords] of [
       for (const file of files) {
         let html = await readFile(file, 'utf8');
         html = html.replace(/<div id="root">[\s\S]*?<\/div>\s*(?=<script)/, `<div id="root">${page}</div>\n    `);
+        if (country !== 'fr') {
+          const title = `${intentCopy.en[keyword.intent].title} in ${cityLabel(country, city)} vs Turkey | Cliniqeo`;
+          const description = `Considering ${keyword.label} in ${cityLabel(country, city)}? Compare local care with Istanbul: costs, hotel, transfers and follow-up. Flights excluded.`;
+          html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`);
+          html = html.replace(/<meta (name="description"|property="og:description") content="[^"]*"[^>]*>/g, (_, key) => `<meta ${key} content="${escapeHtml(description)}">`);
+          html = html.replace(/<meta property="og:title" content="[^"]*"[^>]*>/g, `<meta property="og:title" content="${escapeHtml(title)}">`);
+          // The earlier prerenderer describes its old article. Rebuild from the visible page.
+          const faqItems = [...page.matchAll(/<summary[^>]*>([\s\S]*?)<\/summary><p[^>]*>([\s\S]*?)<\/p>/g)].map(([, question, answer]) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } }));
+          const url = `https://cliniqeo.com/en/hair-transplant-turkey/${country}/${keyword.slug}-${city.slug}`;
+          const schema = [{ '@context': 'https://schema.org', '@type': 'WebPage', name: title, description, url, inLanguage: country === 'uk' ? 'en-GB' : 'en-US', publisher: { '@type': 'Organization', name: 'Cliniqeo Hair' } }, { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqItems }];
+          html = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '');
+          html = html.replace('</head>', `<script type="application/ld+json">${JSON.stringify(schema).replaceAll('<', '\\u003c')}</script></head>`);
+        }
         await writeFile(file, html, 'utf8');
         updated += 1;
       }
