@@ -193,6 +193,53 @@ async function getEmailHealth(apiKey) {
   }
 }
 
+function getSupabaseConfig() {
+  return {
+    url: String(process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || '').replace(/\/$/, ''),
+    key:
+      process.env.SUPABASE_SERVICE_ROLE_KEY ||
+      process.env.SUPABASE_ANON_KEY ||
+      process.env.VITE_SUPABASE_ANON_KEY ||
+      '',
+  };
+}
+
+async function saveDiagnosticRequest(data) {
+  const { url, key } = getSupabaseConfig();
+  if (!url || !key) throw new Error('Lead database not configured');
+
+  const age = Number(data.age);
+  const databaseResponse = await fetch(`${url}/rest/v1/diagnostic_requests`, {
+    method: 'POST',
+    headers: {
+      apikey: key,
+      Authorization: `Bearer ${key}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify({
+      first_name: data.first_name,
+      last_name: data.last_name,
+      email: data.email,
+      phone: data.phone,
+      age: Number.isInteger(age) && age >= 18 && age <= 120 ? age : null,
+      message: [
+        data.message,
+        data.source_url ? `Source : ${data.source_url}` : '',
+        `Référence : ${data.submission_id}`,
+      ]
+        .filter(Boolean)
+        .join('\n\n'),
+      status: 'pending',
+    }),
+  });
+
+  if (!databaseResponse.ok) {
+    const detail = await databaseResponse.text();
+    throw new Error(`Lead database error ${databaseResponse.status}: ${detail.slice(0, 500)}`);
+  }
+}
+
 export default async function handler(request, response) {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.CONTACT_FROM_EMAIL || 'Cliniqeo Hair <info@cliniqeo.com>';
@@ -201,9 +248,15 @@ export default async function handler(request, response) {
 
   if (request.method === 'GET') {
     const emailHealth = await getEmailHealth(apiKey);
+    const databaseReady = Boolean(
+      (process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL) &&
+      (process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY),
+    );
     return response.status(200).json({
-      ok: emailHealth.resend_configured && emailHealth.domain_status === 'verified',
+      ok: databaseReady || (emailHealth.resend_configured && emailHealth.domain_status === 'verified'),
       ...emailHealth,
+      database_ready: databaseReady,
+      email_ready: emailHealth.resend_configured && emailHealth.domain_status === 'verified',
       from_address: from,
       reply_to: replyTo,
       recipients,
@@ -217,10 +270,6 @@ export default async function handler(request, response) {
     return response.status(405).json({ error: 'Method not allowed' });
   }
 
-  if (!apiKey) {
-    return response.status(503).json({ error: 'Email service not configured', configured: false });
-  }
-
   const body = request.body && typeof request.body === 'object' ? request.body : {};
   const language = body.language === 'en' ? 'en' : 'fr';
   const copy = translations[language];
@@ -231,9 +280,10 @@ export default async function handler(request, response) {
     last_name: clean(body.last_name, 120),
     email: clean(body.email, 254).toLowerCase(),
     phone: clean(body.phone, 80),
+    age: clean(body.age, 3),
     message: clean(body.message, 4000),
     photo_count: Math.max(0, Math.min(10, Number(body.photo_count) || 0)),
-    source_url: clean(body.source_url, 500),
+    source_url: clean(body.source_url || body.source_path, 500),
   };
 
   if (!data.first_name || !data.last_name || !data.email || !data.phone || !isValidEmail(data.email)) {
@@ -257,20 +307,51 @@ export default async function handler(request, response) {
     text: buildText(data, copy, true),
   };
 
+  let saved = false;
+  let sent = false;
+  let patientEmail;
+  let internalEmail;
+  const deliveryErrors = [];
+
   try {
-    const safeId = data.submission_id.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 100) || `${Date.now()}`;
-    const [patientEmail, internalEmail] = await Promise.all([
-      sendEmail(apiKey, patientPayload, `cliniqeo-patient-${safeId}`),
-      sendEmail(apiKey, internalPayload, `cliniqeo-internal-${safeId}`),
-    ]);
-    return response.status(200).json({
-      sent: true,
-      recipients,
-      patient_email_id: patientEmail.id,
-      internal_email_id: internalEmail.id,
-    });
+    await saveDiagnosticRequest(data);
+    saved = true;
   } catch (error) {
-    console.error('Contact email error:', error);
-    return response.status(502).json({ error: 'Unable to send confirmation email' });
+    console.error('Contact database error:', error);
+    deliveryErrors.push('database');
   }
+
+  if (apiKey) {
+    try {
+      const safeId = data.submission_id.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 100) || `${Date.now()}`;
+      [patientEmail, internalEmail] = await Promise.all([
+        sendEmail(apiKey, patientPayload, `cliniqeo-patient-${safeId}`),
+        sendEmail(apiKey, internalPayload, `cliniqeo-internal-${safeId}`),
+      ]);
+      sent = true;
+    } catch (error) {
+      console.error('Contact email error:', error);
+      deliveryErrors.push('email');
+    }
+  } else {
+    deliveryErrors.push('email_not_configured');
+  }
+
+  if (!saved && !sent) {
+    return response.status(502).json({
+      error: 'Unable to record contact request',
+      saved,
+      sent,
+      delivery_errors: deliveryErrors,
+    });
+  }
+
+  return response.status(200).json({
+    saved,
+    sent,
+    recipients: sent ? recipients : [],
+    patient_email_id: patientEmail?.id || null,
+    internal_email_id: internalEmail?.id || null,
+    delivery_errors: deliveryErrors,
+  });
 }
