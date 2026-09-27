@@ -55,7 +55,7 @@ const Navigation = () => {
               <span className="text-base font-semibold text-[#2f6bfc] ml-1 uppercase">Hair</span>
             </Link>
 
-            <div className="hidden lg:flex items-center space-x-6">
+            <div className="hidden lg:flex items-center space-x-4">
               {menuItems.map((item) => (
                 <Link
                   key={item.href}
