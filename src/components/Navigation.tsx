@@ -36,6 +36,12 @@ const Navigation = () => {
     label: t(item.key),
     href: item.href,
   }));
+  const desktopMenuItems = menuItems.filter((item) => {
+    const hiddenDesktopPaths = language === 'fr'
+      ? ['/turquie', '/faq']
+      : ['/en/why-turkey', '/en/faq'];
+    return !hiddenDesktopPaths.includes(item.href);
+  });
   const contactPath = getLocalizedContactPath(language);
   const homePath = getLocalizedHomePath(language);
   const whatsappUrl = getWhatsAppUrl(language);
@@ -56,7 +62,7 @@ const Navigation = () => {
             </Link>
 
             <div className="hidden lg:flex items-center space-x-4">
-              {menuItems.map((item) => (
+              {desktopMenuItems.map((item) => (
                 <Link
                   key={item.href}
                   to={item.href}
