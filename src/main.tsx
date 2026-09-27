@@ -5,7 +5,7 @@ import './index.css';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { getSiteLanguage, localizeInternalPath } from './config/localizedRoutes';
 import { getWhatsAppUrl, WHATSAPP_DISPLAY } from './config/contact';
-import { getAppPathname, getHairAssetUrl, mountHairPath, stripHairMountPath } from './config/hostedPath';
+import { getAppPathname, mountHairPath, stripHairMountPath } from './config/hostedPath';
 
 
 /**
