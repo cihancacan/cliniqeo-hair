@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { ArrowRight, CheckCircle, Phone, ShieldCheck } from 'lucide-react';
 import EnglishTechniquePage from '../en/EnglishTechniquePage';
 import SEOHead from '../../components/SEOHead';
+import BeforeAfterGallery from '../../components/BeforeAfterGallery';
 
 const HairTransplantTurkey = () => {
   const { pathname } = useLocation();
@@ -77,6 +78,8 @@ const HairTransplantTurkey = () => {
           </article>
         </div>
       </section>
+
+      <BeforeAfterGallery />
 
       <section className="bg-slate-50 py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
