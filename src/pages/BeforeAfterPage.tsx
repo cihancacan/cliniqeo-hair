@@ -56,7 +56,7 @@ const BeforeAfterPage = () => {
                 />
               </figure>
             ))}
-          </div>          </div>
+          </div>
         </div>
       </section>
 
