@@ -21,6 +21,7 @@ const BeforeAfterPage = lazy(() => import('./pages/BeforeAfterPage'));
 const EnglishHomePage = lazy(() => import('./pages/en/EnglishHomePage'));
 const EnglishGeneralPage = lazy(() => import('./pages/en/EnglishGeneralPage'));
 const EnglishPricingPage = lazy(() => import('./pages/en/EnglishPricingPage'));
+const EnglishBeforeAfterPage = lazy(() => import('./pages/en/EnglishBeforeAfterPage'));
 const GreffeCheveuxTurquie = lazy(() => import('./pages/seo/GreffeCheveuxTurquie'));
 const GreffeCheveuxFUETurquie = lazy(() => import('./pages/seo/GreffeCheveuxFUETurquie'));
 const GreffeCheveuxDHITurquie = lazy(() => import('./pages/seo/GreffeCheveuxDHITurquie'));
@@ -117,7 +118,6 @@ const enLandingRoutes = [
   ['/en/all-inclusive-hair-transplant-turkey', 'allInclusive'],
   ['/en/hair-transplant-turkey-reviews', 'reviews'],
   ['/hair-transplant-turkey-reviews', 'reviews'],
-  ['/en/hair-transplant-turkey-before-after', 'beforeAfter'],
   ['/en/female-hair-transplant-turkey', 'women'],
   ['/en/afro-hair-transplant-turkey', 'afro'],
   ['/en/beard-transplant-turkey', 'beard'],
@@ -184,7 +184,8 @@ function AppContent() {
             {englishMounted && (
               <>
                 <Route path="/why-turkey" element={<EnglishGeneralPage pageKey="whyTurkey" />} />
-                <Route path="/before-after" element={<EnglishGeneralPage pageKey="beforeAfter" />} />
+                <Route path="/before-after" element={<EnglishBeforeAfterPage />} />
+                <Route path="/hair-transplant-turkey-before-after" element={<EnglishBeforeAfterPage />} />
                 <Route path="/hair-transplant-guides" element={<GuidesPage lang="en" />} />
                 <Route path="/hair-transplant-by-city" element={<LocalSeoMasterDirectoryPage />} />
                 <Route path="/uk/hair-transplant-cities" element={<LocalSeoDirectoryPage country="uk" />} />
@@ -200,7 +201,8 @@ function AppContent() {
         <Route path="/en/clinic-doctor" element={<ClinicDoctorPage lang="en" />} />
             <Route path="/en/faq" element={<EnglishGeneralPage pageKey="faq" />} />
             <Route path="/en/contact" element={<EnglishContactPage />} />
-            <Route path="/en/before-after" element={<EnglishGeneralPage pageKey="beforeAfter" />} />
+            <Route path="/en/before-after" element={<EnglishBeforeAfterPage />} />
+            <Route path="/en/hair-transplant-turkey-before-after" element={<EnglishBeforeAfterPage />} />
             <Route path="/en/hair-transplant-guides" element={<GuidesPage lang="en" />} />
             <Route path="/en/hair-transplant-by-city" element={<LocalSeoMasterDirectoryPage />} />
             <Route path="/en/uk/hair-transplant-cities" element={<LocalSeoDirectoryPage country="uk" />} />
