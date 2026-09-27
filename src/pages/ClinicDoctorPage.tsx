@@ -23,29 +23,31 @@ type TileProps = {
   label?: string;
 };
 
-const CLINIC_ATLAS_URL = 'https://cliniqeo-hair.vercel.app/clinic/clinic-doctor-atlas.webp?v=20260927-4';
+const CLINIC_MEDIA_ORIGIN = 'https://cliniqeo-hair.vercel.app';
 
-const TILE_OFFSETS = [
-  'left-0 top-0',
-  'left-[-100%] top-0',
-  'left-[-200%] top-0',
-  'left-0 top-[-100%]',
-  'left-[-100%] top-[-100%]',
-  'left-[-200%] top-[-100%]',
-  'left-0 top-[-200%]',
-  'left-[-100%] top-[-200%]',
-  'left-[-200%] top-[-200%]',
-];
+const CLINIC_MEDIA = [
+  '/clinique_greffe_cheveux_turquie.jpg',
+  '/acceuil_clinique.jpg',
+  '/salle_attente.jpg',
+  '/Blok1.jpg',
+  '/blok2.jpg',
+  '/lavage.jpg',
+  '/Dr_Ersun_Cobanoglu.jpg',
+  '/autorisation_docteur.jpg',
+  '/IMG_9685.jpg',
+] as const;
 
 function AtlasTile({ index, className = '', label }: TileProps) {
+  const src = `${CLINIC_MEDIA_ORIGIN}${CLINIC_MEDIA[index]}`;
+
   return (
-    <div className={`relative overflow-hidden ${className}`}>
+    <div className={`relative overflow-hidden bg-slate-100 ${className}`}>
       <img
-        src={CLINIC_ATLAS_URL}
+        src={src}
         alt={label ?? ''}
-        loading="lazy"
+        loading={index === 6 || index === 0 ? 'eager' : 'lazy'}
         decoding="async"
-        className={`absolute max-w-none w-[300%] h-[300%] ${TILE_OFFSETS[index]}`}
+        className="absolute inset-0 h-full w-full object-cover"
       />
     </div>
   );
