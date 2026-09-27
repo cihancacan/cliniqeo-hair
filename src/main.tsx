@@ -186,7 +186,7 @@ function addClinicDoctorHomepageTeaser() {
 
   const isEnglish = path === '/en';
   const href = isEnglish ? '/en/clinic-doctor' : '/clinique-medecin';
-  const atlas = getHairAssetUrl('/clinic/clinic-doctor-atlas.webp');
+  const atlas = `${mountHairPath('/clinic/clinic-doctor-atlas.webp')}?v=20260927-2`;
 
   const section = document.createElement('section');
   section.id = 'clinic-doctor-home-teaser';
