@@ -6,6 +6,7 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import { getSiteLanguage, localizeInternalPath } from './config/localizedRoutes';
 import { getWhatsAppUrl, WHATSAPP_DISPLAY } from './config/contact';
 import { getAppPathname, mountHairPath, stripHairMountPath } from './config/hostedPath';
+import { CLINIC_DOCTOR_ATLAS_DATA_URI } from './config/clinicMedia';
 
 
 /**
@@ -186,7 +187,7 @@ function addClinicDoctorHomepageTeaser() {
 
   const isEnglish = path === '/en';
   const href = isEnglish ? '/en/clinic-doctor' : '/clinique-medecin';
-  const atlas = `${mountHairPath('/clinic/clinic-doctor-atlas.webp')}?v=20260927-2`;
+  const atlas = CLINIC_DOCTOR_ATLAS_DATA_URI;
 
   const section = document.createElement('section');
   section.id = 'clinic-doctor-home-teaser';
