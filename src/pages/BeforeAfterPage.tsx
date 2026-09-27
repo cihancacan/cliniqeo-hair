@@ -3,116 +3,13 @@ import { ArrowRight, CheckCircle } from 'lucide-react';
 import { getHairAssetUrl } from '../config/hostedPath';
 
 const BeforeAfterPage = () => {
-  const results = [
-    {
-      image: '/greffe cheveux turquie avant apres.png',
-      alt: 'greffe de cheveux avant après homme résultat naturel',
-      duration: '12 mois',
-      grafts: '3500 greffons',
-      technique: 'DHI',
-      description: 'Résultat naturel avec densité optimale en zone frontale',
-      context: 'Patient de 35 ans présentant une calvitie de type III sur l\'échelle de Norwood. La technique DHI a permis une implantation précise avec un angle naturel, créant une ligne frontale harmonieuse et une densité remarquable.'
-    },
-    {
-      image: '/greffe cheveux turquie avant après copy.png',
-      alt: 'greffe cheveux FUE avant après résultat',
-      duration: '10 mois',
-      grafts: '4000 greffons',
-      technique: 'FUE',
-      description: 'Transformation complète avec ligne frontale redéfinie',
-      context: 'Patient de 42 ans avec calvitie avancée. La technique FUE a permis de traiter une large surface avec 4000 greffons, offrant une couverture homogène et un résultat d\'apparence totalement naturelle.'
-    },
-    {
-      image: '/greffe cheveux turquie avant après copy copy.png',
-      alt: 'implant capillaire turquie avant après',
-      duration: '9 mois',
-      grafts: '3200 greffons',
-      technique: 'DHI',
-      description: 'Densité remarquable et aspect totalement naturel',
-      context: 'Patient de 29 ans souhaitant densifier sa zone frontale. La méthode DHI a permis d\'atteindre une densité maximale tout en respectant l\'orientation naturelle des cheveux existants.'
-    },
-    {
-      image: '/greffe cheveux turquie avant après, cliniqeo.png',
-      alt: 'greffe cheveux turquie cliniqeo résultat',
-      duration: '11 mois',
-      grafts: '4500 greffons',
-      technique: 'FUE',
-      description: 'Couverture maximale des zones dégarnies',
-      context: 'Patient de 48 ans avec une calvitie extensive. Notre équipe a réalisé une greffe de 4500 greffons en technique FUE pour restaurer l\'ensemble des zones affectées avec un résultat final très satisfaisant.'
-    },
-    {
-      image: '/greffe cheveux turquie avant après copy copy copy.png',
-      alt: 'DHI implantation directe résultat avant après',
-      duration: '8 mois',
-      grafts: '3000 greffons',
-      technique: 'DHI',
-      description: 'Récupération rapide et résultat harmonieux',
-      context: 'Patient de 37 ans ayant opté pour la technique DHI. La récupération post-opératoire a été particulièrement rapide, avec un retour au travail après seulement 5 jours et des résultats visibles dès le 6ème mois.'
-    },
-    {
-      image: '/greffe cheveux turquie avant après copy copy copy copy.png',
-      alt: 'greffe capillaire turquie avant après',
-      duration: '12 mois',
-      grafts: '3800 greffons',
-      technique: 'FUE',
-      description: 'Résultat final dense et naturel',
-      context: 'Patient de 40 ans ayant bénéficié d\'une greffe FUE complète. Après 12 mois, le résultat final montre une densité optimale avec un aspect parfaitement naturel, indétectable même de près.'
-    },
-    {
-      image: '/greffe cheveux turquie avant après copy copy copy copy copy.png',
-      alt: 'résultat greffe FUE turquie homme',
-      duration: '10 mois',
-      grafts: '3600 greffons',
-      technique: 'FUE',
-      description: 'Restauration complète de la ligne frontale',
-      context: 'Patient de 33 ans souhaitant retrouver sa ligne capillaire de jeunesse. La technique FUE a permis de recréer une ligne frontale naturelle avec une transition progressive vers l\'arrière.'
-    },
-    {
-      image: '/greffe cheveux turquie avant après copy copy copy copy copy copy.png',
-      alt: 'avant après implant cheveux DHI',
-      duration: '9 mois',
-      grafts: '3400 greffons',
-      technique: 'DHI',
-      description: 'Densification maximale avec stylo CHOI',
-      context: 'Patient de 31 ans ayant choisi la technique DHI pour son potentiel de densité supérieure. Le stylo implanteur CHOI a permis un contrôle précis de l\'angle et de la profondeur pour un rendu optimal.'
-    },
-    {
-      image: '/greffe cheveux turquie avant après copy copy copy copy copy copy copy.png',
-      alt: 'greffe cheveux homme avant après turquie',
-      duration: '11 mois',
-      grafts: '4200 greffons',
-      technique: 'FUE',
-      description: 'Transformation radicale et durable',
-      context: 'Patient de 45 ans avec calvitie avancée de type IV-V. Une greffe FUE extensive de 4200 greffons a permis une transformation remarquable, restaurant l\'ensemble de la zone frontale et du vertex.'
-    },
-    {
-      image: '/greffe cheveux turquie avant après copy copy copy copy copy copy copy copy.png',
-      alt: 'résultat final greffe capillaire turquie',
-      duration: '12 mois',
-      grafts: '3900 greffons',
-      technique: 'DHI',
-      description: 'Résultat exceptionnel technique premium',
-      context: 'Patient de 38 ans ayant opté pour notre forfait premium DHI. Après 12 mois, le résultat dépasse les attentes avec une densité exceptionnelle et un aspect totalement naturel, validé par notre garantie satisfaction.'
-    },
-    {
-      image: '/greffe cheveux turquie avant apres copy.png',
-      alt: 'greffe cheveux FUE résultat naturel',
-      duration: '10 mois',
-      grafts: '3700 greffons',
-      technique: 'FUE',
-      description: 'Couverture homogène et naturelle',
-      context: 'Patient de 36 ans présentant un début de calvitie. La greffe FUE de 3700 greffons a permis de densifier l\'ensemble de la zone tout en préservant un aspect totalement naturel, imperceptible même par un professionnel.'
-    },
-    {
-      image: '/greffe cheveux turquie avant après, cliniqeo copy.png',
-      alt: 'avant après greffe cheveux cliniqeo paris',
-      duration: '11 mois',
-      grafts: '4100 greffons',
-      technique: 'FUE',
-      description: 'Excellence médicale et résultat optimal',
-      context: 'Patient de 44 ans accompagné par notre équipe parisienne. Ce cas illustre parfaitement notre engagement qualité : diagnostic précis, intervention experte et suivi rigoureux pour un résultat qui dépasse les attentes.'
-    }
-  ].map((result) => ({ ...result, image: getHairAssetUrl(result.image) }));
+  const results = Array.from({ length: 20 }, (_, index) => {
+    const number = index + 1;
+    return {
+      image: getHairAssetUrl(`/greffe_cheveux_turquie_hair_transplant_turkey_${number}.jpg`),
+      alt: `Avant après greffe de cheveux Turquie - patient ${number}`,
+    };
+  });
 
   return (
     <div className="pt-20">
@@ -122,7 +19,7 @@ const BeforeAfterPage = () => {
             Photos Avant Après Greffe de Cheveux Turquie
           </h1>
           <p className="text-xl mb-6 opacity-90">
-            Découvrez les transformations réelles de nos patients. Résultats naturels et durables garantis.
+            Découvrez une sélection de résultats réels de patients pris en charge par notre partenaire médical.
           </p>
           <Link
             to="/contact"
@@ -144,27 +41,22 @@ const BeforeAfterPage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
             {results.map((result, index) => (
-              <div key={index} className="bg-white rounded-2xl overflow-hidden shadow-xl border-2 border-gray-100 hover:shadow-2xl hover:border-[#2f6bfc] transition-all duration-300">
+              <figure
+                key={result.image}
+                className="overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow duration-300"
+              >
                 <img
                   src={result.image}
                   alt={result.alt}
-                  className="w-full h-auto"
-                  loading="lazy"
+                  className="block w-full h-auto"
+                  loading={index < 8 ? 'eager' : 'lazy'}
+                  decoding="async"
                 />
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-bold text-[#2f6bfc]">{result.duration}</span>
-                    <span className="text-sm font-bold text-gray-700">{result.technique}</span>
-                  </div>
-                  <p className="text-sm text-gray-600 font-semibold mb-2">{result.grafts}</p>
-                  <p className="text-sm text-gray-700 mb-4 font-medium">{result.description}</p>
-                  <p className="text-xs text-gray-600 leading-relaxed">{result.context}</p>
-                </div>
-              </div>
+              </figure>
             ))}
-          </div>
+          </div>          </div>
         </div>
       </section>
 
