@@ -255,3 +255,119 @@ html {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Homepage trust bridge to the clinic & doctor page */
+.clinic-doctor-home-teaser {
+  background: #f7f9fc;
+  padding: 4.5rem 1.25rem;
+  border-bottom: 1px solid #e4eaf1;
+}
+
+.clinic-doctor-home-teaser__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(420px, 0.95fr);
+  gap: 3.25rem;
+  align-items: center;
+}
+
+.clinic-doctor-home-teaser__eyebrow {
+  margin: 0 0 0.75rem;
+  color: #2f6bfc;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.clinic-doctor-home-teaser__copy h2 {
+  margin: 0;
+  color: #224671;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.clinic-doctor-home-teaser__copy > p:not(.clinic-doctor-home-teaser__eyebrow) {
+  margin: 1.25rem 0 1.75rem;
+  max-width: 680px;
+  color: #556579;
+  font-size: 1.08rem;
+  line-height: 1.75;
+}
+
+.clinic-doctor-home-teaser__copy a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border-radius: 0.8rem;
+  background: #224671;
+  padding: 0.9rem 1.25rem;
+  color: white;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 160ms ease, background-color 160ms ease;
+}
+
+.clinic-doctor-home-teaser__copy a:hover {
+  background: #173a63;
+  transform: translateY(-1px);
+}
+
+.clinic-doctor-home-teaser__media {
+  position: relative;
+  min-height: 365px;
+}
+
+.clinic-doctor-home-teaser__image {
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: 300% 300%;
+  border: 8px solid white;
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 55px rgba(24, 50, 82, 0.18);
+}
+
+.clinic-doctor-home-teaser__image--clinic {
+  inset: 0 18% 8% 0;
+  background-position: 0% 0%;
+}
+
+.clinic-doctor-home-teaser__image--doctor {
+  width: 43%;
+  aspect-ratio: 4 / 3;
+  right: 0;
+  bottom: 0;
+  background-position: 0% 100%;
+}
+
+@media (max-width: 900px) {
+  .clinic-doctor-home-teaser {
+    padding: 3.5rem 1rem;
+  }
+
+  .clinic-doctor-home-teaser__inner {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+  }
+
+  .clinic-doctor-home-teaser__media {
+    min-height: 310px;
+  }
+}
+
+@media (max-width: 560px) {
+  .clinic-doctor-home-teaser__media {
+    min-height: 255px;
+  }
+
+  .clinic-doctor-home-teaser__image--clinic {
+    inset: 0 12% 8% 0;
+  }
+
+  .clinic-doctor-home-teaser__image--doctor {
+    width: 48%;
+    border-width: 5px;
+  }
+}
