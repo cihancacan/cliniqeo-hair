@@ -13,6 +13,7 @@ const TechniquesPage = lazy(() => import('./pages/TechniquesPage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
 const WhyTurkeyPage = lazy(() => import('./pages/WhyTurkeyPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
+const ClinicDoctorPage = lazy(() => import('./pages/ClinicDoctorPage'));
 const FAQPage = lazy(() => import('./pages/FAQPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const GuidesPage = lazy(() => import('./pages/GuidesPage'));
@@ -174,6 +175,7 @@ function AppContent() {
             <Route path="/tarifs" element={<PricingPage />} />
             <Route path="/turquie" element={<WhyTurkeyPage />} />
             <Route path="/a-propos" element={<AboutPage />} />
+        <Route path="/clinique-medecin" element={<ClinicDoctorPage lang="fr" />} />
             <Route path="/faq" element={englishMounted ? <EnglishGeneralPage pageKey="faq" /> : <FAQPage />} />
             <Route path="/contact" element={englishMounted ? <EnglishContactPage /> : <ContactPage />} />
             <Route path="/guides-greffe-cheveux" element={<GuidesPage lang="fr" />} />
@@ -195,6 +197,7 @@ function AppContent() {
             <Route path="/en/pricing" element={<EnglishPricingPage />} />
             <Route path="/en/why-turkey" element={<EnglishGeneralPage pageKey="whyTurkey" />} />
             <Route path="/en/about" element={<EnglishGeneralPage pageKey="about" />} />
+        <Route path="/en/clinic-doctor" element={<ClinicDoctorPage lang="en" />} />
             <Route path="/en/faq" element={<EnglishGeneralPage pageKey="faq" />} />
             <Route path="/en/contact" element={<EnglishContactPage />} />
             <Route path="/en/before-after" element={<EnglishGeneralPage pageKey="beforeAfter" />} />
