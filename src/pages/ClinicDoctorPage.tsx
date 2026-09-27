@@ -14,7 +14,7 @@ import {
   X,
 } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
-import { mountHairPath } from '../config/hostedPath';
+import { CLINIC_DOCTOR_ATLAS_DATA_URI } from '../config/clinicMedia';
 
 type Language = 'fr' | 'en';
 
@@ -24,7 +24,6 @@ type TileProps = {
   label?: string;
 };
 
-const ATLAS_PATH = '/clinic/clinic-doctor-atlas.webp';
 const TILE_POSITIONS = [
   '0% 0%',
   '50% 0%',
@@ -44,7 +43,7 @@ function AtlasTile({ index, className = '', label }: TileProps) {
       aria-label={label}
       className={`bg-no-repeat bg-cover ${className}`}
       style={{
-        backgroundImage: `url("${mountHairPath(ATLAS_PATH)}?v=20260927-2")`,
+        backgroundImage: `url("${CLINIC_DOCTOR_ATLAS_DATA_URI}")`,
         backgroundSize: '300% 300%',
         backgroundPosition: TILE_POSITIONS[index],
       }}
@@ -383,15 +382,6 @@ export default function ClinicDoctorPage({ lang }: { lang: Language }) {
                   </div>
                 ))}
               </div>
-
-              <a
-                href="https://oktaytuney.com/tr/doktorlarimiz/ersun-cobanoglu"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-7 inline-flex items-center gap-2 font-bold text-[#2f6bfc] hover:text-[#224671]"
-              >
-                {copy.officialProfile} <ExternalLink size={17} />
-              </a>
             </div>
           </div>
         </div>
