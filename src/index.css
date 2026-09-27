@@ -322,16 +322,28 @@ html {
 
 .clinic-doctor-home-teaser__image {
   position: absolute;
-  background-repeat: no-repeat;
-  background-size: 300% 300%;
+  overflow: hidden;
   border: 8px solid white;
   border-radius: 1.5rem;
   box-shadow: 0 20px 55px rgba(24, 50, 82, 0.18);
+  background: #eef3f8;
+}
+
+.clinic-doctor-home-teaser__image img {
+  position: absolute;
+  display: block;
+  width: 300%;
+  height: 300%;
+  max-width: none;
 }
 
 .clinic-doctor-home-teaser__image--clinic {
   inset: 0 18% 8% 0;
-  background-position: 0% 0%;
+}
+
+.clinic-doctor-home-teaser__image--clinic img {
+  left: 0;
+  top: 0;
 }
 
 .clinic-doctor-home-teaser__image--doctor {
@@ -339,7 +351,11 @@ html {
   aspect-ratio: 4 / 3;
   right: 0;
   bottom: 0;
-  background-position: 0% 100%;
+}
+
+.clinic-doctor-home-teaser__image--doctor img {
+  left: 0;
+  top: -200%;
 }
 
 @media (max-width: 900px) {
