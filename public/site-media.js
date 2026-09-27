@@ -224,8 +224,6 @@
   function enhanceMedia() {
     installStyles();
     enhanceAboutPage();
-    enhanceHomepageResults();
-    enhanceBeforeAfterPages();
   }
 
   let frame = 0;
