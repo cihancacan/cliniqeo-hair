@@ -5,7 +5,7 @@ import './index.css';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { getSiteLanguage, localizeInternalPath } from './config/localizedRoutes';
 import { getWhatsAppUrl, WHATSAPP_DISPLAY } from './config/contact';
-import { getAppPathname, mountHairPath, stripHairMountPath } from './config/hostedPath';
+import { getAppPathname, getHairAssetUrl, mountHairPath, stripHairMountPath } from './config/hostedPath';
 
 
 /**
@@ -175,6 +175,42 @@ function addEnglishBestClinicLinks() {
   firstGuideCategory.insertAdjacentElement('afterend', section);
 }
 
+function addClinicDoctorHomepageTeaser() {
+  const path = getAppPathname();
+  if (!['/', '/en'].includes(path)) return;
+  if (document.getElementById('clinic-doctor-home-teaser')) return;
+
+  const page = document.querySelector<HTMLElement>('main > div.pt-20');
+  const hero = page?.querySelector<HTMLElement>('section');
+  if (!hero) return;
+
+  const isEnglish = path === '/en';
+  const href = isEnglish ? '/en/clinic-doctor' : '/clinique-medecin';
+  const atlas = getHairAssetUrl('/clinic/clinic-doctor-atlas.webp');
+
+  const section = document.createElement('section');
+  section.id = 'clinic-doctor-home-teaser';
+  section.className = 'clinic-doctor-home-teaser';
+  section.innerHTML = `
+    <div class="clinic-doctor-home-teaser__inner">
+      <div class="clinic-doctor-home-teaser__copy">
+        <p class="clinic-doctor-home-teaser__eyebrow">${isEnglish ? 'PARTNER CLINIC & DOCTOR' : 'CLINIQUE PARTENAIRE & MÉDECIN'}</p>
+        <h2>${isEnglish ? 'Know where you will be treated — and by whom' : 'Savoir où vous serez pris en charge — et par qui'}</h2>
+        <p>${isEnglish
+          ? 'Meet the partner facility in Beşiktaş, Dr Ersun Çobanoğlu, the treatment rooms and the official international health-tourism authorisations.'
+          : 'Découvrez l’établissement partenaire à Beşiktaş, le Dr Ersun Çobanoğlu, les espaces de prise en charge et les autorisations officielles de tourisme international de santé.'}</p>
+        <a href="${href}">${isEnglish ? 'Meet the clinic & doctor' : 'Découvrir la clinique & le médecin'} <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="clinic-doctor-home-teaser__media" aria-hidden="true">
+        <div class="clinic-doctor-home-teaser__image clinic-doctor-home-teaser__image--clinic" style="background-image:url('${atlas}')"></div>
+        <div class="clinic-doctor-home-teaser__image clinic-doctor-home-teaser__image--doctor" style="background-image:url('${atlas}')"></div>
+      </div>
+    </div>
+  `;
+
+  hero.insertAdjacentElement('afterend', section);
+}
+
 function enforceWhatsAppOnlyContact() {
   const language = getSiteLanguage(getAppPathname());
   const whatsappUrl = getWhatsAppUrl(language);
@@ -247,6 +283,7 @@ function enforceWhatsAppOnlyContact() {
 function enhancePages() {
   enforceWhatsAppOnlyContact();
   addHomepageHeroMedia();
+  addClinicDoctorHomepageTeaser();
   addEnglishPatientReviews();
   addEnglishBestClinicLinks();
 }
