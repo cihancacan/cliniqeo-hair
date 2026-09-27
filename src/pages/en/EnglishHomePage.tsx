@@ -10,6 +10,7 @@ import {
   Star,
   Users,
 } from 'lucide-react';
+import BeforeAfterGallery from '../../components/BeforeAfterGallery';
 
 const EnglishHomePage = () => {
   const benefits = [
@@ -145,6 +146,8 @@ const EnglishHomePage = () => {
           </div>
         </div>
       </section>
+
+      <BeforeAfterGallery />
 
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
