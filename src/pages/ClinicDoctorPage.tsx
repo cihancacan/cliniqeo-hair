@@ -14,7 +14,6 @@ import {
   X,
 } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
-import { CLINIC_DOCTOR_ATLAS_DATA_URI } from '../config/clinicMedia';
 
 type Language = 'fr' | 'en';
 
@@ -24,30 +23,31 @@ type TileProps = {
   label?: string;
 };
 
-const TILE_POSITIONS = [
-  '0% 0%',
-  '50% 0%',
-  '100% 0%',
-  '0% 50%',
-  '50% 50%',
-  '100% 50%',
-  '0% 100%',
-  '50% 100%',
-  '100% 100%',
+const CLINIC_ATLAS_URL = 'https://cliniqeo-hair.vercel.app/clinic/clinic-doctor-atlas.webp?v=20260927-4';
+
+const TILE_OFFSETS = [
+  'left-0 top-0',
+  'left-[-100%] top-0',
+  'left-[-200%] top-0',
+  'left-0 top-[-100%]',
+  'left-[-100%] top-[-100%]',
+  'left-[-200%] top-[-100%]',
+  'left-0 top-[-200%]',
+  'left-[-100%] top-[-200%]',
+  'left-[-200%] top-[-200%]',
 ];
 
 function AtlasTile({ index, className = '', label }: TileProps) {
   return (
-    <div
-      role={label ? 'img' : undefined}
-      aria-label={label}
-      className={`bg-no-repeat bg-cover ${className}`}
-      style={{
-        backgroundImage: `url("${CLINIC_DOCTOR_ATLAS_DATA_URI}")`,
-        backgroundSize: '300% 300%',
-        backgroundPosition: TILE_POSITIONS[index],
-      }}
-    />
+    <div className={`relative overflow-hidden ${className}`}>
+      <img
+        src={CLINIC_ATLAS_URL}
+        alt={label ?? ''}
+        loading="lazy"
+        decoding="async"
+        className={`absolute max-w-none w-[300%] h-[300%] ${TILE_OFFSETS[index]}`}
+      />
+    </div>
   );
 }
 
