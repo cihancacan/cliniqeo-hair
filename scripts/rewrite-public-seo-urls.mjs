@@ -107,7 +107,7 @@ function routeFromAbsoluteUrl(value) {
       if (path.startsWith(`${EN_MOUNT}/`)) {
         const suffix = normaliseRoute(path.slice(EN_MOUNT.length));
         if (suffix.startsWith('/uk/') || suffix.startsWith('/us/')) return `/en${suffix}`;
-        if (suffix === '/pricing' || suffix === '/about' || suffix === '/faq' || suffix === '/contact' || suffix === '/why-turkey' || suffix === '/before-after' || suffix === '/hair-transplant-guides' || suffix === '/hair-transplant-by-city') return `/en${suffix}`;
+        if (suffix === '/pricing' || suffix === '/about' || suffix === '/clinic-doctor' || suffix === '/faq' || suffix === '/contact' || suffix === '/why-turkey' || suffix === '/before-after' || suffix === '/hair-transplant-guides' || suffix === '/hair-transplant-by-city') return `/en${suffix}`;
         return suffix;
       }
     }
