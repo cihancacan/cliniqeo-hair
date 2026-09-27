@@ -6,7 +6,6 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import { getSiteLanguage, localizeInternalPath } from './config/localizedRoutes';
 import { getWhatsAppUrl, WHATSAPP_DISPLAY } from './config/contact';
 import { getAppPathname, mountHairPath, stripHairMountPath } from './config/hostedPath';
-import { CLINIC_DOCTOR_ATLAS_DATA_URI } from './config/clinicMedia';
 
 
 /**
@@ -187,7 +186,7 @@ function addClinicDoctorHomepageTeaser() {
 
   const isEnglish = path === '/en';
   const href = isEnglish ? '/en/clinic-doctor' : '/clinique-medecin';
-  const atlas = CLINIC_DOCTOR_ATLAS_DATA_URI;
+  const atlas = 'https://cliniqeo-hair.vercel.app/clinic/clinic-doctor-atlas.webp?v=20260927-4';
 
   const section = document.createElement('section');
   section.id = 'clinic-doctor-home-teaser';
@@ -203,8 +202,12 @@ function addClinicDoctorHomepageTeaser() {
         <a href="${href}">${isEnglish ? 'Meet the clinic & doctor' : 'Découvrir la clinique & le médecin'} <span aria-hidden="true">→</span></a>
       </div>
       <div class="clinic-doctor-home-teaser__media" aria-hidden="true">
-        <div class="clinic-doctor-home-teaser__image clinic-doctor-home-teaser__image--clinic" style="background-image:url('${atlas}')"></div>
-        <div class="clinic-doctor-home-teaser__image clinic-doctor-home-teaser__image--doctor" style="background-image:url('${atlas}')"></div>
+        <div class="clinic-doctor-home-teaser__image clinic-doctor-home-teaser__image--clinic">
+          <img src="${atlas}" alt="" decoding="async" />
+        </div>
+        <div class="clinic-doctor-home-teaser__image clinic-doctor-home-teaser__image--doctor">
+          <img src="${atlas}" alt="" decoding="async" />
+        </div>
       </div>
     </div>
   `;
