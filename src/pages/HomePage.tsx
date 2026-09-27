@@ -356,89 +356,35 @@ const HomePage = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-white">
+            <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-[#224671] mb-6">
               Photos Avant Après Greffe de Cheveux Turquie
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Résultats naturels et durables obtenus par nos patients
+              Résultats réels de patients pris en charge par notre partenaire médical
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 hover:shadow-2xl transition-all duration-300">
-              <img
-                src={getHairAssetUrl('/greffe cheveux turquie avant apres.png')}
-                alt="greffe de cheveux avant après homme résultat naturel"
-                className="w-full h-auto"
-              />
-              <div className="p-4">
-                <p className="text-sm text-gray-600 font-semibold">12 mois • 3500 greffons • Technique DHI</p>
-                <p className="text-xs text-gray-500 mt-1">Résultat naturel avec densité optimale en zone frontale</p>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 hover:shadow-2xl transition-all duration-300">
-              <img
-                src={getHairAssetUrl('/greffe cheveux turquie avant après copy.png')}
-                alt="greffe cheveux FUE avant après résultat"
-                className="w-full h-auto"
-              />
-              <div className="p-4">
-                <p className="text-sm text-gray-600 font-semibold">10 mois • 4000 greffons • Technique FUE</p>
-                <p className="text-xs text-gray-500 mt-1">Transformation complète avec ligne frontale redéfinie</p>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 hover:shadow-2xl transition-all duration-300">
-              <img
-                src={getHairAssetUrl('/greffe cheveux turquie avant après copy copy.png')}
-                alt="implant capillaire turquie avant après"
-                className="w-full h-auto"
-              />
-              <div className="p-4">
-                <p className="text-sm text-gray-600 font-semibold">9 mois • 3200 greffons • Technique DHI</p>
-                <p className="text-xs text-gray-500 mt-1">Densité remarquable et aspect totalement naturel</p>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 hover:shadow-2xl transition-all duration-300">
-              <img
-                src={getHairAssetUrl('/greffe cheveux turquie avant après, cliniqeo.png')}
-                alt="greffe cheveux turquie cliniqeo résultat"
-                className="w-full h-auto"
-              />
-              <div className="p-4">
-                <p className="text-sm text-gray-600 font-semibold">11 mois • 4500 greffons • Technique FUE</p>
-                <p className="text-xs text-gray-500 mt-1">Couverture maximale des zones dégarnies</p>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 hover:shadow-2xl transition-all duration-300">
-              <img
-                src={getHairAssetUrl('/greffe cheveux turquie avant après copy copy copy.png')}
-                alt="DHI implantation directe résultat avant après"
-                className="w-full h-auto"
-              />
-              <div className="p-4">
-                <p className="text-sm text-gray-600 font-semibold">8 mois • 3000 greffons • Technique DHI</p>
-                <p className="text-xs text-gray-500 mt-1">Récupération rapide et résultat harmonieux</p>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 hover:shadow-2xl transition-all duration-300">
-              <img
-                src={getHairAssetUrl('/greffe cheveux turquie avant après copy copy copy copy.png')}
-                alt="greffe capillaire turquie avant après"
-                className="w-full h-auto"
-              />
-              <div className="p-4">
-                <p className="text-sm text-gray-600 font-semibold">12 mois • 3800 greffons • Technique FUE</p>
-                <p className="text-xs text-gray-500 mt-1">Résultat final dense et naturel</p>
-              </div>
-            </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5 mb-10">
+            {Array.from({ length: 8 }, (_, index) => {
+              const number = index + 1;
+              return (
+                <figure
+                  key={number}
+                  className="overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow duration-300"
+                >
+                  <img
+                    src={getHairAssetUrl(`/greffe_cheveux_turquie_hair_transplant_turkey_${number}.jpg`)}
+                    alt={`Avant après greffe de cheveux Turquie - patient ${number}`}
+                    className="block w-full h-auto"
+                    loading={number <= 4 ? 'eager' : 'lazy'}
+                    decoding="async"
+                  />
+                </figure>
+              );
+            })}
           </div>
 
           <div className="text-center">
