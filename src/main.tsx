@@ -186,7 +186,8 @@ function addClinicDoctorHomepageTeaser() {
 
   const isEnglish = path === '/en';
   const href = isEnglish ? '/en/clinic-doctor' : '/clinique-medecin';
-  const atlas = 'https://cliniqeo-hair.vercel.app/clinic/clinic-doctor-atlas.webp?v=20260927-4';
+  const clinicImage = 'https://cliniqeo-hair.vercel.app/clinique_greffe_cheveux_turquie.jpg?v=20260927-5';
+  const doctorImage = 'https://cliniqeo-hair.vercel.app/Dr_Ersun_Cobanoglu.jpg?v=20260927-5';
 
   const section = document.createElement('section');
   section.id = 'clinic-doctor-home-teaser';
@@ -203,10 +204,10 @@ function addClinicDoctorHomepageTeaser() {
       </div>
       <div class="clinic-doctor-home-teaser__media" aria-hidden="true">
         <div class="clinic-doctor-home-teaser__image clinic-doctor-home-teaser__image--clinic">
-          <img src="${atlas}" alt="" decoding="async" />
+          <img src="${clinicImage}" alt="" decoding="async" />
         </div>
         <div class="clinic-doctor-home-teaser__image clinic-doctor-home-teaser__image--doctor">
-          <img src="${atlas}" alt="" decoding="async" />
+          <img src="${doctorImage}" alt="" decoding="async" />
         </div>
       </div>
     </div>
