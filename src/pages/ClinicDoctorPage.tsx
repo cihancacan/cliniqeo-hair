@@ -21,6 +21,7 @@ type TileProps = {
   index: number;
   className?: string;
   label?: string;
+  fit?: 'cover' | 'contain';
 };
 
 const CLINIC_MEDIA_ORIGIN = 'https://cliniqeo-hair.vercel.app';
@@ -37,17 +38,17 @@ const CLINIC_MEDIA = [
   '/IMG_9685.jpg',
 ] as const;
 
-function AtlasTile({ index, className = '', label }: TileProps) {
+function AtlasTile({ index, className = '', label, fit = 'cover' }: TileProps) {
   const src = `${CLINIC_MEDIA_ORIGIN}${CLINIC_MEDIA[index]}`;
 
   return (
-    <div className={`relative overflow-hidden bg-slate-100 ${className}`}>
+    <div className={`relative overflow-hidden bg-white ${className}`}>
       <img
         src={src}
         alt={label ?? ''}
         loading={index === 6 || index === 0 ? 'eager' : 'lazy'}
         decoding="async"
-        className="absolute inset-0 h-full w-full object-cover"
+        className={`absolute inset-0 h-full w-full ${fit === 'contain' ? 'object-contain' : 'object-cover'}`}
       />
     </div>
   );
@@ -252,11 +253,12 @@ export default function ClinicDoctorPage({ lang }: { lang: Language }) {
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-white/15 bg-white/10 p-3 shadow-2xl">
+            <div className="border border-white/20 bg-white/10 p-2 shadow-xl">
               <AtlasTile
                 index={6}
                 label={copy.doctorTitle}
-                className="aspect-[4/3] rounded-[1.45rem]"
+                fit="contain"
+                className="aspect-[4/5] border border-white/20"
               />
               <div className="px-3 pt-4 pb-2">
                 <p className="text-xl font-bold">{copy.doctorTitle}</p>
@@ -293,7 +295,8 @@ export default function ClinicDoctorPage({ lang }: { lang: Language }) {
             <AtlasTile
               index={0}
               label={copy.gallery[0]}
-              className="aspect-[4/3] rounded-3xl shadow-xl border border-slate-200"
+              fit="contain"
+              className="aspect-[4/5] border border-slate-200 shadow-md"
             />
             <div>
               <div className="inline-flex items-center gap-2 text-[#2f6bfc] font-bold mb-3">
@@ -318,7 +321,7 @@ export default function ClinicDoctorPage({ lang }: { lang: Language }) {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {[1, 2, 3, 4, 5].map((index) => (
-              <figure key={index} className="overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm">
+              <figure key={index} className="overflow-hidden rounded-md bg-white border border-slate-200 shadow-sm">
                 <AtlasTile index={index} label={copy.gallery[index]} className="aspect-[4/3]" />
                 <figcaption className="px-5 py-4 font-semibold text-[#224671]">{copy.gallery[index]}</figcaption>
               </figure>
@@ -339,7 +342,8 @@ export default function ClinicDoctorPage({ lang }: { lang: Language }) {
               <AtlasTile
                 index={8}
                 label={copy.clinicPermitTitle}
-                className="aspect-[4/3] rounded-2xl border border-slate-200 shadow-md group-hover:shadow-xl transition-shadow"
+                fit="contain"
+                className="aspect-[4/3] rounded-md border border-slate-200 shadow-sm group-hover:shadow-md transition-shadow"
               />
               <span className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-[#2f6bfc]">
                 {copy.enlarge} <ExternalLink size={15} />
@@ -362,7 +366,8 @@ export default function ClinicDoctorPage({ lang }: { lang: Language }) {
             <AtlasTile
               index={6}
               label={copy.doctorTitle}
-              className="aspect-[4/3] rounded-3xl border border-blue-100 shadow-xl"
+              fit="contain"
+              className="aspect-[4/5] border border-slate-200 shadow-md"
             />
             <div>
               <div className="inline-flex items-center gap-2 text-[#2f6bfc] font-bold mb-3">
@@ -410,7 +415,8 @@ export default function ClinicDoctorPage({ lang }: { lang: Language }) {
               <AtlasTile
                 index={7}
                 label={copy.doctorPermitTitle}
-                className="aspect-[4/3] rounded-2xl border border-slate-200 shadow-lg"
+                fit="contain"
+                className="aspect-[4/3] rounded-md border border-slate-200 shadow-sm"
               />
             </button>
           </div>
@@ -467,7 +473,8 @@ export default function ClinicDoctorPage({ lang }: { lang: Language }) {
             <AtlasTile
               index={certificate}
               label={certificate === 7 ? copy.doctorPermitTitle : copy.clinicPermitTitle}
-              className="aspect-[4/3] rounded-2xl bg-white shadow-2xl"
+              fit="contain"
+              className="aspect-[4/3] rounded-md bg-white shadow-xl"
             />
           </div>
         </div>
