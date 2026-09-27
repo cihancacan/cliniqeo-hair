@@ -14,7 +14,7 @@ import {
   X,
 } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
-import { getHairAssetUrl } from '../config/hostedPath';
+import { mountHairPath } from '../config/hostedPath';
 
 type Language = 'fr' | 'en';
 
@@ -44,7 +44,7 @@ function AtlasTile({ index, className = '', label }: TileProps) {
       aria-label={label}
       className={`bg-no-repeat bg-cover ${className}`}
       style={{
-        backgroundImage: `url("${getHairAssetUrl(ATLAS_PATH)}")`,
+        backgroundImage: `url("${mountHairPath(ATLAS_PATH)}?v=20260927-2")`,
         backgroundSize: '300% 300%',
         backgroundPosition: TILE_POSITIONS[index],
       }}
@@ -72,7 +72,7 @@ export default function ClinicDoctorPage({ lang }: { lang: Language }) {
         trustPermit: 'Autorisation officielle de tourisme de santé',
         trustSupport: 'Coordination Cliniqeo en français',
         clinicEyebrow: 'L’établissement partenaire',
-        clinicTitle: 'Özel Oktay Tüney Polikliniği',
+        clinicTitle: 'OKTAY TUNEY CLINIC',
         clinicText:
           'La clinique est située à Beşiktaş, au cœur d’Istanbul. Elle accueille des patients internationaux et propose notamment les techniques FUE, DHI et Sapphire FUE, avec un parcours défini après évaluation médicale.',
         address: 'Dikilitaş, Ayazmaderesi Cd No:6/1, 34349 Beşiktaş / İstanbul',
@@ -82,7 +82,7 @@ export default function ClinicDoctorPage({ lang }: { lang: Language }) {
         gallery: ['Façade de la clinique', 'Accueil', 'Salle d’attente', 'Salle d’intervention', 'Bloc de traitement', 'Espace de lavage'],
         clinicPermitTitle: 'Autorisation de tourisme international de santé',
         clinicPermitText:
-          'Le document présenté est délivré sous l’autorité du Ministère de la Santé de la République de Türkiye à l’Özel Oktay Tüney Polikliniği.',
+          'Le document présenté est délivré sous l’autorité du Ministère de la Santé de la République de Türkiye. L’établissement est présenté aux patients sous son nom commercial OKTAY TUNEY CLINIC.',
         enlarge: 'Agrandir le certificat',
         doctorEyebrow: 'Votre médecin',
         doctorTitle: 'Dr Ersun Çobanoğlu',
@@ -124,7 +124,7 @@ export default function ClinicDoctorPage({ lang }: { lang: Language }) {
         trustPermit: 'Official health-tourism authorisation',
         trustSupport: 'English-speaking Cliniqeo coordination',
         clinicEyebrow: 'Partner facility',
-        clinicTitle: 'Özel Oktay Tüney Polikliniği',
+        clinicTitle: 'OKTAY TUNEY CLINIC',
         clinicText:
           'The clinic is located in Beşiktaş, central Istanbul. It welcomes international patients and offers FUE, DHI and Sapphire FUE techniques, with the final pathway confirmed after medical assessment.',
         address: 'Dikilitaş, Ayazmaderesi Cd No:6/1, 34349 Beşiktaş / İstanbul',
@@ -134,7 +134,7 @@ export default function ClinicDoctorPage({ lang }: { lang: Language }) {
         gallery: ['Clinic exterior', 'Reception', 'Waiting area', 'Treatment room', 'Clinical treatment room', 'Hair-washing area'],
         clinicPermitTitle: 'International health-tourism authorisation',
         clinicPermitText:
-          'The displayed certificate is issued under the authority of the Republic of Türkiye Ministry of Health to Özel Oktay Tüney Polikliniği.',
+          'The displayed certificate is issued under the authority of the Republic of Türkiye Ministry of Health. The facility is presented to patients under its commercial name, OKTAY TUNEY CLINIC.',
         enlarge: 'Enlarge certificate',
         doctorEyebrow: 'Your doctor',
         doctorTitle: 'Dr Ersun Çobanoğlu',
@@ -170,7 +170,7 @@ export default function ClinicDoctorPage({ lang }: { lang: Language }) {
     {
       '@context': 'https://schema.org',
       '@type': 'MedicalClinic',
-      name: 'Özel Oktay Tüney Polikliniği',
+      name: 'OKTAY TUNEY CLINIC',
       url: 'https://oktaytuney.com/',
       address: {
         '@type': 'PostalAddress',
@@ -192,7 +192,7 @@ export default function ClinicDoctorPage({ lang }: { lang: Language }) {
       },
       affiliation: {
         '@type': 'MedicalClinic',
-        name: 'Özel Oktay Tüney Polikliniği',
+        name: 'OKTAY TUNEY CLINIC',
       },
       sameAs: ['https://oktaytuney.com/tr/doktorlarimiz/ersun-cobanoglu'],
     },
@@ -208,8 +208,8 @@ export default function ClinicDoctorPage({ lang }: { lang: Language }) {
         }
         description={
           isFr
-            ? 'Découvrez l’Özel Oktay Tüney Polikliniği à Beşiktaş, le Dr Ersun Çobanoğlu, les espaces de prise en charge et les autorisations officielles de tourisme de santé.'
-            : 'Discover Özel Oktay Tüney Polikliniği in Beşiktaş, Dr Ersun Çobanoğlu, the treatment spaces and official international health-tourism authorisations.'
+            ? 'Découvrez l’OKTAY TUNEY CLINIC à Beşiktaş, le Dr Ersun Çobanoğlu, les espaces de prise en charge et les autorisations officielles de tourisme de santé.'
+            : 'Discover OKTAY TUNEY CLINIC in Beşiktaş, Dr Ersun Çobanoğlu, the treatment spaces and official international health-tourism authorisations.'
         }
         path={pagePath}
         lang={lang}
