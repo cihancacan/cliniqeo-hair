@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Shield, Heart, Users, Award, CheckCircle, Star } from 'lucide-react';
+import { Shield, Heart, Users, Award, CheckCircle } from 'lucide-react';
 import { getHairAssetUrl } from '../config/hostedPath';
 
 const AboutPage = () => {
@@ -114,7 +114,7 @@ const AboutPage = () => {
               </div>
               <h3 className="text-2xl font-semibold text-[#224671] mb-4">Excellence</h3>
               <p className="text-gray-700">
-                Partenaires triés, techniques de pointe, résultats naturels, satisfaction garantie.
+                Partenaires sélectionnés, informations vérifiables et parcours coordonné avec transparence.
               </p>
             </div>
           </div>
@@ -123,86 +123,64 @@ const AboutPage = () => {
 
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-semibold text-[#224671] mb-6">
-              Notre Partenariat Exclusif
+          <div className="text-center mb-12">
+            <p className="text-[#2f6bfc] font-bold tracking-wider text-sm mb-3">CLINIQUE PARTENAIRE & MÉDECIN</p>
+            <h2 className="text-4xl font-semibold text-[#224671] mb-5">
+              Une prise en charge plus transparente à Istanbul
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Cliniqeo Hair travaille en partenariat exclusif avec des cliniques d'excellence à Istanbul
+              Découvrez l’Özel Oktay Tüney Polikliniği à Beşiktaş, le Dr Ersun Çobanoğlu, les espaces de prise en charge et les autorisations officielles de tourisme international de santé.
             </p>
           </div>
 
-          <div className="bg-gradient-to-br from-[#f3f3f3] to-white rounded-2xl p-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              <div>
-                <h3 className="text-3xl font-semibold text-[#224671] mb-6">
-                  Nos Cliniques Partenaires
-                </h3>
-                <ul className="space-y-4">
-                  <li className="flex items-start">
-                    <CheckCircle className="text-[#2f6bfc] mr-3 flex-shrink-0 mt-1" size={24} />
-                    <span className="text-gray-700">
-                      <strong>Certification JCI et ISO</strong> - Standards internationaux de qualité médicale
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="text-[#2f6bfc] mr-3 flex-shrink-0 mt-1" size={24} />
-                    <span className="text-gray-700">
-                      <strong>Chirurgiens certifiés</strong> - Plus de 10 ans d'expérience en transplantation capillaire
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="text-[#2f6bfc] mr-3 flex-shrink-0 mt-1" size={24} />
-                    <span className="text-gray-700">
-                      <strong>Équipements modernes</strong> - Technologies FUE et DHI dernière génération
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="text-[#2f6bfc] mr-3 flex-shrink-0 mt-1" size={24} />
-                    <span className="text-gray-700">
-                      <strong>Bloc opératoire stérile</strong> - Normes d'hygiène européennes strictes
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="text-[#2f6bfc] mr-3 flex-shrink-0 mt-1" size={24} />
-                    <span className="text-gray-700">
-                      <strong>500+ interventions/an</strong> - Expertise confirmée et résultats prouvés
-                    </span>
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-3xl font-semibold text-[#224671] mb-6">
-                  Dr. Güncel Öztürk
-                </h3>
-                <p className="text-lg text-gray-700 mb-4 leading-relaxed">
-                  Notre chirurgien partenaire principal, le Dr. Güncel Öztürk, est spécialisé en transplantation capillaire depuis plus de 12 ans.
+          <div className="grid lg:grid-cols-2 gap-8">
+            <div className="rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
+              <div
+                className="aspect-[4/3] bg-cover bg-no-repeat"
+                style={{
+                  backgroundImage: `url("${getHairAssetUrl('/clinic/clinic-doctor-atlas.webp')}")`,
+                  backgroundSize: '300% 300%',
+                  backgroundPosition: '0% 0%',
+                }}
+                role="img"
+                aria-label="Façade de l’Özel Oktay Tüney Polikliniği à Istanbul"
+              />
+              <div className="p-7">
+                <h3 className="text-2xl font-semibold text-[#224671] mb-3">Özel Oktay Tüney Polikliniği</h3>
+                <p className="text-gray-700 leading-relaxed">
+                  Établissement partenaire situé à Beşiktaş, Istanbul, disposant d’une autorisation de tourisme international de santé.
                 </p>
-                <div className="space-y-3">
-                  <div className="flex items-center">
-                    <Star className="text-[#2f6bfc] mr-3" size={20} />
-                    <span className="text-gray-700">Diplômé de la Faculté de Médecine d'Istanbul</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Star className="text-[#2f6bfc] mr-3" size={20} />
-                    <span className="text-gray-700">Membre de l'ISHRS (International Society of Hair Restoration Surgery)</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Star className="text-[#2f6bfc] mr-3" size={20} />
-                    <span className="text-gray-700">Plus de 6000 interventions réalisées</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Star className="text-[#2f6bfc] mr-3" size={20} />
-                    <span className="text-gray-700">Spécialiste FUE, DHI et greffe de barbe</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Star className="text-[#2f6bfc] mr-3" size={20} />
-                    <span className="text-gray-700">Formateur international en techniques capillaires</span>
-                  </div>
-                </div>
               </div>
             </div>
+
+            <div className="rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
+              <div
+                className="aspect-[4/3] bg-cover bg-no-repeat"
+                style={{
+                  backgroundImage: `url("${getHairAssetUrl('/clinic/clinic-doctor-atlas.webp')}")`,
+                  backgroundSize: '300% 300%',
+                  backgroundPosition: '0% 100%',
+                }}
+                role="img"
+                aria-label="Dr Ersun Çobanoğlu"
+              />
+              <div className="p-7">
+                <h3 className="text-2xl font-semibold text-[#224671] mb-1">Dr Ersun Çobanoğlu</h3>
+                <p className="font-semibold text-[#2f6bfc] mb-3">Médecin · Esthétique médicale</p>
+                <p className="text-gray-700 leading-relaxed">
+                  Diplômé de la Faculté de médecine de l’Université de Trakya, avec un parcours en milieu hospitalier public puis privé en Turquie.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-9">
+            <Link
+              to="/clinique-medecin"
+              className="inline-flex items-center justify-center rounded-lg bg-[#224671] text-white px-7 py-4 font-semibold hover:bg-[#173a63] transition-colors"
+            >
+              Découvrir la clinique, le médecin et les autorisations
+            </Link>
           </div>
         </div>
       </section>
