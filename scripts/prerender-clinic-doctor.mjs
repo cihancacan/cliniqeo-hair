@@ -78,9 +78,14 @@ for (const page of pages) {
     .replace('</head>', `<link rel="alternate" hreflang="${hreflang}" href="${alternate}"><link rel="alternate" hreflang="x-default" href="${ORIGIN}/clinique-medecin"></head>`)
     .replace(/<div id="root"><\/div>/, body);
 
-  const file = join(DIST, page.path.replace(/^\//, ''), 'index.html');
-  await mkdir(dirname(file), { recursive: true });
-  await writeFile(file, html);
+  const cleanRoute = page.path.replace(/^\//, '');
+  const flatFile = join(DIST, `${cleanRoute}.html`);
+  const indexFile = join(DIST, cleanRoute, 'index.html');
+
+  await mkdir(dirname(flatFile), { recursive: true });
+  await mkdir(dirname(indexFile), { recursive: true });
+  await writeFile(flatFile, html);
+  await writeFile(indexFile, html);
 }
 
 console.log(`Prerendered ${pages.length} clinic & doctor pages`);
