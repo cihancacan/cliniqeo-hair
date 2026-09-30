@@ -147,6 +147,86 @@ const HomePage = () => {
         </div>
       </section>
 
+      <section className="clinic-doctor-home-teaser" aria-labelledby="clinic-doctor-home-title">
+        <div className="clinic-doctor-home-teaser__inner">
+          <div className="clinic-doctor-home-teaser__copy">
+            <p className="clinic-doctor-home-teaser__eyebrow">CLINIQUE PARTENAIRE & MÉDECIN</p>
+            <h2 id="clinic-doctor-home-title">Savoir où vous serez pris en charge — et par qui</h2>
+            <p>
+              Découvrez l’établissement partenaire à Beşiktaş, le Dr Ersun Çobanoğlu, les espaces de prise en charge
+              et les autorisations officielles de tourisme international de santé.
+            </p>
+            <Link to="/clinique-medecin">
+              Découvrir la clinique & le médecin <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+          <div className="clinic-doctor-home-teaser__media" aria-hidden="true">
+            <div className="clinic-doctor-home-teaser__image clinic-doctor-home-teaser__image--clinic">
+              <img
+                src={getHairAssetUrl('/clinique_greffe_cheveux_turquie.jpg')}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                fetchPriority="low"
+              />
+            </div>
+            <div className="clinic-doctor-home-teaser__image clinic-doctor-home-teaser__image--doctor">
+              <img
+                src={getHairAssetUrl('/Dr_Ersun_Cobanoglu.jpg')}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                fetchPriority="low"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#224671] mb-6">
+              Photos Avant Après Greffe de Cheveux Turquie
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Résultats réels de patients pris en charge par notre partenaire médical
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5 mb-10">
+            {Array.from({ length: 8 }, (_, index) => {
+              const number = index + 1;
+              return (
+                <figure
+                  key={number}
+                  className="overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow duration-300"
+                >
+                  <img
+                    src={getHairAssetUrl(`/greffe_cheveux_turquie_hair_transplant_turkey_${number}.jpg`)}
+                    alt={`Avant après greffe de cheveux Turquie - patient ${number}`}
+                    className="block w-full h-auto"
+                    loading="lazy"
+                    decoding="async"
+                    fetchPriority="low"
+                  />
+                </figure>
+              );
+            })}
+          </div>
+
+          <div className="text-center">
+            <Link
+              to="/greffe-cheveux/avant-apres"
+              className="inline-flex items-center justify-center bg-[#2f6bfc] text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-[#224671] transition-all duration-300 shadow-lg"
+            >
+              Voir plus de résultats
+              <ArrowRight className="ml-2" size={20} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -222,7 +302,7 @@ const HomePage = () => {
                   </div>
                 </div>
                 <Link
-                  to="/about"
+                  to="/clinique-medecin"
                   className="mt-6 inline-flex items-center justify-center w-full bg-[#2f6bfc] text-white px-6 py-3 rounded-xl font-bold hover:bg-[#224671] transition-all duration-300"
                 >
                   Découvrir notre clinique
@@ -258,7 +338,7 @@ const HomePage = () => {
                   </div>
                 </div>
                 <Link
-                  to="/pricing"
+                  to="/tarifs"
                   className="mt-6 inline-flex items-center justify-center w-full bg-[#2f6bfc] text-white px-6 py-3 rounded-xl font-bold hover:bg-[#224671] transition-all duration-300"
                 >
                   Voir nos tarifs
@@ -356,49 +436,7 @@ const HomePage = () => {
         </div>
       </section>
 
-            <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#224671] mb-6">
-              Photos Avant Après Greffe de Cheveux Turquie
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Résultats réels de patients pris en charge par notre partenaire médical
-            </p>
-          </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5 mb-10">
-            {Array.from({ length: 8 }, (_, index) => {
-              const number = index + 1;
-              return (
-                <figure
-                  key={number}
-                  className="overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow duration-300"
-                >
-                  <img
-                    src={getHairAssetUrl(`/greffe_cheveux_turquie_hair_transplant_turkey_${number}.jpg`)}
-                    alt={`Avant après greffe de cheveux Turquie - patient ${number}`}
-                    className="block w-full h-auto"
-                    loading="lazy"
-                    decoding="async"
-                    fetchPriority="low"
-                  />
-                </figure>
-              );
-            })}
-          </div>
-
-          <div className="text-center">
-            <Link
-              to="/greffe-cheveux/avant-apres"
-              className="inline-flex items-center justify-center bg-[#2f6bfc] text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-[#224671] transition-all duration-300 shadow-lg"
-            >
-              Voir plus de résultats
-              <ArrowRight className="ml-2" size={20} />
-            </Link>
-          </div>
-        </div>
-      </section>
 
       <section className="py-24 bg-gradient-to-br from-slate-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

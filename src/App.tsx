@@ -5,11 +5,11 @@ import Footer from './components/Footer';
 import { useLanguage } from './contexts/LanguageContext';
 import { getSiteLanguage } from './config/localizedRoutes';
 import { getHairRouterBasename, isEnglishMountedHairPath } from './config/hostedPath';
-import EnglishContactPage from './pages/en/EnglishContactPage';
-import HairTransplantTurkey from './pages/seo/HairTransplantTurkey';
+import GlobalLeadForm from './components/GlobalLeadForm';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
-const GlobalLeadForm = lazy(() => import('./components/GlobalLeadForm'));
+const EnglishContactPage = lazy(() => import('./pages/en/EnglishContactPage'));
+const HairTransplantTurkey = lazy(() => import('./pages/seo/HairTransplantTurkey'));
 const TechniquesPage = lazy(() => import('./pages/TechniquesPage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
 const WhyTurkeyPage = lazy(() => import('./pages/WhyTurkeyPage'));
@@ -56,7 +56,17 @@ function ScrollToTop() {
   return null;
 }
 
-function PageLoader() {
+function PageLoader({ homepage = false }: { homepage?: boolean }) {
+  if (homepage) {
+    return (
+      <div className="home-photo-hero relative min-h-[95vh] bg-slate-900" role="status" aria-live="polite">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="h-9 w-9 rounded-full border-4 border-white/30 border-t-white animate-spin" aria-label="Chargement" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-[45vh] pt-32 flex items-center justify-center bg-white" role="status" aria-live="polite">
       <div className="h-10 w-10 rounded-full border-4 border-blue-100 border-t-[#2f6bfc] animate-spin" aria-label="Chargement" />
@@ -171,7 +181,7 @@ function AppContent() {
       <ScrollToTop />
       <Navigation />
       <main>
-        <Suspense fallback={<PageLoader />}>
+        <Suspense fallback={<PageLoader homepage={pathname === '/'} />}>
           <Routes>
             <Route path="/" element={englishMounted ? <HairTransplantTurkey /> : <HomePage />} />
             <Route path="/techniques" element={englishMounted ? <EnglishGeneralPage pageKey="techniques" /> : <TechniquesPage />} />
@@ -273,13 +283,9 @@ function AppContent() {
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+          {!isContactPage && <GlobalLeadForm />}
         </Suspense>
       </main>
-      {!isContactPage && (
-        <Suspense fallback={null}>
-          <GlobalLeadForm />
-        </Suspense>
-      )}
       <Footer />
     </div>
   );
