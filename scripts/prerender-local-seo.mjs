@@ -110,8 +110,8 @@ function renderLocalArticle(country, keyword, city, pagePath) {
   const isFr = country === 'fr';
   const intent = isFr ? frIntent[keyword.intent] : enIntent[keyword.intent];
   const label = cityLabel(country, city);
-  const imageNumber = (hash(pagePath) % 6) + 1;
-  const image = `/greffe.cheveux.avant.apres${imageNumber}.jpg`;
+  const imageNumber = (hash(pagePath) % 20) + 1;
+  const image = `${origin}/greffe_cheveux_turquie_hair_transplant_turkey_${imageNumber}.jpg`;
   const contact = isFr ? '/contact' : '/en/contact';
   const directory = country === 'fr' ? '/greffe-cheveux-france' : `/en/${country}/hair-transplant-cities`;
   const variant = hash(pagePath) % 4;
@@ -260,7 +260,7 @@ function renderDirectory(country, cities, keywords) {
   const cards = cities.map((city) => `<section><h2>${escapeHtml(cityLabel(country, city))}</h2><p>${escapeHtml(city.region)} · ${escapeHtml(city.airport)} (${escapeHtml(city.airportCode)})</p><ul>${keywords.map((keyword) => `<li><a href="${pathFor(country, keyword, city)}">${escapeHtml(keyword.label)} ${escapeHtml(city.name)}</a></li>`).join('')}</ul></section>`).join('');
   const body = `<main style="font-family:Arial,sans-serif;color:#243b53;line-height:1.7"><article style="max-width:1100px;margin:0 auto;padding:72px 24px"><h1 style="font-size:clamp(2.3rem,5vw,4rem);color:#224671">${escapeHtml(title)}</h1><p style="font-size:1.2rem">${escapeHtml(description)}</p>${cards}</article></main>`;
   const schema = { '@context': 'https://schema.org', '@type': 'CollectionPage', name: title, description, url: `${origin}${path}`, inLanguage: isFr ? 'fr-FR' : 'en' };
-  return { path, html: injectSeo(shell, { lang: isFr ? 'fr' : 'en', title, description, path, body, schema, image: '/greffe.cheveux.avant.apres1.jpg' }) };
+  return { path, html: injectSeo(shell, { lang: isFr ? 'fr' : 'en', title, description, path, body, schema, image: `${origin}/greffe_cheveux_turquie_hair_transplant_turkey_1.jpg` }) };
 }
 
 for (const [country, cities, keywords] of [['fr', frCities, frKeywords], ['uk', ukCities, enKeywords], ['us', usCities, enKeywords]]) {
@@ -273,7 +273,7 @@ const masterPath = '/en/hair-transplant-by-city';
 const masterTitle = 'Hair Transplant by City: United Kingdom and United States';
 const masterDescription = 'Browse local hair transplant, hair restoration, hair implants, cost and clinic guides for major UK cities and every US state.';
 const masterBody = `<main style="font-family:Arial,sans-serif;color:#243b53;line-height:1.7"><article style="max-width:900px;margin:0 auto;padding:72px 24px"><h1 style="font-size:clamp(2.3rem,5vw,4rem);color:#224671">${masterTitle}</h1><p style="font-size:1.2rem">${masterDescription}</p><h2>United Kingdom</h2><p><a href="/en/uk/hair-transplant-cities">Browse 20 UK city guides</a></p><h2>United States</h2><p><a href="/en/us/hair-transplant-cities">Browse one principal city in every US state</a></p></article></main>`;
-const masterHtml = injectSeo(shell, { lang: 'en', title: masterTitle, description: masterDescription, path: masterPath, body: masterBody, schema: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: masterTitle, description: masterDescription, url: `${origin}${masterPath}` }, image: '/greffe.cheveux.avant.apres1.jpg' });
+const masterHtml = injectSeo(shell, { lang: 'en', title: masterTitle, description: masterDescription, path: masterPath, body: masterBody, schema: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: masterTitle, description: masterDescription, url: `${origin}${masterPath}` }, image: `${origin}/greffe_cheveux_turquie_hair_transplant_turkey_1.jpg` });
 await writeRoute(masterPath, masterHtml);
 routes.push(masterPath);
 

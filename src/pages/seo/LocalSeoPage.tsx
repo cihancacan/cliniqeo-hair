@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { CheckCircle, Languages, Plane, ShieldCheck, Stethoscope, WalletCards } from 'lucide-react';
 import SEOHead from '../../components/SEOHead';
-import { mountHairPath } from '../../config/hostedPath';
+import { getHairAssetUrl, mountHairPath } from '../../config/hostedPath';
 import LocalLeadForm from '../../components/LocalLeadForm';
 import { findLocalPage, type LocalIntent } from '../../config/localSeoData';
 
@@ -133,8 +133,10 @@ function LocalSeoPage() {
   const copy = isFr ? frIntent[keyword.intent] : enIntent[keyword.intent];
   const countryLabel = country === 'fr' ? 'France' : country === 'uk' ? 'United Kingdom' : 'United States';
   const cityLabel = country === 'us' ? `${city.name}, ${city.region}` : city.name;
-  const imageNumber = (hashValue(path) % 6) + 1;
-  const image = `/greffe.cheveux.avant.apres${imageNumber}.jpg`;
+  const firstResultNumber = (hashValue(path) % 20) + 1;
+  const resultNumbers = Array.from({ length: 4 }, (_, index) => ((firstResultNumber + index - 1) % 20) + 1);
+  const resultImagePath = (number: number) => `/greffe_cheveux_turquie_hair_transplant_turkey_${number}.jpg`;
+  const image = getHairAssetUrl(resultImagePath(firstResultNumber));
   const pricePath = isFr ? '/tarifs' : '/en/pricing';
   const homePath = isFr ? '/' : '/en';
   const title = isFr
@@ -237,7 +239,15 @@ function LocalSeoPage() {
             </div>
           </div>
           <div className="rounded-3xl overflow-hidden shadow-2xl border border-white">
-            <img src={image} alt={`${keyword.label} ${cityLabel} - avant après greffe capillaire`} width="1448" height="1086" loading="eager" fetchPriority="high" className="w-full h-auto" />
+            <img
+              src={image}
+              alt={isFr ? 'Avant après greffe de cheveux Turquie - résultat patient' : 'Hair transplant Turkey before and after - patient result'}
+              width="1448"
+              height="1086"
+              loading="eager"
+              fetchPriority="high"
+              className="w-full h-auto"
+            />
           </div>
         </div>
       </section>
@@ -256,6 +266,44 @@ function LocalSeoPage() {
                 <p className="text-slate-600 leading-relaxed">{text}</p>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-[#f7fbff]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#224671] mb-4">
+              {isFr ? 'Photos Avant / Après' : 'Before & After Photos'}
+            </h2>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+              {isFr
+                ? 'Résultats réels de patients pris en charge par notre partenaire médical à Istanbul. Ces patients ne sont pas présentés comme venant de cette ville.'
+                : 'Real patient results from our medical partner in Istanbul. These patients are not presented as being from this city.'}
+            </p>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
+            {resultNumbers.map((number) => (
+              <figure key={number} className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+                <img
+                  src={getHairAssetUrl(resultImagePath(number))}
+                  alt={isFr ? `Avant après greffe de cheveux Turquie - patient ${number}` : `Hair transplant Turkey before and after - patient ${number}`}
+                  width="1448"
+                  height="1086"
+                  loading="lazy"
+                  decoding="async"
+                  className="block w-full h-auto"
+                />
+              </figure>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link
+              to={isFr ? '/greffe-cheveux/avant-apres' : '/en/hair-transplant-turkey-before-after'}
+              className="inline-flex items-center justify-center rounded-xl bg-[#2f6bfc] px-7 py-3.5 font-bold text-white hover:bg-[#224671] transition-colors"
+            >
+              {isFr ? 'Voir plus de résultats' : 'View more results'}
+            </Link>
           </div>
         </div>
       </section>
