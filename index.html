@@ -65,10 +65,10 @@
     <script>
       (function () {
         var root = document.getElementById('root');
-        if (root && root.childElementCount) root.style.visibility = 'hidden';
+        if (root && root.childElementCount) root.style.display = 'none';
       })();
     </script>
-    <noscript><style>#root{visibility:visible!important}</style></noscript>
+    <noscript><style>#root{display:block!important}</style></noscript>
     <script type="module" src="/src/bootstrap.ts"></script>
     <script src="/site-media.js" defer></script>
     <script src="/about-image-deduplicate.js" defer></script>

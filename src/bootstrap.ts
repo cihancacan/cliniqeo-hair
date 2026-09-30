@@ -20,6 +20,6 @@ if (isPrerenderedLocalLanding) {
     void import('./pages/en/EnglishHomePage');
   }
   void import('./main.tsx').catch(() => {
-    if (root) root.style.visibility = '';
+    if (root) {\n      root.style.display = '';\n      root.style.visibility = '';\n    }
   });
 }
