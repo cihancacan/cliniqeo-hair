@@ -4,6 +4,7 @@ import { basename, join } from 'node:path';
 const root = process.cwd();
 const dist = join(root, 'dist');
 const upstreamOrigin = 'https://cliniqeo-hair.vercel.app';
+const preloadOrigin = '//cliniqeo-hair.vercel.app';
 
 const homePages = [
   { file: join(dist, 'index.html'), routeChunk: 'HomePage-' },
@@ -44,7 +45,7 @@ for (const page of homePages) {
   }
 
   const preloads = [mainChunk, routeChunk]
-    .map((chunk) => `<link rel="modulepreload" crossorigin href="${upstreamOrigin}/assets/${basename(chunk)}">`)
+    .map((chunk) => `<link rel="modulepreload" crossorigin href="${preloadOrigin}/assets/${basename(chunk)}">`)
     .join('\n    ');
   const inlineStyles = `<style data-cliniqeo-critical-styles>${css}</style>`;
 
