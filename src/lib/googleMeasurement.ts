@@ -1,4 +1,5 @@
-type GtagCommand = (...args: any[]) => void;
+type GtagArgument = string | number | boolean | Date | Record<string, unknown>;
+type GtagCommand = (command: string, ...args: GtagArgument[]) => void;
 
 declare global {
   interface Window {

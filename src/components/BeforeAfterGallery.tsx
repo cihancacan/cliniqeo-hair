@@ -8,6 +8,7 @@ interface BeforeAfterGalleryProps {
   heading?: string;
   intro?: string;
   className?: string;
+  eagerCount?: number;
 }
 
 export default function BeforeAfterGallery({
@@ -16,6 +17,7 @@ export default function BeforeAfterGallery({
   heading = 'Hair Transplant Before & After Results',
   intro = 'Real patient results from our medical partner in Istanbul.',
   className = 'py-20 bg-white',
+  eagerCount = 0,
 }: BeforeAfterGalleryProps) {
   const moreResultsPath = isEnglishMountedHairPath()
     ? '/hair-transplant-turkey-before-after'
@@ -52,7 +54,9 @@ export default function BeforeAfterGallery({
                 src={getHairAssetUrl(`/greffe_cheveux_turquie_hair_transplant_turkey_${number}.jpg`)}
                 alt={`Hair transplant Turkey before and after result - patient ${number}`}
                 className="block w-full h-auto"
-                loading={number <= 4 ? 'eager' : 'lazy'}
+                width={1122}
+                height={1402}
+                loading={number <= eagerCount ? 'eager' : 'lazy'}
                 decoding="async"
               />
             </figure>

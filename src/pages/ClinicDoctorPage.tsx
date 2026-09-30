@@ -59,7 +59,6 @@ export default function ClinicDoctorPage({ lang }: { lang: Language }) {
   const [certificate, setCertificate] = useState<7 | 8 | null>(null);
 
   const pagePath = isFr ? '/clinique-medecin' : '/en/clinic-doctor';
-  const alternatePath = isFr ? '/en/clinic-doctor' : '/clinique-medecin';
   const contactPath = isFr ? '/contact' : '/en/contact';
 
   const copy = isFr

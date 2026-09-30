@@ -273,7 +273,7 @@ function enhancePages() {
 }
 
 function revealRenderedApp() {
-  root.style.visibility = '';
+  if (root) root.style.visibility = '';
 }
 
 function runPageEnhancementsOnce() {

@@ -7,40 +7,58 @@
     <meta name="description" content="Greffe de cheveux en Turquie (FUE & DHI). Prix accessibles, équipe francophone, résultats naturels garantis. Diagnostic capillaire gratuit." />
     <meta name="keywords" content="greffe de cheveux Turquie, implants capillaires Turquie, FUE Turquie, DHI Turquie, greffe capillaire Istanbul" />
     <title>Greffe de cheveux Turquie – Diagnostic offert | Cliniqeo Hair</title>
-    <!-- Google Analytics 4 + Google Ads measurement for the Hair application -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4V8DJ7PLL4"></script>
+    <!-- Queue measurement immediately, then load third-party SDKs after the page is usable. -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      window.gtag = window.gtag || gtag;
-      gtag('js', new Date());
-      gtag('config', 'G-4V8DJ7PLL4');
-      gtag('config', 'AW-16857032468');
-    </script>
-    <script>
-      (function (w, d, s, u) {
-        if (w.oaiq) return;
-        var q = function () {
-          q.q.push(arguments);
+      (function (w, d) {
+        w.dataLayer = w.dataLayer || [];
+        w.gtag = w.gtag || function () {
+          w.dataLayer.push(arguments);
         };
-        q.q = [];
-        w.oaiq = q;
-        var js = d.createElement(s);
-        js.async = true;
-        js.src = u;
-        var f = d.getElementsByTagName(s)[0];
-        f.parentNode.insertBefore(js, f);
-      })(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+        w.gtag('js', new Date());
+        w.gtag('config', 'G-4V8DJ7PLL4');
+        w.gtag('config', 'AW-16857032468');
 
-      oaiq("init", {
-        pixelId: "PcrTm4fXeUhp2MuuNkHxUB",
-      });
+        if (!w.oaiq) {
+          var queue = function () { queue.q.push(arguments); };
+          queue.q = [];
+          w.oaiq = queue;
+        }
+        w.oaiq('init', { pixelId: 'PcrTm4fXeUhp2MuuNkHxUB' });
+
+        var loaded = false;
+        function loadMeasurementScripts() {
+          if (loaded) return;
+          loaded = true;
+
+          var google = d.createElement('script');
+          google.async = true;
+          google.src = 'https://www.googletagmanager.com/gtag/js?id=G-4V8DJ7PLL4';
+          d.head.appendChild(google);
+
+          var openai = d.createElement('script');
+          openai.async = true;
+          openai.src = 'https://bzrcdn.openai.com/sdk/oaiq.min.js';
+          d.head.appendChild(openai);
+        }
+
+        ['pointerdown', 'keydown', 'touchstart'].forEach(function (eventName) {
+          w.addEventListener(eventName, loadMeasurementScripts, { once: true, passive: true });
+        });
+
+        w.addEventListener('load', function () {
+          if ('requestIdleCallback' in w) {
+            w.requestIdleCallback(loadMeasurementScripts, { timeout: 2500 });
+          } else {
+            w.setTimeout(loadMeasurementScripts, 1500);
+          }
+        }, { once: true });
+      })(window, document);
     </script>
+
     <link rel="preconnect" href="https://cliniqeo-hair.vercel.app" crossorigin>
     <link rel="preload" as="image" href="https://cliniqeo-hair.vercel.app/home.cliniqeo.hair.jpg" type="image/jpeg" fetchpriority="high">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Lato:wght@300;400;700&family=Overpass:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://cliniqeo-hair.vercel.app/fonts/lato-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://cliniqeo-hair.vercel.app/fonts/oswald-latin.woff2" as="font" type="font/woff2" crossorigin>
   </head>
   <body>
     <div id="root"></div>

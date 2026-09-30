@@ -3,6 +3,7 @@
   const mounted = window.location.pathname === MOUNT_PATH || window.location.pathname.startsWith(`${MOUNT_PATH}/`);
   const appPathname = mounted ? (window.location.pathname.slice(MOUNT_PATH.length) || '/') : window.location.pathname;
   const pathname = appPathname.replace(/\/$/, '') || '/';
+  if (!['/a-propos', '/en/about'].includes(pathname)) return;
   const assetUrl = (path) => mounted ? `https://cliniqeo-hair.vercel.app${path}` : path;
   const isEnglish = pathname.startsWith('/en');
   const media = {

@@ -71,15 +71,37 @@ const flagFor = (countryCode: string) =>
     ? '🇽🇰'
     : String.fromCodePoint(...countryCode.toUpperCase().split('').map((letter) => 127397 + letter.charCodeAt(0)));
 
+const countryNamesByLanguage = new Map<ContactLanguage, Map<string, string>>();
+const sortedCountriesByLanguage = new Map<ContactLanguage, string[]>();
+
 function countryName(countryCode: string, language: ContactLanguage) {
-  try {
-    const DisplayNames = (Intl as typeof Intl & {
-      DisplayNames?: new (locales: string[], options: { type: 'region' }) => { of: (code: string) => string | undefined };
-    }).DisplayNames;
-    return DisplayNames ? new DisplayNames([language], { type: 'region' }).of(countryCode) ?? countryCode : countryCode;
-  } catch {
-    return countryCode;
+  let names = countryNamesByLanguage.get(language);
+  if (!names) {
+    names = new Map();
+    try {
+      const DisplayNames = (Intl as typeof Intl & {
+        DisplayNames?: new (locales: string[], options: { type: 'region' }) => { of: (code: string) => string | undefined };
+      }).DisplayNames;
+      const displayNames = DisplayNames ? new DisplayNames([language], { type: 'region' }) : null;
+      COUNTRY_CALLING_CODES.forEach(([code]) => names!.set(code, displayNames?.of(code) ?? code));
+    } catch {
+      COUNTRY_CALLING_CODES.forEach(([code]) => names!.set(code, code));
+    }
+    countryNamesByLanguage.set(language, names);
   }
+  return names.get(countryCode) ?? countryCode;
+}
+
+function sortedCountryCodes(language: ContactLanguage) {
+  let codes = sortedCountriesByLanguage.get(language);
+  if (!codes) {
+    const collator = new Intl.Collator(language);
+    codes = COUNTRY_CALLING_CODES.map(([code]) => code).sort((a, b) =>
+      collator.compare(countryName(a, language), countryName(b, language)),
+    );
+    sortedCountriesByLanguage.set(language, codes);
+  }
+  return codes;
 }
 
 function setReactInputValue(input: HTMLInputElement, value: string) {
@@ -115,7 +137,7 @@ function fixPhoneLabel(input: HTMLInputElement, language: ContactLanguage) {
   const externalLabel = input.id ? document.querySelector<HTMLLabelElement>(`label[for="${CSS.escape(input.id)}"]`) : null;
 
   if (externalLabel) {
-    externalLabel.textContent = text;
+    if (externalLabel.textContent !== text) externalLabel.textContent = text;
     return;
   }
 
@@ -123,7 +145,7 @@ function fixPhoneLabel(input: HTMLInputElement, language: ContactLanguage) {
   const firstTextNode = wrappingLabel
     ? Array.from(wrappingLabel.childNodes).find((node) => node.nodeType === Node.TEXT_NODE)
     : null;
-  if (firstTextNode) firstTextNode.nodeValue = text;
+  if (firstTextNode && firstTextNode.nodeValue !== text) firstTextNode.nodeValue = text;
 }
 
 function buildCountrySelect(language: ContactLanguage, selectedCountry: string) {
@@ -149,10 +171,8 @@ function buildCountrySelect(language: ContactLanguage, selectedCountry: string) 
 
   const otherGroup = document.createElement('optgroup');
   otherGroup.label = language === 'fr' ? 'Autres pays' : 'Other countries';
-  COUNTRY_CALLING_CODES
-    .map(([code]) => code)
+  sortedCountryCodes(language)
     .filter((code) => !prioritySet.has(code))
-    .sort((a, b) => countryName(a, language).localeCompare(countryName(b, language), language))
     .forEach((code) => otherGroup.append(createOption(code)));
   select.append(otherGroup);
 
@@ -173,7 +193,6 @@ function enhancePhoneFields() {
       if (existingVisibleInput) {
         existingVisibleInput.placeholder = '';
         existingVisibleInput.setAttribute('aria-label', language === 'fr' ? 'Numéro de téléphone' : 'Phone number');
-        window.requestAnimationFrame(() => fixPhoneLabel(originalInput, language));
         return;
       }
 
@@ -215,8 +234,21 @@ function enhancePhoneFields() {
 }
 
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-  const scheduleEnhancement = () => window.requestAnimationFrame(enhancePhoneFields);
-  const observer = new MutationObserver(scheduleEnhancement);
+  let enhancementFrame = 0;
+  const scheduleEnhancement = () => {
+    if (enhancementFrame) return;
+    enhancementFrame = window.requestAnimationFrame(() => {
+      enhancementFrame = 0;
+      enhancePhoneFields();
+    });
+  };
+  const phoneSelector = 'input[name="phone"], input[type="tel"]:not([data-country-phone-visible="true"])';
+  const observer = new MutationObserver((records) => {
+    const addedPhoneField = records.some((record) => Array.from(record.addedNodes).some((node) =>
+      node instanceof Element && (node.matches(phoneSelector) || node.querySelector(phoneSelector)),
+    ));
+    if (addedPhoneField) scheduleEnhancement();
+  });
   observer.observe(document.documentElement, { childList: true, subtree: true });
   document.addEventListener('DOMContentLoaded', scheduleEnhancement, { once: true });
   scheduleEnhancement();

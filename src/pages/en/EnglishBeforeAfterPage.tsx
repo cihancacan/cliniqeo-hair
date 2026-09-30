@@ -44,6 +44,7 @@ export default function EnglishBeforeAfterPage() {
 
       <BeforeAfterGallery
         limit={20}
+        eagerCount={4}
         showCta={false}
         heading="Real Patient Results"
         intro="Different hair-loss patterns, donor areas and treatment plans produce different outcomes. The photographs below show real examples."
