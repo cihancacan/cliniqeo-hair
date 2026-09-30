@@ -135,15 +135,12 @@ const AboutPage = () => {
 
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
-              <div
-                className="aspect-[4/3] bg-cover bg-no-repeat"
-                style={{
-                  backgroundImage: `url("${getHairAssetUrl('/clinic/clinic-doctor-atlas.webp')}")`,
-                  backgroundSize: '300% 300%',
-                  backgroundPosition: '0% 0%',
-                }}
-                role="img"
-                aria-label="Façade de l’Özel Oktay Tüney Polikliniği à Istanbul"
+              <img
+                src={getHairAssetUrl('/clinique_greffe_cheveux_turquie.jpg')}
+                alt="Özel Oktay Tüney Polikliniği à Istanbul"
+                className="aspect-[4/3] w-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
               <div className="p-7">
                 <h3 className="text-2xl font-semibold text-[#224671] mb-3">Özel Oktay Tüney Polikliniği</h3>
@@ -154,15 +151,12 @@ const AboutPage = () => {
             </div>
 
             <div className="rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
-              <div
-                className="aspect-[4/3] bg-cover bg-no-repeat"
-                style={{
-                  backgroundImage: `url("${getHairAssetUrl('/clinic/clinic-doctor-atlas.webp')}")`,
-                  backgroundSize: '300% 300%',
-                  backgroundPosition: '0% 100%',
-                }}
-                role="img"
-                aria-label="Dr Ersun Çobanoğlu"
+              <img
+                src={getHairAssetUrl('/Dr_Ersun_Cobanoglu.jpg')}
+                alt="Dr Ersun Çobanoğlu"
+                className="aspect-[4/3] w-full object-contain bg-white"
+                loading="lazy"
+                decoding="async"
               />
               <div className="p-7">
                 <h3 className="text-2xl font-semibold text-[#224671] mb-1">Dr Ersun Çobanoğlu</h3>

@@ -15,5 +15,7 @@ const isPrerenderedLocalLanding = Boolean(
 if (isPrerenderedLocalLanding) {
   void import('./staticLocalLanding');
 } else {
-  void import('./main.tsx');
+  void import('./main.tsx').catch(() => {
+    if (root) root.style.visibility = '';
+  });
 }

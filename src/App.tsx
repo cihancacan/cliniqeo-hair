@@ -7,8 +7,9 @@ import { getSiteLanguage } from './config/localizedRoutes';
 import { getHairRouterBasename, isEnglishMountedHairPath } from './config/hostedPath';
 import EnglishContactPage from './pages/en/EnglishContactPage';
 import HairTransplantTurkey from './pages/seo/HairTransplantTurkey';
-import HomePage from './pages/HomePage';
 
+const HomePage = lazy(() => import('./pages/HomePage'));
+const GlobalLeadForm = lazy(() => import('./components/GlobalLeadForm'));
 const TechniquesPage = lazy(() => import('./pages/TechniquesPage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
 const WhyTurkeyPage = lazy(() => import('./pages/WhyTurkeyPage'));
@@ -161,6 +162,8 @@ const localSeoPatterns = [
 
 function AppContent() {
   const englishMounted = isEnglishMountedHairPath();
+  const { pathname } = useLocation();
+  const isContactPage = pathname === '/contact' || pathname === '/en/contact';
 
   return (
     <div className="min-h-screen bg-white">
@@ -272,6 +275,11 @@ function AppContent() {
           </Routes>
         </Suspense>
       </main>
+      {!isContactPage && (
+        <Suspense fallback={null}>
+          <GlobalLeadForm />
+        </Suspense>
+      )}
       <Footer />
     </div>
   );

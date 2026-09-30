@@ -2,6 +2,8 @@ import { findLocalSeoPage } from './config/findLocalSeoPage';
 import { getAppPathname } from './config/hostedPath';
 import { sendContactRequest } from './lib/contactRequest';
 
+const root = document.getElementById('root');
+if (root) root.style.visibility = '';
 
 const page = findLocalSeoPage(getAppPathname());
 const isFr = page?.country === 'fr';

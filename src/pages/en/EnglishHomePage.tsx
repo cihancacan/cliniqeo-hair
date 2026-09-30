@@ -62,7 +62,7 @@ const EnglishHomePage = () => {
 
   return (
     <div className="pt-20">
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-[#1e3a5f] to-[#224671] text-white py-20 md:py-28">
+      <section className="home-photo-hero relative overflow-hidden bg-gradient-to-br from-slate-950 via-[#1e3a5f] to-[#224671] text-white py-20 md:py-28">
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-10 right-10 h-96 w-96 rounded-full bg-[#2f6bfc] blur-3xl" />
           <div className="absolute bottom-10 left-10 h-96 w-96 rounded-full bg-[#6EC1E4] blur-3xl" />

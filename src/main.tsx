@@ -55,7 +55,6 @@ document.addEventListener(
 
     const anchor = target.closest('a[href]');
     if (!(anchor instanceof HTMLAnchorElement)) return;
-    if (anchor.target === '_blank' || anchor.hasAttribute('download')) return;
 
     const destination = new URL(anchor.href, window.location.href);
 
@@ -64,6 +63,7 @@ document.addEventListener(
       return;
     }
 
+    if (anchor.target === '_blank' || anchor.hasAttribute('download')) return;
     if (destination.origin !== window.location.origin) return;
 
     const currentLanguage = getSiteLanguage(getAppPathname());
@@ -314,32 +314,27 @@ function enhancePages() {
   addEnglishBestClinicLinks();
 }
 
-let pageEnhancementFrame = 0;
-let observerStopTimer = 0;
+function revealRenderedApp() {
+  root.style.visibility = '';
+}
 
-const schedulePageEnhancements = () => {
-  if (pageEnhancementFrame) return;
+function runPageEnhancementsOnce() {
+  enhancePages();
+  revealRenderedApp();
+}
 
-  pageEnhancementFrame = window.requestAnimationFrame(() => {
-    pageEnhancementFrame = 0;
-    enhancePages();
-
-    if (document.querySelector('main > div')) {
-      window.clearTimeout(observerStopTimer);
-      observerStopTimer = window.setTimeout(() => {
-        enhancePages();
-        pageObserver.disconnect();
-      }, 1200);
-    }
+if (document.querySelector('main > div')) {
+  window.requestAnimationFrame(runPageEnhancementsOnce);
+} else {
+  const pageObserver = new MutationObserver(() => {
+    if (!document.querySelector('main > div')) return;
+    pageObserver.disconnect();
+    window.requestAnimationFrame(runPageEnhancementsOnce);
   });
-};
 
-const pageObserver = new MutationObserver(schedulePageEnhancements);
-pageObserver.observe(root, { childList: true, subtree: true });
-
-schedulePageEnhancements();
-window.addEventListener('load', schedulePageEnhancements, { once: true });
-window.setTimeout(() => {
-  schedulePageEnhancements();
-  pageObserver.disconnect();
-}, 5000);
+  pageObserver.observe(root, { childList: true, subtree: true });
+  window.setTimeout(() => {
+    pageObserver.disconnect();
+    revealRenderedApp();
+  }, 4000);
+}

@@ -106,10 +106,10 @@ const HomePage = () => {
 
           <div className="mb-12 text-center">
             <p className="text-xl md:text-2xl font-bold mb-4">
-              Obtenez votre diagnostic gratuit en 30 secondes
+              Demandez votre diagnostic gratuit
             </p>
             <p className="text-base md:text-lg text-gray-300 mb-6">
-              Décrivez simplement votre situation, recevez une réponse sous 24h
+              Décrivez simplement votre situation, recevez une réponse dans l'heure
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center">

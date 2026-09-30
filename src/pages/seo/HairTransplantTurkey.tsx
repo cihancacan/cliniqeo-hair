@@ -29,8 +29,8 @@ const HairTransplantTurkey = () => {
         ]}
       />
 
-      <section className="bg-gradient-to-br from-[#224671] via-[#2f6bfc] to-[#6EC1E4] text-white py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="home-photo-hero relative overflow-hidden bg-gradient-to-br from-[#224671] via-[#2f6bfc] to-[#6EC1E4] text-white py-20">
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-blue-100 font-semibold mb-5"><ShieldCheck size={22} /> Cliniqeo Hair</div>
           <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">Hair transplant in Turkey with English-speaking support</h1>
           <p className="text-xl md:text-2xl text-blue-50 max-w-4xl leading-relaxed mb-9">
