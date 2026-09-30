@@ -96,19 +96,6 @@ createRoot(root).render(
 );
 
 
-function addHomepageHeroMedia() {
-  if (!['/', '/en'].includes(getAppPathname())) return;
-
-  const page = document.querySelector<HTMLElement>('main > div.pt-20');
-  if (!page) return;
-
-  const hero = page.querySelector<HTMLElement>('section');
-  if (!hero || hero.classList.contains('home-photo-hero')) return;
-
-  document.getElementById('homepage-hero-media')?.remove();
-  hero.classList.add('home-photo-hero');
-}
-
 function addEnglishPatientReviews() {
   if (getAppPathname() !== '/en') return;
   if (document.getElementById('english-patient-reviews')) return;
@@ -239,10 +226,10 @@ function addClinicDoctorHomepageTeaser() {
       </div>
       <div class="clinic-doctor-home-teaser__media" aria-hidden="true">
         <div class="clinic-doctor-home-teaser__image clinic-doctor-home-teaser__image--clinic">
-          <img src="${clinicImage}" alt="" decoding="async" />
+          <img src="${clinicImage}" alt="" loading="lazy" decoding="async" fetchpriority="low" />
         </div>
         <div class="clinic-doctor-home-teaser__image clinic-doctor-home-teaser__image--doctor">
-          <img src="${doctorImage}" alt="" decoding="async" />
+          <img src="${doctorImage}" alt="" loading="lazy" decoding="async" fetchpriority="low" />
         </div>
       </div>
     </div>
@@ -322,7 +309,6 @@ function enforceWhatsAppOnlyContact() {
 
 function enhancePages() {
   enforceWhatsAppOnlyContact();
-  addHomepageHeroMedia();
   addClinicDoctorHomepageTeaser();
   addEnglishPatientReviews();
   addEnglishBestClinicLinks();

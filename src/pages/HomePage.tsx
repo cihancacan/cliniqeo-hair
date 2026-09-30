@@ -5,7 +5,7 @@ import { getHairAssetUrl } from '../config/hostedPath';
 const HomePage = () => {
   return (
     <div className="pt-20">
-      <section className="relative min-h-[95vh] flex items-center bg-gradient-to-br from-slate-900 via-[#1e3a5f] to-[#224671] text-white overflow-hidden">
+      <section className="home-photo-hero relative min-h-[95vh] flex items-center bg-gradient-to-br from-slate-900 via-[#1e3a5f] to-[#224671] text-white overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/70 to-slate-900/90"></div>
           <div className="absolute top-20 right-20 w-96 h-96 bg-[#2f6bfc] rounded-full blur-3xl opacity-20"></div>
@@ -379,8 +379,9 @@ const HomePage = () => {
                     src={getHairAssetUrl(`/greffe_cheveux_turquie_hair_transplant_turkey_${number}.jpg`)}
                     alt={`Avant après greffe de cheveux Turquie - patient ${number}`}
                     className="block w-full h-auto"
-                    loading={number <= 4 ? 'eager' : 'lazy'}
+                    loading="lazy"
                     decoding="async"
+                    fetchPriority="low"
                   />
                 </figure>
               );

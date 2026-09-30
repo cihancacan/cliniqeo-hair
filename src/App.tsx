@@ -7,8 +7,8 @@ import { getSiteLanguage } from './config/localizedRoutes';
 import { getHairRouterBasename, isEnglishMountedHairPath } from './config/hostedPath';
 import EnglishContactPage from './pages/en/EnglishContactPage';
 import HairTransplantTurkey from './pages/seo/HairTransplantTurkey';
+import HomePage from './pages/HomePage';
 
-const HomePage = lazy(() => import('./pages/HomePage'));
 const TechniquesPage = lazy(() => import('./pages/TechniquesPage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
 const WhyTurkeyPage = lazy(() => import('./pages/WhyTurkeyPage'));
