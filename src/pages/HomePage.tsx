@@ -442,10 +442,20 @@ const HomePage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-[#224671] mb-6">
-              FUE ou DHI : la technique adaptée à votre profil
+              <Link to="/greffe-de-cheveux-fue-turquie" className="hover:text-[#2f6bfc] transition-colors">FUE</Link>
+              {' '}ou{' '}
+              <Link to="/greffe-de-cheveux-dhi-turquie" className="hover:text-[#2f6bfc] transition-colors">DHI</Link>
+              {' '} : la technique adaptée à votre profil
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Nos experts vous conseillent la méthode la plus efficace selon votre situation
+              Nos experts vous conseillent la méthode la plus efficace selon votre situation.{' '}
+              <Link to="/greffe-de-cheveux-fue-turquie" className="font-semibold text-[#2f6bfc] hover:underline">
+                Découvrir la FUE
+              </Link>
+              {' '}ou{' '}
+              <Link to="/greffe-de-cheveux-dhi-turquie" className="font-semibold text-[#2f6bfc] hover:underline">
+                découvrir la DHI
+              </Link>.
             </p>
           </div>
 
@@ -497,7 +507,7 @@ const HomePage = () => {
 
                 <div className="space-y-3">
                   <Link
-                    to="/seo/greffe-cheveux-fue-turquie"
+                    to="/greffe-de-cheveux-fue-turquie"
                     className="mt-8 flex items-center justify-center w-full bg-[#2f6bfc] text-white py-4 rounded-xl font-bold hover:bg-[#224671] transition-all duration-300"
                   >
                     En savoir plus sur la FUE
@@ -561,7 +571,7 @@ const HomePage = () => {
 
                 <div className="space-y-3">
                   <Link
-                    to="/seo/greffe-cheveux-dhi-turquie"
+                    to="/greffe-de-cheveux-dhi-turquie"
                     className="mt-8 flex items-center justify-center w-full bg-[#6EC1E4] text-white py-4 rounded-xl font-bold hover:bg-[#4da8cc] transition-all duration-300"
                   >
                     En savoir plus sur la DHI
