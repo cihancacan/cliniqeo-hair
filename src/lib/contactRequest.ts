@@ -1,4 +1,5 @@
 import { trackLeadCreated } from './openAiMeasurement';
+import { trackHairFormSuccess } from './googleMeasurement';
 
 export type ContactRequest = {
   first_name: string;
@@ -41,6 +42,7 @@ export async function sendContactRequest(request: ContactRequest) {
     }
 
     trackLeadCreated();
+    trackHairFormSuccess();
   } finally {
     window.clearTimeout(timeout);
   }

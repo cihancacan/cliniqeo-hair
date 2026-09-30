@@ -6,7 +6,30 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import { getSiteLanguage, localizeInternalPath } from './config/localizedRoutes';
 import { getWhatsAppUrl, WHATSAPP_DISPLAY } from './config/contact';
 import { getAppPathname, mountHairPath, stripHairMountPath } from './config/hostedPath';
+import { trackHairQuoteCtaClick, trackHairWhatsAppClick } from './lib/googleMeasurement';
 
+
+const ATTRIBUTION_PARAMS = [
+  'gclid',
+  'gbraid',
+  'wbraid',
+  'gad_source',
+  'gad_campaignid',
+  'utm_source',
+  'utm_medium',
+  'utm_campaign',
+  'utm_term',
+  'utm_content',
+] as const;
+
+function preserveAttributionParams(destination: URL) {
+  const currentParams = new URLSearchParams(window.location.search);
+  ATTRIBUTION_PARAMS.forEach((key) => {
+    if (!destination.searchParams.has(key) && currentParams.has(key)) {
+      destination.searchParams.set(key, currentParams.get(key) || '');
+    }
+  });
+}
 
 /**
  * SEO pages are pre-rendered as real HTML files. A full document navigation
@@ -35,10 +58,22 @@ document.addEventListener(
     if (anchor.target === '_blank' || anchor.hasAttribute('download')) return;
 
     const destination = new URL(anchor.href, window.location.href);
+
+    if (destination.hostname === 'wa.me' || destination.hostname.endsWith('.wa.me')) {
+      trackHairWhatsAppClick();
+      return;
+    }
+
     if (destination.origin !== window.location.origin) return;
 
     const currentLanguage = getSiteLanguage(getAppPathname());
     const localizedPath = localizeInternalPath(stripHairMountPath(destination.pathname), currentLanguage);
+
+    if (['/contact', '/en/contact'].includes(localizedPath)) {
+      trackHairQuoteCtaClick();
+    }
+
+    preserveAttributionParams(destination);
 
     event.preventDefault();
     window.location.assign(`${mountHairPath(localizedPath)}${destination.search}${destination.hash}`);
