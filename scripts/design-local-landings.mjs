@@ -6,6 +6,7 @@ import { englishCityComparison, englishCityJourney } from './english-city-compar
 
 const root = process.cwd();
 const dist = join(root, 'dist');
+const origin = 'https://cliniqeo-hair.vercel.app';
 const source = await readFile(join(root, 'src', 'config', 'localSeoData.ts'), 'utf8');
 
 function extractArray(name) {
