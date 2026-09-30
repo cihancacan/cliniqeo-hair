@@ -197,6 +197,7 @@ function AppContent() {
             {englishMounted && (
               <>
                 <Route path="/why-turkey" element={<EnglishGeneralPage pageKey="whyTurkey" />} />
+                <Route path="/clinic-doctor" element={<ClinicDoctorPage lang="en" />} />
                 <Route path="/before-after" element={<EnglishBeforeAfterPage />} />
                 <Route path="/hair-transplant-turkey-before-after" element={<EnglishBeforeAfterPage />} />
                 <Route path="/hair-transplant-guides" element={<GuidesPage lang="en" />} />

@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle, Phone, ShieldCheck } from 'lucide-react';
 import EnglishTechniquePage from '../en/EnglishTechniquePage';
 import SEOHead from '../../components/SEOHead';
 import BeforeAfterGallery from '../../components/BeforeAfterGallery';
+import EnglishClinicDoctorTeaser from '../../components/EnglishClinicDoctorTeaser';
 
 const HairTransplantTurkey = () => {
   const { pathname } = useLocation();
@@ -47,6 +48,13 @@ const HairTransplantTurkey = () => {
         </div>
       </section>
 
+      <EnglishClinicDoctorTeaser />
+
+      <BeforeAfterGallery
+        heading="Real Hair Transplant Before & After Results"
+        intro="Real patient results from our medical partner in Istanbul."
+      />
+
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid lg:grid-cols-3 gap-8">
           <article className="rounded-3xl border-2 border-blue-100 p-8 shadow-lg">
@@ -79,7 +87,6 @@ const HairTransplantTurkey = () => {
         </div>
       </section>
 
-      <BeforeAfterGallery />
 
       <section className="bg-slate-50 py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -11,6 +11,7 @@ import {
   Users,
 } from 'lucide-react';
 import BeforeAfterGallery from '../../components/BeforeAfterGallery';
+import EnglishClinicDoctorTeaser from '../../components/EnglishClinicDoctorTeaser';
 
 const EnglishHomePage = () => {
   const benefits = [
@@ -99,6 +100,13 @@ const EnglishHomePage = () => {
         </div>
       </section>
 
+      <EnglishClinicDoctorTeaser />
+
+      <BeforeAfterGallery
+        heading="Real Hair Transplant Before & After Results"
+        intro="Real patient results from our medical partner in Istanbul."
+      />
+
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
@@ -146,8 +154,6 @@ const EnglishHomePage = () => {
           </div>
         </div>
       </section>
-
-      <BeforeAfterGallery />
 
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
