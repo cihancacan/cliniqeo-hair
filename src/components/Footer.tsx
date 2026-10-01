@@ -3,7 +3,7 @@ import { Phone, Mail, MapPin, Instagram, Linkedin, BookOpen, Smile } from 'lucid
 import { useLanguage } from '../contexts/LanguageContext';
 import SeoKnowledgeHub from './SeoKnowledgeHub';
 import { getLocalizedGuidesPath, getNavigationItems } from '../config/localizedRoutes';
-import { getWhatsAppUrl, WHATSAPP_DISPLAY } from '../config/contact';
+import { getWhatsAppUrl, WHATSAPP_DISPLAY } from '../config/contactCore';
 
 const Footer = () => {
   const { language, t } = useLanguage();

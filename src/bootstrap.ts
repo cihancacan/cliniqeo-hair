@@ -22,6 +22,51 @@ function preloadHomepageHero() {
   document.head.appendChild(preload);
 }
 
+function installLazyCountryPhoneEnhancer() {
+  if (isPrerenderedLocalLanding) return;
+
+  let loading = false;
+  let mutationObserver: MutationObserver | null = null;
+  const observedInputs = new WeakSet<Element>();
+  const selector = 'input[name="phone"], input[type="tel"]:not([data-country-phone-visible="true"])';
+
+  const loadEnhancer = () => {
+    if (loading) return;
+    loading = true;
+    mutationObserver?.disconnect();
+    intersectionObserver?.disconnect();
+    void import('./config/contact');
+  };
+
+  const intersectionObserver = 'IntersectionObserver' in window
+    ? new IntersectionObserver(
+        (entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) loadEnhancer();
+        },
+        { rootMargin: '600px 0px' },
+      )
+    : null;
+
+  const watchPhoneInputs = () => {
+    if (loading) return;
+    const inputs = document.querySelectorAll<Element>(selector);
+    inputs.forEach((input) => {
+      if (observedInputs.has(input)) return;
+      observedInputs.add(input);
+      if (intersectionObserver) {
+        intersectionObserver.observe(input);
+      } else {
+        window.setTimeout(loadEnhancer, 1200);
+      }
+    });
+  };
+
+  mutationObserver = new MutationObserver(watchPhoneInputs);
+  mutationObserver.observe(document.documentElement, { childList: true, subtree: true });
+  document.addEventListener('DOMContentLoaded', watchPhoneInputs, { once: true });
+  watchPhoneInputs();
+}
+
 function installLazyWhatsAppLeadChat() {
   let chatLoaded = false;
 
@@ -62,6 +107,7 @@ function installLazyWhatsAppLeadChat() {
 }
 
 preloadHomepageHero();
+installLazyCountryPhoneEnhancer();
 installLazyWhatsAppLeadChat();
 
 if (isPrerenderedLocalLanding) {

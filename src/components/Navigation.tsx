@@ -10,7 +10,7 @@ import {
   getSiteLanguage,
   type SiteLanguage,
 } from '../config/localizedRoutes';
-import { getWhatsAppUrl, WHATSAPP_DISPLAY } from '../config/contact';
+import { getWhatsAppUrl, WHATSAPP_DISPLAY } from '../config/contactCore';
 import { mountHairPath } from '../config/hostedPath';
 
 const Navigation = () => {

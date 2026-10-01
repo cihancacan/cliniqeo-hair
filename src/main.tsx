@@ -4,7 +4,7 @@ import App from './App.tsx';
 import './index.css';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { getSiteLanguage, localizeInternalPath } from './config/localizedRoutes';
-import { getWhatsAppUrl, WHATSAPP_DISPLAY } from './config/contact';
+import { getWhatsAppUrl, WHATSAPP_DISPLAY } from './config/contactCore';
 import { getAppPathname, mountHairPath, stripHairMountPath } from './config/hostedPath';
 import { trackHairQuoteCtaClick, trackHairWhatsAppClick } from './lib/googleMeasurement';
 

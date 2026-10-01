@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { lazy, Suspense, useEffect, useLayoutEffect } from 'react';
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import { useLanguage } from './contexts/LanguageContext';
 import { getSiteLanguage } from './config/localizedRoutes';
 import { getHairRouterBasename, isEnglishMountedHairPath } from './config/hostedPath';
-import GlobalLeadForm from './components/GlobalLeadForm';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
+const GlobalLeadForm = lazy(() => import('./components/GlobalLeadForm'));
 const EnglishContactPage = lazy(() => import('./pages/en/EnglishContactPage'));
 const HairTransplantTurkey = lazy(() => import('./pages/seo/HairTransplantTurkey'));
 const TechniquesPage = lazy(() => import('./pages/TechniquesPage'));
@@ -54,6 +54,43 @@ function ScrollToTop() {
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;
+}
+
+function DeferredGlobalLeadForm() {
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const markerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const marker = markerRef.current;
+    if (!marker || shouldLoad) return;
+
+    if (!('IntersectionObserver' in window)) {
+      const timeout = window.setTimeout(() => setShouldLoad(true), 1200);
+      return () => window.clearTimeout(timeout);
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        setShouldLoad(true);
+      },
+      { rootMargin: '700px 0px' },
+    );
+
+    observer.observe(marker);
+    return () => observer.disconnect();
+  }, [shouldLoad]);
+
+  return (
+    <div ref={markerRef}>
+      {shouldLoad && (
+        <Suspense fallback={null}>
+          <GlobalLeadForm />
+        </Suspense>
+      )}
+    </div>
+  );
 }
 
 function PageLoader({ homepage = false }: { homepage?: boolean }) {
@@ -284,7 +321,7 @@ function AppContent() {
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-          {!isContactPage && <GlobalLeadForm />}
+          {!isContactPage && <DeferredGlobalLeadForm />}
         </Suspense>
       </main>
       <Footer />
