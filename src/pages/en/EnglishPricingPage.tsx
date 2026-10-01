@@ -13,7 +13,7 @@ import SEOHead from '../../components/SEOHead';
 const packages = [
   {
     name: 'FUE HAIR TRANSPLANT',
-    price: '€1,990',
+    price: '$3,490 USD',
     grafts: 'Up to 5,000 grafts, subject to medical confirmation',
     popular: false,
     items: [
@@ -30,7 +30,7 @@ const packages = [
   },
   {
     name: 'DHI HAIR TRANSPLANT',
-    price: '€2,490',
+    price: '$3,999 USD',
     grafts: 'Up to 4,000 grafts, subject to medical confirmation',
     popular: true,
     items: [
@@ -47,7 +47,7 @@ const packages = [
   },
   {
     name: 'BEARD TRANSPLANT',
-    price: '€1,990',
+    price: '$3,490 USD',
     grafts: 'Graft estimate confirmed after facial and donor assessment',
     popular: false,
     items: [
@@ -112,7 +112,7 @@ const marketCards = [
   },
   {
     country: 'CLINIQEO TURKEY',
-    price: 'From €1,990',
+    price: 'From $3,490 USD',
     label: 'Organised package in Turkey',
     notes: ['Medical procedure according to the final plan', 'Hotel and private transfers listed in the quote', 'English-speaking coordination and remote follow-up'],
     featured: true,
@@ -120,7 +120,7 @@ const marketCards = [
 ] as const;
 
 const comparisonRows = [
-  ['Indicative price', '£1,000–£30,000', '$6,000–$15,000', '€1,990 FUE / €2,490 DHI'],
+  ['Indicative price', '£1,000–£30,000', '$6,000–$15,000', '$3,490 USD FUE / $3,999 USD DHI'],
   ['Medical assessment', 'Clinic dependent', 'Clinic dependent', 'Initial review plus on-site confirmation'],
   ['Hotel accommodation', 'Usually separate', 'Usually separate', '3 nights when stated in the quotation'],
   ['Airport and clinic transfers', 'Usually separate', 'Usually separate', 'Included according to the quotation'],

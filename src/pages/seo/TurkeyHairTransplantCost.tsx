@@ -10,7 +10,7 @@ const TurkeyHairTransplantCost = () => {
             Turkey Hair Transplant Cost 2025 - Complete Price Guide
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-3xl opacity-90">
-            Discover affordable hair transplant prices in Turkey. All-inclusive packages from €1,990 with no hidden fees.
+            Discover affordable hair transplant prices in Turkey. All-inclusive packages from $3,490 USD with no hidden fees.
           </p>
           <Link
             to="/contact"
@@ -48,21 +48,21 @@ const TurkeyHairTransplantCost = () => {
                 <tbody className="divide-y divide-gray-200">
                   <tr className="bg-blue-50">
                     <td className="px-6 py-4 font-bold text-[#224671]">FUE (3000 grafts)</td>
-                    <td className="px-6 py-4 text-center text-[#2f6bfc] font-bold text-xl">€1,990</td>
+                    <td className="px-6 py-4 text-center text-[#2f6bfc] font-bold text-xl">$3,490 USD</td>
                     <td className="px-6 py-4 text-center text-gray-700">£5,000-8,000</td>
                     <td className="px-6 py-4 text-center text-gray-700">$8,000-15,000</td>
                     <td className="px-6 py-4 text-center text-gray-700">€6,000-10,000</td>
                   </tr>
                   <tr>
                     <td className="px-6 py-4 font-bold text-[#224671]">DHI (3000 grafts)</td>
-                    <td className="px-6 py-4 text-center text-[#2f6bfc] font-bold text-xl">€2,490</td>
+                    <td className="px-6 py-4 text-center text-[#2f6bfc] font-bold text-xl">$3,999 USD</td>
                     <td className="px-6 py-4 text-center text-gray-700">£7,000-12,000</td>
                     <td className="px-6 py-4 text-center text-gray-700">$10,000-18,000</td>
                     <td className="px-6 py-4 text-center text-gray-700">€8,000-14,000</td>
                   </tr>
                   <tr className="bg-blue-50">
                     <td className="px-6 py-4 font-bold text-[#224671]">Beard Transplant</td>
-                    <td className="px-6 py-4 text-center text-[#2f6bfc] font-bold text-xl">€1,990</td>
+                    <td className="px-6 py-4 text-center text-[#2f6bfc] font-bold text-xl">$3,490 USD</td>
                     <td className="px-6 py-4 text-center text-gray-700">£4,000-7,000</td>
                     <td className="px-6 py-4 text-center text-gray-700">$6,000-12,000</td>
                     <td className="px-6 py-4 text-center text-gray-700">€4,500-8,000</td>
@@ -195,7 +195,7 @@ const TurkeyHairTransplantCost = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-gradient-to-br from-blue-50 to-white p-10 rounded-2xl border-2 border-blue-200">
               <h3 className="text-2xl font-bold text-[#224671] mb-4">Full Payment</h3>
-              <div className="text-5xl font-bold text-[#2f6bfc] mb-4">€1,990</div>
+              <div className="text-5xl font-bold text-[#2f6bfc] mb-4">$3,490 USD</div>
               <p className="text-gray-700 mb-6">One-time payment for FUE package</p>
               <ul className="space-y-2 text-gray-700">
                 <li className="flex items-start">

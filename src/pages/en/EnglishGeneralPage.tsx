@@ -59,12 +59,12 @@ const pages: Record<PageKey, PageContent> = {
     intro: 'A useful quotation should separate the medical procedure from travel-related services and clearly state what is included, excluded or subject to medical confirmation.',
     sections: [
       {
-        title: 'FUE package — from €1,990',
+        title: 'FUE package — from $3,490 USD',
         paragraphs: ['The final treatment plan is confirmed after donor-area and recipient-area assessment.'],
         bullets: ['FUE procedure according to medical indication', 'Hotel accommodation stated in the quotation', 'Airport, hotel and clinic transfers', 'Postoperative kit and instructions', 'Remote follow-up'],
       },
       {
-        title: 'DHI package — from €2,490',
+        title: 'DHI package — from $3,999 USD',
         paragraphs: ['DHI may be proposed for selected cases, especially when the implantation strategy or existing hair makes implanter-assisted placement useful.'],
         bullets: ['DHI procedure when clinically appropriate', 'Personalised graft planning', 'Hotel and scheduled transfers', 'Interpreter support', 'Postoperative monitoring'],
       },

@@ -78,7 +78,7 @@ const EnglishHomePage = () => {
               Hair transplant in Turkey with a clear medical and travel plan
             </h1>
             <p className="text-xl md:text-2xl text-[#6EC1E4] font-bold mb-5">
-              FUE, Sapphire FUE and DHI options from €1,990
+              FUE, Sapphire FUE and DHI options from $3,490 USD
             </p>
             <p className="text-lg md:text-xl text-slate-200 leading-relaxed mb-9">
               Receive an initial assessment, understand your donor-area limits and obtain a detailed quotation before deciding whether treatment in Istanbul is suitable for you.
@@ -172,7 +172,7 @@ const EnglishHomePage = () => {
             </div>
             <div className="rounded-3xl bg-[#224671] text-white p-9 sticky top-28">
               <p className="text-sm uppercase tracking-wide text-[#6EC1E4] font-bold mb-3">Indicative package price</p>
-              <div className="text-6xl font-bold mb-3">€1,990</div>
+              <div className="text-6xl font-bold mb-3">$3,490 USD</div>
               <p className="text-xl text-blue-100 mb-8">The final quotation depends on the medical plan and included services.</p>
               <div className="space-y-4 mb-8">
                 <div className="flex items-center"><CheckCircle className="mr-3 text-[#6EC1E4]" />Detailed quotation</div>

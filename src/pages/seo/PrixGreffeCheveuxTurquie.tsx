@@ -27,7 +27,7 @@ const PrixGreffeCheveuxTurquie = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
             <div className="bg-white border-2 border-gray-200 rounded-xl p-8">
               <h3 className="text-2xl font-bold text-[#224671] mb-2">Greffe FUE</h3>
-              <div className="text-5xl font-bold text-[#2f6bfc] mb-4">1 990€</div>
+              <div className="text-5xl font-bold text-[#2f6bfc] mb-4">2 490€</div>
               <p className="text-gray-600 mb-6">Jusqu'à 4000 greffons</p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-start text-sm">
@@ -54,7 +54,7 @@ const PrixGreffeCheveuxTurquie = () => {
                 PLUS POPULAIRE
               </div>
               <h3 className="text-2xl font-bold mb-2 mt-2">Greffe DHI</h3>
-              <div className="text-5xl font-bold mb-4">2 490€</div>
+              <div className="text-5xl font-bold mb-4">2 990€</div>
               <p className="opacity-90 mb-6">Jusqu'à 4000 greffons</p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-start text-sm">
@@ -78,7 +78,7 @@ const PrixGreffeCheveuxTurquie = () => {
 
             <div className="bg-white border-2 border-gray-200 rounded-xl p-8">
               <h3 className="text-2xl font-bold text-[#224671] mb-2">Greffe Barbe</h3>
-              <div className="text-5xl font-bold text-[#2f6bfc] mb-4">1 990€</div>
+              <div className="text-5xl font-bold text-[#2f6bfc] mb-4">2 490€</div>
               <p className="text-gray-600 mb-6">Jusqu'à 3000 greffons</p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-start text-sm">
@@ -105,19 +105,19 @@ const PrixGreffeCheveuxTurquie = () => {
               <div className="bg-white p-6 rounded-lg text-center">
                 <div className="text-gray-600 mb-2">Greffe FUE France</div>
                 <div className="text-3xl font-bold text-gray-400 line-through">6 000€</div>
-                <div className="text-2xl font-bold text-[#2f6bfc] mt-2">1 990€</div>
+                <div className="text-2xl font-bold text-[#2f6bfc] mt-2">2 490€</div>
                 <div className="text-green-600 font-bold mt-2">Économie: 75%</div>
               </div>
               <div className="bg-white p-6 rounded-lg text-center">
                 <div className="text-gray-600 mb-2">Greffe DHI France</div>
                 <div className="text-3xl font-bold text-gray-400 line-through">10 000€</div>
-                <div className="text-2xl font-bold text-[#2f6bfc] mt-2">2 490€</div>
+                <div className="text-2xl font-bold text-[#2f6bfc] mt-2">2 990€</div>
                 <div className="text-green-600 font-bold mt-2">Économie: 75%</div>
               </div>
               <div className="bg-white p-6 rounded-lg text-center">
                 <div className="text-gray-600 mb-2">Greffe Barbe France</div>
                 <div className="text-3xl font-bold text-gray-400 line-through">5 000€</div>
-                <div className="text-2xl font-bold text-[#2f6bfc] mt-2">1 990€</div>
+                <div className="text-2xl font-bold text-[#2f6bfc] mt-2">2 490€</div>
                 <div className="text-green-600 font-bold mt-2">Économie: 60%</div>
               </div>
             </div>

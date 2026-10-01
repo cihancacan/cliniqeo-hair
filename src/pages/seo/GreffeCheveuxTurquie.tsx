@@ -69,15 +69,15 @@ const GreffeCheveuxTurquie = () => {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center border-b border-gray-300 pb-3">
                     <span className="font-semibold text-[#224671]">Greffe FUE</span>
-                    <span className="text-2xl font-bold text-[#2f6bfc]">1 990€</span>
+                    <span className="text-2xl font-bold text-[#2f6bfc]">2 490€</span>
                   </div>
                   <div className="flex justify-between items-center border-b border-gray-300 pb-3">
                     <span className="font-semibold text-[#224671]">Greffe DHI</span>
-                    <span className="text-2xl font-bold text-[#2f6bfc]">2 490€</span>
+                    <span className="text-2xl font-bold text-[#2f6bfc]">2 990€</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="font-semibold text-[#224671]">Greffe Barbe</span>
-                    <span className="text-2xl font-bold text-[#2f6bfc]">1 990€</span>
+                    <span className="text-2xl font-bold text-[#2f6bfc]">2 490€</span>
                   </div>
                 </div>
                 <p className="text-sm text-gray-600 mt-4">
