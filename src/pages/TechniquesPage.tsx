@@ -212,8 +212,8 @@ const TechniquesPage = () => {
                   </tr>
                   <tr className="bg-[#f3f3f3]">
                     <td className="px-6 py-4 font-bold text-[#224671]">Prix</td>
-                    <td className="px-6 py-4 text-gray-700">À partir de 1 990€</td>
                     <td className="px-6 py-4 text-gray-700">À partir de 2 490€</td>
+                    <td className="px-6 py-4 text-gray-700">À partir de 2 990€</td>
                   </tr>
                 </tbody>
               </table>

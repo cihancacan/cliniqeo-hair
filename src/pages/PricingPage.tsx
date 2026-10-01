@@ -32,7 +32,7 @@ const PricingPage = () => {
                 <div className="bg-[#f3f3f3] text-[#224671] px-4 py-2 rounded-lg inline-block mb-4 font-bold">
                   GREFFE FUE
                 </div>
-                <div className="text-5xl font-bold text-[#224671] mb-2">1 990€</div>
+                <div className="text-5xl font-bold text-[#224671] mb-2">2 490€</div>
                 <p className="text-gray-600">Jusqu'à 5000 greffons</p>
               </div>
               <ul className="space-y-3 mb-8">
@@ -93,7 +93,7 @@ const PricingPage = () => {
                 <div className="bg-white bg-opacity-20 text-white px-4 py-2 rounded-lg inline-block mb-4 font-bold">
                   GREFFE DHI
                 </div>
-                <div className="text-5xl font-bold mb-2">2 490€</div>
+                <div className="text-5xl font-bold mb-2">2 990€</div>
                 <p className="opacity-90">Jusqu'à 4000 greffons</p>
               </div>
               <ul className="space-y-3 mb-8">
@@ -155,7 +155,7 @@ const PricingPage = () => {
                 <div className="bg-[#f3f3f3] text-[#224671] px-4 py-2 rounded-lg inline-block mb-4 font-bold">
                   GREFFE BARBE
                 </div>
-                <div className="text-5xl font-bold text-[#224671] mb-2">1 990€</div>
+                <div className="text-5xl font-bold text-[#224671] mb-2">2 490€</div>
                 <p className="text-gray-600">Jusqu'à 5000 greffons</p>
               </div>
               <ul className="space-y-3 mb-8">
@@ -275,20 +275,20 @@ const PricingPage = () => {
                   <tr>
                     <td className="px-6 py-4 font-bold text-[#224671]">Greffe FUE 3000 greffons</td>
                     <td className="px-6 py-4 text-center text-gray-700">6 000€ - 8 000€</td>
-                    <td className="px-6 py-4 text-center text-[#2f6bfc] font-bold">1 990€</td>
-                    <td className="px-6 py-4 text-center text-gray-700">3 490€</td>
+                    <td className="px-6 py-4 text-center text-[#2f6bfc] font-bold">2 490€</td>
+                    <td className="px-6 py-4 text-center text-gray-700">4 490€</td>
                   </tr>
                   <tr className="bg-[#f3f3f3]">
                     <td className="px-6 py-4 font-bold text-[#224671]">Greffe DHI 3000 greffons</td>
                     <td className="px-6 py-4 text-center text-gray-700">8 000€ - 12 000€</td>
-                    <td className="px-6 py-4 text-center text-[#2f6bfc] font-bold">2 490€</td>
-                    <td className="px-6 py-4 text-center text-gray-700">3 690€</td>
+                    <td className="px-6 py-4 text-center text-[#2f6bfc] font-bold">2 990€</td>
+                    <td className="px-6 py-4 text-center text-gray-700">4 690€</td>
                   </tr>
                   <tr>
                     <td className="px-6 py-4 font-bold text-[#224671]">Greffe de barbe</td>
-                    <td className="px-6 py-4 text-center text-gray-700">4 000€ - 6 000€</td>
-                    <td className="px-6 py-4 text-center text-[#2f6bfc] font-bold">1 990€</td>
-                    <td className="px-6 py-4 text-center text-gray-700">3 490€</td>
+                    <td className="px-6 py-4 text-center text-gray-700">4 000€ - 8 000€</td>
+                    <td className="px-6 py-4 text-center text-[#2f6bfc] font-bold">2 490€</td>
+                    <td className="px-6 py-4 text-center text-gray-700">4 490€</td>
                   </tr>
                   <tr className="bg-[#f3f3f3]">
                     <td className="px-6 py-4 font-bold text-[#224671]">Hôtel</td>

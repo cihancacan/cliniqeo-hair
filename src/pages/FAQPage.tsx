@@ -71,7 +71,7 @@ const FAQPage = () => {
     {
       category: 'Turquie',
       question: 'Les prix en Turquie sont-ils vraiment moins chers ?',
-      answer: 'Oui, une greffe FUE coûte 1 990€ en Turquie contre 6 000 à 8 000€ en France. Cette différence s\'explique par le coût de la vie plus bas, sans compromis sur la qualité médicale.'
+      answer: 'Oui, une greffe FUE coûte 2 490€ en Turquie contre 6 000 à 8 000€ en France. Cette différence s\'explique par le coût de la vie plus bas, sans compromis sur la qualité médicale.'
     },
     {
       category: 'Sécurité',
@@ -111,12 +111,12 @@ const FAQPage = () => {
     {
       category: 'Prix',
       question: 'Combien coûte une greffe FUE en Turquie ?',
-      answer: 'Notre forfait FUE tout compris est à 1 990€ (jusqu\'à 4000 greffons) incluant l\'intervention, l\'hôtel 4 étoiles 3 nuits, les transferts VIP, le traducteur, le kit post-opératoire et le suivi 12 mois.'
+      answer: 'Notre forfait FUE tout compris est à 2 490€ (jusqu\'à 4000 greffons) incluant l\'intervention, l\'hôtel 4 étoiles 3 nuits, les transferts VIP, le traducteur, le kit post-opératoire et le suivi 12 mois.'
     },
     {
       category: 'Prix',
       question: 'Quel est le prix d\'une greffe DHI ?',
-      answer: 'Notre forfait DHI premium est à 2 490€ (jusqu\'à 4000 greffons) incluant la technique DHI avec stylo CHOI, l\'hôtel 5 étoiles, le PRP capillaire, tous les services et le suivi 12 mois.'
+      answer: 'Notre forfait DHI premium est à 2 990€ (jusqu\'à 4000 greffons) incluant la technique DHI avec stylo CHOI, l\'hôtel 5 étoiles, le PRP capillaire, tous les services et le suivi 12 mois.'
     },
     {
       category: 'Prix',

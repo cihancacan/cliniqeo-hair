@@ -10,7 +10,7 @@ const GreffeCheveuxFUETurquie = () => {
             Greffe de Cheveux FUE Turquie - Technique de Référence Mondiale
           </h1>
           <p className="text-xl mb-6 opacity-90">
-            La méthode FUE (Follicular Unit Extraction) pratiquée par les meilleurs chirurgiens turcs. Résultats naturels garantis à partir de 1 990€ tout compris.
+            La méthode FUE (Follicular Unit Extraction) pratiquée par les meilleurs chirurgiens turcs. Résultats naturels garantis à partir de 2 490€ tout compris.
           </p>
           <Link to="/contact" className="inline-block bg-white text-[#2f6bfc] px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition-all duration-300">
             Diagnostic Gratuit FUE
@@ -64,7 +64,7 @@ const GreffeCheveuxFUETurquie = () => {
               <div className="bg-[#f3f3f3] p-8 rounded-xl mb-6">
                 <h3 className="text-2xl font-bold text-[#224671] mb-4">Prix Greffe FUE Turquie</h3>
                 <div className="text-center mb-6">
-                  <div className="text-5xl font-bold text-[#2f6bfc] mb-2">1 990€</div>
+                  <div className="text-5xl font-bold text-[#2f6bfc] mb-2">2 490€</div>
                   <p className="text-gray-700">Forfait tout compris jusqu'à 4000 greffons</p>
                 </div>
                 <ul className="space-y-2 mb-6">
@@ -147,7 +147,7 @@ const GreffeCheveuxFUETurquie = () => {
           <div className="space-y-4">
             <div className="bg-[#f3f3f3] p-6 rounded-xl">
               <h3 className="font-bold text-[#224671] mb-2">Combien coûte une greffe FUE en Turquie ?</h3>
-              <p className="text-gray-700">Le prix d'une greffe FUE en Turquie avec Cliniqeo est de 1 990€ tout compris (jusqu'à 4000 greffons), incluant l'intervention, l'hôtel, les transferts et le suivi.</p>
+              <p className="text-gray-700">Le prix d'une greffe FUE en Turquie avec Cliniqeo est de 2 490€ tout compris (jusqu'à 4000 greffons), incluant l'intervention, l'hôtel, les transferts et le suivi.</p>
             </div>
             <div className="bg-[#f3f3f3] p-6 rounded-xl">
               <h3 className="font-bold text-[#224671] mb-2">La greffe FUE est-elle douloureuse ?</h3>

@@ -21,7 +21,7 @@ const HomePage = () => {
               </div>
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight">
-                Votre greffe de cheveux en Turquie dès <span className="text-[#6EC1E4]">199€/mois</span>
+                Votre greffe de cheveux en Turquie dès <span className="text-[#6EC1E4]">249€/mois</span>
               </h1>
 
               <p className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-[#6EC1E4]">
@@ -86,13 +86,13 @@ const HomePage = () => {
                 <CheckCircle className="text-[#6EC1E4] mr-3 flex-shrink-0 mt-1" size={24} />
                 <div>
                   <div className="font-bold text-lg mb-1">Paiement flexible en 10 fois</div>
-                  <p className="text-gray-300 text-sm">Seulement 199€/mois, tout compris sans frais cachés</p>
+                  <p className="text-gray-300 text-sm">Seulement 249€/mois, tout compris sans frais cachés</p>
                 </div>
               </div>
             </div>
 
             <div className="bg-gradient-to-r from-[#2f6bfc] to-[#6EC1E4] rounded-2xl p-6 text-center">
-              <div className="text-5xl md:text-6xl font-bold mb-2">199€/mois</div>
+              <div className="text-5xl md:text-6xl font-bold mb-2">249€/mois</div>
               <div className="text-xl mb-4">Paiement en 10 fois • Greffe complète jusqu'à 5000 greffons</div>
               <Link
                 to="/contact"
@@ -321,7 +321,7 @@ const HomePage = () => {
                   Prix accessible, qualité premium
                 </h3>
                 <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                  Dès 199€/mois en 10 fois sans frais. La même qualité qu'en France ou en Allemagne pour jusqu'à 70% moins cher. Aucun frais caché, transparence totale.
+                  Dès 249€/mois en 10 fois sans frais. La même qualité qu'en France ou en Allemagne pour jusqu'à 70% moins cher. Aucun frais caché, transparence totale.
                 </p>
                 <div className="space-y-2">
                   <div className="flex items-center text-sm text-gray-700">
@@ -407,9 +407,9 @@ const HomePage = () => {
               <div className="relative">
                 <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-10 border border-white/20">
                   <div className="text-center mb-8">
-                    <div className="text-6xl font-bold mb-4">1 990€</div>
+                    <div className="text-6xl font-bold mb-4">2 490€</div>
                     <div className="text-2xl mb-2">Ou seulement</div>
-                    <div className="text-5xl font-bold text-[#6EC1E4] mb-2">199€/mois</div>
+                    <div className="text-5xl font-bold text-[#6EC1E4] mb-2">249€/mois</div>
                     <div className="text-lg text-blue-100">Paiement en 10 fois sans frais</div>
                   </div>
 
@@ -470,8 +470,8 @@ const HomePage = () => {
                   </div>
                   <div className="bg-white/20 backdrop-blur-sm px-4 md:px-6 py-3 md:py-4 rounded-2xl border border-white/30 whitespace-nowrap">
                     <div className="text-xs md:text-sm opacity-80 mb-1">À partir de</div>
-                    <div className="text-2xl md:text-3xl font-bold">1 990€</div>
-                    <div className="text-xs md:text-sm opacity-80">ou 199€/mois</div>
+                    <div className="text-2xl md:text-3xl font-bold">2 490€</div>
+                    <div className="text-xs md:text-sm opacity-80">ou 249€/mois</div>
                   </div>
                 </div>
               </div>
@@ -534,7 +534,7 @@ const HomePage = () => {
                   </div>
                   <div className="bg-white/20 backdrop-blur-sm px-4 md:px-6 py-3 md:py-4 rounded-2xl border border-white/30 whitespace-nowrap">
                     <div className="text-xs md:text-sm opacity-80 mb-1">À partir de</div>
-                    <div className="text-2xl md:text-3xl font-bold">2 490€</div>
+                    <div className="text-2xl md:text-3xl font-bold">2 990€</div>
                     <div className="text-xs md:text-sm opacity-80">ou 249€/mois</div>
                   </div>
                 </div>
@@ -884,7 +884,7 @@ const HomePage = () => {
                   Combien coûte une greffe de cheveux en Turquie ?
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Nos forfaits all-inclusive commencent à 1 990€ (199€/mois sur 10 mois) pour une greffe FUE complète jusqu'à 5 000 greffons. Ce prix inclut l'intervention, l'hôtel 5*, tous les transferts, le traducteur, et le suivi 12 mois.
+                  Nos forfaits all-inclusive commencent à 2 490€ (249€/mois sur 10 mois) pour une greffe FUE complète jusqu'à 5 000 greffons. Ce prix inclut l'intervention, l'hôtel 5*, tous les transferts, le traducteur, et le suivi 12 mois.
                 </p>
               </div>
             </div>
@@ -941,7 +941,7 @@ const HomePage = () => {
               <div className="text-blue-100">Réponse garantie</div>
             </div>
             <div className="text-center">
-              <div className="text-5xl font-bold mb-2">199€</div>
+              <div className="text-5xl font-bold mb-2">249€</div>
               <div className="text-blue-100">Par mois seulement</div>
             </div>
           </div>

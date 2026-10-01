@@ -10,7 +10,7 @@ const GreffeCheveuxDHITurquie = () => {
             Greffe de Cheveux DHI Turquie - Technique Premium Stylo CHOI
           </h1>
           <p className="text-xl mb-6 opacity-90">
-            La méthode DHI (Direct Hair Implantation) avec stylo CHOI pour une précision maximale. Résultats denses et naturels à partir de 2 490€.
+            La méthode DHI (Direct Hair Implantation) avec stylo CHOI pour une précision maximale. Résultats denses et naturels à partir de 2 990€.
           </p>
           <Link to="/contact" className="inline-block bg-white text-[#2f6bfc] px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition-all duration-300">
             Diagnostic Gratuit DHI
@@ -63,7 +63,7 @@ const GreffeCheveuxDHITurquie = () => {
               <div className="bg-gradient-to-br from-[#2f6bfc] to-[#6EC1E4] text-white p-8 rounded-xl mb-6">
                 <h3 className="text-2xl font-bold mb-4">Forfait DHI Premium</h3>
                 <div className="text-center mb-6">
-                  <div className="text-5xl font-bold mb-2">2 490€</div>
+                  <div className="text-5xl font-bold mb-2">2 990€</div>
                   <p className="opacity-90">Jusqu'à 4000 greffons</p>
                 </div>
                 <ul className="space-y-2 mb-6">
