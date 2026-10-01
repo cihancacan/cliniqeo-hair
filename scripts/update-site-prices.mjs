@@ -6,42 +6,32 @@ const roots = ['src', 'scripts', 'public', 'index.html'];
 const allowedExtensions = new Set(['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs', '.html', '.xml', '.json', '.txt']);
 const thisFile = path.resolve(projectRoot, 'scripts/update-site-prices.mjs');
 
+// Legacy cleanup only. Current commercial prices are stored directly in source.
+// IMPORTANT: do not globally rewrite 2 490 / €2,490 anymore: 2 490 € is now
+// the valid FUE price, so treating it as the former DHI price would corrupt builds.
 const replacementPairs = [
-  // Protect old English package prices first so later French replacements cannot cascade.
-  ['€1,990', '__PRICE_EN_FUE_BEARD__'],
-  ['€ 1,990', '__PRICE_EN_FUE_BEARD__'],
-  ['€1990', '__PRICE_EN_FUE_BEARD__'],
-  ['EUR 1,990', '__PRICE_EN_FUE_BEARD__'],
-  ['1,990 EUR', '__PRICE_EN_FUE_BEARD__'],
-  ['€2,490', '__PRICE_EN_DHI__'],
-  ['€ 2,490', '__PRICE_EN_DHI__'],
-  ['€2490', '__PRICE_EN_DHI__'],
-  ['EUR 2,490', '__PRICE_EN_DHI__'],
-  ['2,490 EUR', '__PRICE_EN_DHI__'],
+  // Old English FUE / beard package.
+  ['€1,990', '$3,490 USD'],
+  ['€ 1,990', '$3,490 USD'],
+  ['€1990', '$3,490 USD'],
+  ['EUR 1,990', '$3,490 USD'],
+  ['1,990 EUR', '$3,490 USD'],
 
-  // Protect old French package prices.
-  ['1 990€', '__PRICE_FR_FUE_BEARD__'],
-  ['1 990 €', '__PRICE_FR_FUE_BEARD__'],
-  ['1.990€', '__PRICE_FR_FUE_BEARD__'],
-  ['1.990 €', '__PRICE_FR_FUE_BEARD__'],
-  ['1990€', '__PRICE_FR_FUE_BEARD__'],
-  ['1990 €', '__PRICE_FR_FUE_BEARD__'],
-  ['2 490€', '__PRICE_FR_DHI__'],
-  ['2 490 €', '__PRICE_FR_DHI__'],
-  ['2.490€', '__PRICE_FR_DHI__'],
-  ['2.490 €', '__PRICE_FR_DHI__'],
-  ['2490€', '__PRICE_FR_DHI__'],
+  // Old French FUE / beard package.
+  ['1 990€', '2 490€'],
+  ['1 990 €', '2 490 €'],
+  ['1.990€', '2 490€'],
+  ['1.990 €', '2 490 €'],
+  ['1990€', '2490€'],
+  ['1990 €', '2490 €'],
 
-  // French financing: €2,490 / 10 months = €249 per month.
+  // French financing: 2 490 € / 10 months = 249 € per month.
   ['199€/mois', '249€/mois'],
   ['199 €/mois', '249 €/mois'],
   ['199€ / mois', '249€ / mois'],
   ['199 € / mois', '249 € / mois'],
   ['199€ par mois', '249€ par mois'],
   ['199 € par mois', '249 € par mois'],
-  ['199€/month', '249€/month'],
-  ['199 € / month', '249 € / month'],
-  ['199€', '249€'],
 
   // Updated comparison prices requested for the French pricing table.
   ['3 490€', '4 490€'],
@@ -53,12 +43,6 @@ const replacementPairs = [
   ['4 000€ - 6 000€', '4 000€ - 8 000€'],
   ['4 000€ – 6 000€', '4 000€ – 8 000€'],
   ['4 000 € - 6 000 €', '4 000 € - 8 000 €'],
-
-  // Restore the protected values to the new commercial grid.
-  ['__PRICE_FR_FUE_BEARD__', '2 490€'],
-  ['__PRICE_FR_DHI__', '2 990€'],
-  ['__PRICE_EN_FUE_BEARD__', '$3,490 USD'],
-  ['__PRICE_EN_DHI__', '$3,999 USD'],
 ];
 
 const englishPathPatterns = [
@@ -76,21 +60,13 @@ function isEnglishFocused(filePath) {
 }
 
 function replaceStructuredPriceValues(content, filePath) {
-  const english = isEnglishFocused(filePath);
-  const nextPrices = english
-    ? { 1990: '3490', 2490: '3999' }
-    : { 1990: '2490', 2490: '2990' };
+  // Only migrate the unambiguous former FUE value. Never rewrite 2490 here:
+  // 2490 is now a legitimate current FUE value.
+  const replacement = isEnglishFocused(filePath) ? '3490' : '2490';
 
-  const replaceOriginalPrice = (_match, prefix, originalValue, suffix) =>
-    `${prefix}${nextPrices[originalValue]}${suffix}`;
-
-  // Single-pass replacements are intentional: a freshly replaced 1990 must not
-  // be matched again as 2490 during the same build.
-  content = content
-    .replace(/(["']price["']\s*:\s*["'])(1990|2490)(["'])/g, replaceOriginalPrice)
-    .replace(/(price\s*:\s*["'])(1990|2490)(["'])/g, replaceOriginalPrice);
-
-  return content;
+  return content
+    .replace(/(["']price["']\s*:\s*["'])1990(["'])/g, `$1${replacement}$2`)
+    .replace(/(price\s*:\s*["'])1990(["'])/g, `$1${replacement}$2`);
 }
 
 function updateContent(content, filePath) {
@@ -98,8 +74,7 @@ function updateContent(content, filePath) {
   for (const [from, to] of replacementPairs) {
     next = next.split(from).join(to);
   }
-  next = replaceStructuredPriceValues(next, filePath);
-  return next;
+  return replaceStructuredPriceValues(next, filePath);
 }
 
 function visit(target) {
