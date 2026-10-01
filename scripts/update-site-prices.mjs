@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const projectRoot = process.cwd();
-const roots = ['src', 'scripts', 'public', 'dist', 'index.html'];
+const roots = ['src', 'scripts', 'public', 'index.html'];
 const allowedExtensions = new Set(['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs', '.html', '.xml', '.json', '.txt']);
 const thisFile = path.resolve(projectRoot, 'scripts/update-site-prices.mjs');
 
@@ -77,19 +77,19 @@ function isEnglishFocused(filePath) {
 
 function replaceStructuredPriceValues(content, filePath) {
   const english = isEnglishFocused(filePath);
-  if (english) {
-    content = content
-      .replace(/(["']price["']\s*:\s*["'])1990(["'])/g, '$1' + '3490' + '$2')
-      .replace(/(["']price["']\s*:\s*["'])2490(["'])/g, '$1' + '3999' + '$2')
-      .replace(/(price\s*:\s*["'])1990(["'])/g, '$1' + '3490' + '$2')
-      .replace(/(price\s*:\s*["'])2490(["'])/g, '$1' + '3999' + '$2');
-  } else {
-    content = content
-      .replace(/(["']price["']\s*:\s*["'])1990(["'])/g, '$1' + '2490' + '$2')
-      .replace(/(["']price["']\s*:\s*["'])2490(["'])/g, '$1' + '2990' + '$2')
-      .replace(/(price\s*:\s*["'])1990(["'])/g, '$1' + '2490' + '$2')
-      .replace(/(price\s*:\s*["'])2490(["'])/g, '$1' + '2990' + '$2');
-  }
+  const nextPrices = english
+    ? { 1990: '3490', 2490: '3999' }
+    : { 1990: '2490', 2490: '2990' };
+
+  const replaceOriginalPrice = (_match, prefix, originalValue, suffix) =>
+    `${prefix}${nextPrices[originalValue]}${suffix}`;
+
+  // Single-pass replacements are intentional: a freshly replaced 1990 must not
+  // be matched again as 2490 during the same build.
+  content = content
+    .replace(/(["']price["']\s*:\s*["'])(1990|2490)(["'])/g, replaceOriginalPrice)
+    .replace(/(price\s*:\s*["'])(1990|2490)(["'])/g, replaceOriginalPrice);
+
   return content;
 }
 

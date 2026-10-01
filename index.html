@@ -7,7 +7,7 @@
     <meta name="description" content="Greffe de cheveux en Turquie (FUE & DHI). Prix accessibles, équipe francophone, résultats naturels garantis. Diagnostic capillaire gratuit." />
     <meta name="keywords" content="greffe de cheveux Turquie, implants capillaires Turquie, FUE Turquie, DHI Turquie, greffe capillaire Istanbul" />
     <title>Greffe de cheveux Turquie – Diagnostic offert | Cliniqeo Hair</title>
-    <!-- Queue measurement immediately, then load third-party SDKs after the page is usable. -->
+    <!-- Queue measurement immediately, load Google shortly after first paint, and keep OpenAI deferred. -->
     <script>
       (function (w, d) {
         w.dataLayer = w.dataLayer || [];
@@ -25,38 +25,55 @@
         }
         w.oaiq('init', { pixelId: 'PcrTm4fXeUhp2MuuNkHxUB' });
 
-        var loaded = false;
-        function loadMeasurementScripts() {
-          if (loaded) return;
-          loaded = true;
+        var googleLoaded = false;
+        var openAiLoaded = false;
 
+        function loadGoogleMeasurement() {
+          if (googleLoaded) return;
+          googleLoaded = true;
           var google = d.createElement('script');
           google.async = true;
           google.src = 'https://www.googletagmanager.com/gtag/js?id=G-4V8DJ7PLL4';
           d.head.appendChild(google);
+        }
 
+        function loadOpenAiMeasurement() {
+          if (openAiLoaded) return;
+          openAiLoaded = true;
           var openai = d.createElement('script');
           openai.async = true;
           openai.src = 'https://bzrcdn.openai.com/sdk/oaiq.min.js';
           d.head.appendChild(openai);
         }
 
+        function loadOnIntent() {
+          loadGoogleMeasurement();
+          loadOpenAiMeasurement();
+        }
+
         ['pointerdown', 'keydown', 'touchstart'].forEach(function (eventName) {
-          w.addEventListener(eventName, loadMeasurementScripts, { once: true, passive: true });
+          w.addEventListener(eventName, loadOnIntent, { once: true, passive: true });
         });
+
+        d.addEventListener('DOMContentLoaded', function () {
+          w.requestAnimationFrame(function () {
+            w.requestAnimationFrame(function () {
+              w.setTimeout(loadGoogleMeasurement, 300);
+            });
+          });
+        }, { once: true });
 
         w.addEventListener('load', function () {
           if ('requestIdleCallback' in w) {
-            w.requestIdleCallback(loadMeasurementScripts, { timeout: 2500 });
+            w.requestIdleCallback(loadOpenAiMeasurement, { timeout: 2500 });
           } else {
-            w.setTimeout(loadMeasurementScripts, 1500);
+            w.setTimeout(loadOpenAiMeasurement, 1800);
           }
         }, { once: true });
       })(window, document);
     </script>
 
     <link rel="preconnect" href="https://cliniqeo-hair.vercel.app" crossorigin>
-    <link rel="preload" as="image" href="https://cliniqeo-hair.vercel.app/home.cliniqeo.hair.jpg" type="image/jpeg" fetchpriority="high">
     <link rel="preload" href="https://cliniqeo-hair.vercel.app/fonts/lato-400.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://cliniqeo-hair.vercel.app/fonts/oswald-latin.woff2" as="font" type="font/woff2" crossorigin>
   </head>
@@ -70,7 +87,5 @@
     </script>
     <noscript><style>#root{display:block!important}</style></noscript>
     <script type="module" src="/src/bootstrap.ts"></script>
-    <script src="/site-media.js" defer></script>
-    <script src="/about-image-deduplicate.js" defer></script>
   </body>
 </html>

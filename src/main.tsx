@@ -95,6 +95,9 @@ createRoot(root).render(
   </StrictMode>,
 );
 
+// Do not keep the rendered application hidden while non-critical DOM enhancements run.
+window.requestAnimationFrame(revealRenderedApp);
+
 
 function addEnglishPatientReviews() {
   if (getAppPathname() !== '/en') return;
@@ -281,16 +284,20 @@ function revealRenderedApp() {
 
 function runPageEnhancementsOnce() {
   enhancePages();
-  revealRenderedApp();
+}
+
+function schedulePageEnhancements() {
+  // Let the first paint complete before legacy text/link normalisation.
+  window.setTimeout(runPageEnhancementsOnce, 120);
 }
 
 if (document.querySelector('main > div')) {
-  window.requestAnimationFrame(runPageEnhancementsOnce);
+  schedulePageEnhancements();
 } else {
   const pageObserver = new MutationObserver(() => {
     if (!document.querySelector('main > div')) return;
     pageObserver.disconnect();
-    window.requestAnimationFrame(runPageEnhancementsOnce);
+    schedulePageEnhancements();
   });
 
   pageObserver.observe(root, { childList: true, subtree: true });
