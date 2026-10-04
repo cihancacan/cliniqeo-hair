@@ -95,6 +95,29 @@ export function mountHairPath(pathname: string) {
   return `${ENGLISH_HAIR_MOUNT_PATH}${publicSuffix}`;
 }
 
+export function mountHairPathForLanguage(pathname: string, language: 'fr' | 'en') {
+  const appPath = stripHairMountPath(pathname);
+
+  if (!activeMountPath) return appPath;
+
+  if (language === 'fr') {
+    const frenchPath = appPath === '/en' || appPath === '/hair-transplant-turkey'
+      ? '/'
+      : appPath.startsWith('/en/')
+        ? appPath.slice(3) || '/'
+        : appPath;
+
+    return `${HAIR_MOUNT_PATH}${frenchPath === '/' ? '' : frenchPath}`;
+  }
+
+  if (appPath === '/' || appPath === '/en' || appPath === '/hair-transplant-turkey') {
+    return ENGLISH_HAIR_MOUNT_PATH;
+  }
+
+  const englishSuffix = appPath.startsWith('/en/') ? appPath.slice(3) : appPath;
+  return `${ENGLISH_HAIR_MOUNT_PATH}${englishSuffix}`;
+}
+
 export function getHairApiUrl(pathname: string) {
   return mountHairPath(pathname);
 }

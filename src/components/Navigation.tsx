@@ -11,7 +11,7 @@ import {
   type SiteLanguage,
 } from '../config/localizedRoutes';
 import { getWhatsAppUrl, WHATSAPP_DISPLAY } from '../config/contactCore';
-import { mountHairPath } from '../config/hostedPath';
+import { isEnglishMountedHairPath, mountHairPathForLanguage } from '../config/hostedPath';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,7 +20,7 @@ const Navigation = () => {
   const { language, setLanguage, t } = useLanguage();
 
   useEffect(() => {
-    const detected = getSiteLanguage(location.pathname);
+    const detected = isEnglishMountedHairPath() ? 'en' : getSiteLanguage(location.pathname);
     if (detected !== language) setLanguage(detected);
   }, [location.pathname, language, setLanguage]);
 
@@ -29,7 +29,7 @@ const Navigation = () => {
     setLanguage(target);
     setIsLangMenuOpen(false);
     setIsMenuOpen(false);
-    window.location.assign(mountHairPath(destination));
+    window.location.assign(mountHairPathForLanguage(destination, target));
   };
 
   const menuItems = getNavigationItems(language).map((item) => ({
