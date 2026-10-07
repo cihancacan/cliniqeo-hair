@@ -25,6 +25,22 @@
       "continue": true
     },
     {
+      "src": "/greffe-cheveux-turquie",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/greffe-cheveux-turquie/(.*)",
+      "dest": "/$1"
+    },
+    {
+      "src": "/en/hair-transplant-turkey",
+      "dest": "/hair-transplant-turkey"
+    },
+    {
+      "src": "/en/hair-transplant-turkey/(.*)",
+      "dest": "/$1"
+    },
+    {
       "handle": "filesystem"
     },
     {
