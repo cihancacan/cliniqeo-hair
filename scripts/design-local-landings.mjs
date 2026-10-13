@@ -346,7 +346,7 @@ for (const [country, cities, keywords] of [
       ];
       for (const file of files) {
         let html = await readFile(file, 'utf8');
-        html = html.replace(/<div id="root">[\s\S]*?<\/div>\s*(?=<script)/, `<div id="root">${page}</div>\n    `);
+        html = html.replace(/<div id="root">[\s\S]*?<\/div>\s*(?=<script|<noscript|<!--)/, `<div id="root">${page}</div>\n    `);
         {
           // Intent-specific metadata: do not create 5 interchangeable titles per city.
           const frTitles = {
