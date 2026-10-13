@@ -167,6 +167,14 @@ for (const file of htmlFiles) {
   let html = upsertCanonical(original, canonicalUrl);
   html = upsertOgUrl(html, canonicalUrl);
 
+  // WordPress serves Cliniqeo Hair HTML under cliniqeo.com, but build assets
+  // physically live on the independent Vercel app. Absolute asset URLs avoid
+  // broken /assets/*.js and /assets/*.css on the WordPress domain.
+  html = html.replace(
+    /(\b(?:src|href)=["'])\/(assets|fonts)\/([^"']+)(["'])/gi,
+    (match, before, folder, file, after) => `${before}${UPSTREAM_ORIGIN}/${folder}/${file}${after}`,
+  );
+
   html = html.replace(/(<link\s+rel=["']alternate["'][^>]*href=["'])(https?:\/\/[^"']+)(["'][^>]*>)/gi, (match, before, href, after) => {
     return `${before}${rewriteAbsoluteSeoUrl(href)}${after}`;
   });
