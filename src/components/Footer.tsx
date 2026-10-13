@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Instagram, Linkedin, BookOpen, Smile } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import SeoKnowledgeHub from './SeoKnowledgeHub';
+import { getHairLinkPath } from '../config/hostedPath';
 import { getLocalizedGuidesPath, getNavigationItems } from '../config/localizedRoutes';
 import { getWhatsAppUrl, WHATSAPP_DISPLAY } from '../config/contactCore';
 
@@ -9,7 +10,7 @@ const Footer = () => {
   const { language, t } = useLanguage();
   const isFr = language === 'fr';
   const guidesPath = getLocalizedGuidesPath(language);
-  const localCitiesPath = isFr ? '/greffe-cheveux-france' : '/en/hair-transplant-by-city';
+  const localCitiesPath = getHairLinkPath(isFr ? '/greffe-cheveux-france' : '/en/hair-transplant-by-city');
   const whatsappUrl = getWhatsAppUrl(language);
   const quickLinks = getNavigationItems(language).filter((item) =>
     ['nav.home', 'nav.techniques', 'nav.pricing', 'nav.why_turkey', 'nav.faq', 'nav.contact'].includes(item.key),
