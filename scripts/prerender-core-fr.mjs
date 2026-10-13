@@ -17,6 +17,7 @@ const pages = [
 const origin = 'https://cliniqeo.com';
 const mount = '/greffe-cheveux-turquie';
 const upstream = 'https://cliniqeo-hair.vercel.app';
+const englishRoutes = { '/contact': 'contact', '/tarifs': 'pricing', '/a-propos': 'about', '/faq': 'faq', '/techniques': 'techniques', '/turquie': 'why-turkey', '/greffe-cheveux/avant-apres': 'before-after' };
 const esc = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;');
 const server = await createServer({
   configFile: false,
@@ -47,6 +48,9 @@ try {
     // Remove inherited home-page graphs: the graph must describe this URL.
     html = html.replace(/<script[^>]+type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>/gi, '');
     const url = origin + mount + route;
+    html = html.replace(/<link[^>]+hreflang=["'][^"']+["'][^>]*>/gi, '');
+    const enUrl = origin + '/en/hair-transplant-turkey/' + englishRoutes[route];
+    html = html.replace('</head>', `<link rel="alternate" hreflang="fr" href="${url}"><link rel="alternate" hreflang="en" href="${enUrl}"><link rel="alternate" hreflang="x-default" href="${url}"></head>`);
     const schema = { '@context': 'https://schema.org', '@graph': [
       { '@type': 'Organization', '@id': origin + '/#organization', name: 'Cliniqeo', url: origin + '/' },
       { '@type': 'WebPage', '@id': url + '#webpage', url, name: title, description, inLanguage: 'fr-FR', publisher: { '@id': origin + '/#organization' } },
