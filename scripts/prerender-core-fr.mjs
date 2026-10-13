@@ -18,7 +18,7 @@ const origin = 'https://cliniqeo.com';
 const mount = '/greffe-cheveux-turquie';
 const upstream = 'https://cliniqeo-hair.vercel.app';
 const esc = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;');
-const server = await createServer({ configFile: false, plugins: [react()], server: { middlewareMode: true }, appType: 'custom' });
+const server = await createServer({ configFile: false, plugins: [react()], ssr: { noExternal: ['react-router-dom', 'react-router'] }, server: { middlewareMode: true }, appType: 'custom' });
 try {
   const { renderCorePage } = await server.ssrLoadModule('/scripts/core-fr-entry.tsx');
   for (const [route, title, description] of pages) {
