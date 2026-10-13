@@ -2,6 +2,9 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { localAliases } from './local-seo-policy.mjs';
+const aliases = await localAliases();
+let canonicalCount = 0;
 
 const dist = join(process.cwd(), 'dist');
 const data = await readFile('src/config/localSeoData.ts', 'utf8');
@@ -38,8 +41,15 @@ for (const [country, cities, keywords] of variants) {
       assert.ok(html.includes('id="local-native-form"'), 'missing lead form: ' + route);
       assert.ok(html.includes('type="application/ld+json"'), 'missing structured data: ' + route);
       assert.ok(html.includes('BreadcrumbList'), 'missing breadcrumbs: ' + route);
-      assert.ok(html.includes('rel="canonical" href="' + url + '"'), 'wrong canonical: ' + route);
-      assert.ok(sitemap.includes('<loc>' + url + '</loc>'), 'missing sitemap URL: ' + route);
+      const target = aliases.get('/' + route);
+      const canonical = target ? 'https://cliniqeo.com' + (country === 'fr' ? '/greffe-cheveux-turquie' + target : '/en/hair-transplant-turkey' + target.slice(3)) : url;
+      assert.ok(html.includes('rel="canonical" href="' + canonical + '"'), 'wrong canonical: ' + route);
+      assert.equal(sitemap.includes('<loc>' + url + '</loc>'), !target, 'sitemap consolidation: ' + route);
+      if (!target) canonicalCount++;
+      if (keyword.intent === 'complete') {
+        assert.ok(html.includes('data-consolidated-intent="technique"'), 'missing technique advice: ' + route);
+        assert.ok(html.includes('data-consolidated-intent="implant"'), 'missing graft advice: ' + route);
+      }
       assert.ok(!html.includes('dès 1 990€'), 'stale advertised price: ' + route);
       assert.ok(!html.includes('from €1,990'), 'stale English price: ' + route);
       assert.ok(!titles.has(title), 'duplicate title: ' + title);
@@ -51,4 +61,6 @@ for (const [country, cities, keywords] of variants) {
   }
 }
 assert.equal(count, 470);
+assert.equal(canonicalCount, 282);
+assert.equal(aliases.size, 188);
 console.log('Validated ' + count + ' city SEO landings: intent-specific metadata, unique titles/descriptions, editorial guidance, sources, canonical URLs, sitemap entries, visible lead forms and JSON-LD.');

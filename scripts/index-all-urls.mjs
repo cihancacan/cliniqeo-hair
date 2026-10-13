@@ -189,6 +189,7 @@ const filesByRoute = new Map();
 
 for (const file of htmlFiles) {
   const route = routeFromFile(file);
+  if (route === '/404') continue;
   if (route.includes(':') || route.includes('*')) continue;
   if (!filesByRoute.has(route)) filesByRoute.set(route, []);
   filesByRoute.get(route).push(file);
@@ -199,7 +200,7 @@ for (const [route, files] of filesByRoute) {
   for (const file of files) {
     const original = await readFile(file, 'utf8');
     const updated = makeIndexable(original, route, {
-      lang: route.startsWith('/en/') || route.startsWith('/hair-') || route.startsWith('/turkey-') || route.startsWith('/best-') || route.startsWith('/fue-') || route.startsWith('/dhi-') || route.startsWith('/how-much-') ? 'en' : 'fr',
+      lang: !['/fue-saphir-turquie', '/dhi-ou-fue'].includes(route) && (route.startsWith('/en/') || route.startsWith('/hair-') || route.startsWith('/turkey-') || route.startsWith('/best-') || route.startsWith('/fue-') || route.startsWith('/dhi-') || route.startsWith('/how-much-')) ? 'en' : 'fr',
     });
     if (updated !== original) {
       await writeFile(file, updated, 'utf8');
