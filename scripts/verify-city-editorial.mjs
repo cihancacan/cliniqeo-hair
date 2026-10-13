@@ -30,6 +30,10 @@ for (const [country, cities, keywords] of variants) {
       assert.ok(title?.includes(city.name), 'wrong city title: ' + route);
       assert.ok(description?.includes(city.name), 'wrong city description: ' + route);
       assert.ok(html.includes('id="city-editorial-guide"'), 'missing source-backed editorial: ' + route);
+      assert.ok(html.includes('class="local-static-page'), 'city HTML must remain static and clickable: ' + route);
+      assert.ok(/src="https:\/\/cliniqeo-hair\.vercel\.app\/assets\//.test(html), 'bootstrap must load from Vercel upstream: ' + route);
+      assert.ok(/href="https:\/\/cliniqeo-hair\.vercel\.app\/assets\//.test(html), 'CSS must load from Vercel upstream: ' + route);
+      assert.ok(!html.includes('root.childElementCount) root.style.display'), 'must never hide prerendered HTML: ' + route);
       assert.ok(html.includes('https://ishrs.org/patients/consumer-advocacy/'), 'missing independent patient resource: ' + route);
       assert.ok(html.includes('id="local-native-form"'), 'missing lead form: ' + route);
       assert.ok(html.includes('type="application/ld+json"'), 'missing structured data: ' + route);

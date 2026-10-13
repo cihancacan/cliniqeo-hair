@@ -270,7 +270,7 @@ function buildPage(country, keyword, city, pagePath) {
   return `
     ${navigation(isFr, whatsappUrl)}
     <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-2xl font-bold text-white shadow-2xl no-underline">W</a>
-    <main class="pt-20 bg-white">
+    <main class="local-static-page pt-20 bg-white">
       <section class="relative overflow-hidden bg-gradient-to-br from-slate-950 via-[#1e3a5f] to-[#224671] text-white">
         <div class="absolute inset-0"><div class="absolute right-10 top-20 h-80 w-80 rounded-full bg-[#2f6bfc] opacity-20 blur-3xl"></div><div class="absolute bottom-10 left-10 h-80 w-80 rounded-full bg-[#6EC1E4] opacity-20 blur-3xl"></div></div>
         <div class="relative mx-auto grid min-h-[82vh] max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-24">
@@ -346,7 +346,7 @@ for (const [country, cities, keywords] of [
       ];
       for (const file of files) {
         let html = await readFile(file, 'utf8');
-        html = html.replace(/<div id="root">[\s\S]*?<\/div>\s*(?=<script)/, `<div id="root">${page}</div>\n    `);
+        html = html.replace(/<div id="root">[\s\S]*?<\/div>\s*(?=<script|<noscript|<!--)/, `<div id="root">${page}</div>\n    `);
         {
           // Intent-specific metadata: do not create 5 interchangeable titles per city.
           const frTitles = {
