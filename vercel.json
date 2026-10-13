@@ -37,6 +37,14 @@
       "dest": "/hair-transplant-turkey"
     },
     {
+      "src": "/en/hair-transplant-turkey/(uk|us)/(.*)",
+      "dest": "/en/$1/$2"
+    },
+    {
+      "src": "/en/hair-transplant-turkey/hair-transplant-by-city",
+      "dest": "/en/hair-transplant-by-city"
+    },
+    {
       "src": "/en/hair-transplant-turkey/(.*)",
       "dest": "/$1"
     },

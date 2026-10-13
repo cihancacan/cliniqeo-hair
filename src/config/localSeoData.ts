@@ -153,9 +153,14 @@ export function getLocalKeywords(country: LocalCountry) {
 
 export function findLocalPage(pathname: string) {
   const cleanPath = pathname.replace(/\/$/, '') || '/';
-  const country: LocalCountry = cleanPath.startsWith('/en/uk/') ? 'uk' : cleanPath.startsWith('/en/us/') ? 'us' : 'fr';
-  const relative = country === 'fr' ? cleanPath.slice(1) : cleanPath.replace(`/en/${country}/`, '');
-  const keywords = getLocalKeywords(country);
+  // Under the English /en/hair-transplant-turkey mount, React Router's
+  // basename removes /en before the local city page is resolved.
+  const normalizedPath = /^\/(uk|us)\//.test(cleanPath) ? `/en${cleanPath}` : cleanPath;
+  const country: LocalCountry = normalizedPath.startsWith('/en/uk/') ? 'uk' : normalizedPath.startsWith('/en/us/') ? 'us' : 'fr';
+  const relative = country === 'fr' ? normalizedPath.slice(1) : normalizedPath.replace(`/en/${country}/`, '');
+  // Longer keyword slugs must win before /hair-transplant-, otherwise
+  // /hair-transplant-cost-* and /hair-transplant-clinic-* resolve as missing.
+  const keywords = [...getLocalKeywords(country)].sort((left, right) => right.slug.length - left.slug.length);
   const cities = getLocalCities(country);
   const keyword = keywords.find((item) => relative.startsWith(`${item.slug}-`));
   if (!keyword) return null;

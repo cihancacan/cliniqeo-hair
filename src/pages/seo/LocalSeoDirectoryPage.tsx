@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import SEOHead from '../../components/SEOHead';
+import { getHairLinkPath } from '../../config/hostedPath';
 import { enLocalKeywords, frLocalCities, frLocalKeywords, getLocalPath, ukLocalCities, usLocalCities, type LocalCountry } from '../../config/localSeoData';
 
 interface Props {
@@ -33,7 +34,7 @@ function LocalSeoDirectoryPage({ country }: Props) {
               </div>
               <div className="flex flex-wrap gap-3">
                 {keywords.map((keyword) => (
-                  <Link key={keyword.key} to={getLocalPath(country, keyword, city)} className="rounded-full border border-blue-200 px-4 py-2 text-sm font-semibold text-[#224671] hover:border-[#2f6bfc] hover:bg-blue-50 transition-colors">
+                  <Link key={keyword.key} to={getHairLinkPath(getLocalPath(country, keyword, city))} className="rounded-full border border-blue-200 px-4 py-2 text-sm font-semibold text-[#224671] hover:border-[#2f6bfc] hover:bg-blue-50 transition-colors">
                     {keyword.label} {city.name}
                   </Link>
                 ))}

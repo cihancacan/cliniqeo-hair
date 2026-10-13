@@ -12,15 +12,17 @@ import {
  */
 export function findLocalSeoPage(pathname: string) {
   const cleanPath = pathname.replace(/\/$/, '') || '/';
-  const country: LocalCountry = cleanPath.startsWith('/en/uk/')
+  // The public English mount strips /en before client-side route matching.
+  const normalizedPath = /^\/(uk|us)\//.test(cleanPath) ? `/en${cleanPath}` : cleanPath;
+  const country: LocalCountry = normalizedPath.startsWith('/en/uk/')
     ? 'uk'
-    : cleanPath.startsWith('/en/us/')
+    : normalizedPath.startsWith('/en/us/')
       ? 'us'
       : 'fr';
 
   const relative = country === 'fr'
-    ? cleanPath.slice(1)
-    : cleanPath.replace(`/en/${country}/`, '');
+    ? normalizedPath.slice(1)
+    : normalizedPath.replace(`/en/${country}/`, '');
 
   const keywords = [...getLocalKeywords(country)].sort(
     (left, right) => right.slug.length - left.slug.length,
