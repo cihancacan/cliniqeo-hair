@@ -79,12 +79,7 @@
   </head>
   <body>
     <div id="root"></div>
-    <script>
-      (function () {
-        var root = document.getElementById('root');
-        if (root && root.childElementCount) root.style.display = 'none';
-      })();
-    </script>
+    <!-- Prerendered SEO content must remain visible even when client JS is blocked. -->
     <noscript><style>#root{display:block!important}</style></noscript>
     <script type="module" src="/src/bootstrap.ts"></script>
   </body>
