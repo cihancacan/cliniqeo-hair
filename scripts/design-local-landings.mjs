@@ -3,6 +3,7 @@ import { join } from 'node:path';
 
 import { frenchCityComparison, frenchCityJourney } from './french-city-comparison.mjs';
 import { englishCityComparison, englishCityJourney } from './english-city-comparison.mjs';
+import { localEditorialDepth } from './local-editorial-depth.mjs';
 
 const root = process.cwd();
 const dist = join(root, 'dist');
@@ -282,7 +283,7 @@ function buildPage(country, keyword, city, pagePath) {
             <div class="flex flex-col gap-4 sm:flex-row"><a href="#diagnostic-form" class="rounded-xl bg-[#6EC1E4] px-7 py-4 text-center font-bold text-[#224671] no-underline transition hover:bg-white">${isFr ? 'Recevoir mon diagnostic gratuit' : 'Get my free assessment'}</a><a href="#price-comparison" class="rounded-xl border-2 border-white/40 bg-white/10 px-7 py-4 text-center font-bold text-white no-underline backdrop-blur transition hover:bg-white/20">${isFr ? 'Comparer les prix' : 'Compare prices'}</a></div>
             <div class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-slate-300"><span>✓ ${isFr ? 'Sans engagement' : 'No obligation'}</span><span>✓ ${isFr ? 'Formulaire rapide' : 'Quick form'}</span><span>✓ ${isFr ? 'Réponse sous 24 h' : 'Response within 24h'}</span></div>
           </div>
-          <div class="relative"><div class="overflow-hidden rounded-3xl border border-white/20 bg-white/10 p-2 shadow-2xl backdrop-blur"><img src="${image}" alt="${escapeHtml(`${keyword.label} ${label} avant après`)}" width="1448" height="1086" loading="eager" fetchpriority="high" class="h-auto w-full rounded-2xl"></div><div class="absolute -bottom-6 left-6 right-6 rounded-2xl bg-white p-5 text-[#224671] shadow-xl"><p class="text-sm font-bold uppercase tracking-wide text-[#2f6bfc]">${isFr ? 'Cliniqeo Hair Turquie' : 'Cliniqeo Hair Turkey'}</p><p class="mt-1 text-3xl font-bold">${isFr ? 'dès 1 990€' : 'from €1,990'}</p><p class="text-sm text-slate-600">${isFr ? 'FUE jusqu’à 5 000 greffons selon diagnostic' : 'FUE up to 5,000 grafts subject to assessment'}</p></div></div>
+          <div class="relative"><div class="overflow-hidden rounded-3xl border border-white/20 bg-white/10 p-2 shadow-2xl backdrop-blur"><img src="${image}" alt="${escapeHtml(`${keyword.label} ${label} avant après`)}" width="1448" height="1086" loading="eager" fetchpriority="high" class="h-auto w-full rounded-2xl"></div><div class="absolute -bottom-6 left-6 right-6 rounded-2xl bg-white p-5 text-[#224671] shadow-xl"><p class="text-sm font-bold uppercase tracking-wide text-[#2f6bfc]">${isFr ? 'Cliniqeo Hair Turquie' : 'Cliniqeo Hair Turkey'}</p><p class="mt-1 text-3xl font-bold">${isFr ? 'dès 2 490€' : 'from $3,490 USD'}</p><p class="text-sm text-slate-600">${isFr ? 'FUE selon examen médical ; devis personnalisé' : 'FUE subject to medical assessment and written quotation'}</p></div></div>
         </div>
       </section>
 
@@ -337,6 +338,8 @@ for (const [country, cities, keywords] of [
         page = page.replace('Différents profils de calvitie et différentes stratégies de restauration capillaire.', 'Exemples de traitements, sans indication que ces patients viennent de cette ville. Les résultats individuels varient ; demandez des cas documentés comparables à votre situation.');
         page = page.replace('Le devis précise chaque inclusion.', 'Le devis précise chaque inclusion. Les vols ne sont pas inclus et les éventuels frais pour un accompagnant sont à confirmer.');
       }
+      // Real, source-backed intent guidance and practical city considerations.
+      page = page.replace(nativeForm(country === 'fr', cityLabel(country, city)), localEditorialDepth(country, city, keyword, cities, keywords) + nativeForm(country === 'fr', cityLabel(country, city)));
       const files = [
         join(dist, `${route.replace(/^\//, '')}.html`),
         join(dist, route.replace(/^\//, ''), 'index.html'),
@@ -345,15 +348,59 @@ for (const [country, cities, keywords] of [
         let html = await readFile(file, 'utf8');
         html = html.replace(/<div id="root">[\s\S]*?<\/div>\s*(?=<script)/, `<div id="root">${page}</div>\n    `);
         {
-          const title = country === 'fr' ? `${intentCopy.fr[keyword.intent].title} à ${city.name} ou en Turquie | Cliniqeo` : `${intentCopy.en[keyword.intent].title} in ${cityLabel(country, city)} vs Turkey | Cliniqeo`;
-          const description = country === 'fr' ? `Vous recherchez ${keyword.label} à ${city.name} ? Comparez l’option locale et Istanbul : prix, hôtel, transferts et suivi. Vols non inclus.` : `Considering ${keyword.label} in ${cityLabel(country, city)}? Compare local care with Istanbul: costs, hotel, transfers and follow-up. Flights excluded.`;
+          // Intent-specific metadata: do not create 5 interchangeable titles per city.
+          const frTitles = {
+            complete: `Greffe de cheveux à ${city.name} : local ou Istanbul ?`,
+            technique: `FUE ou DHI à ${city.name} : comment choisir ?`,
+            implant: `Implant capillaire à ${city.name} : greffons et limites`,
+            price: `Prix greffe cheveux à ${city.name} : budget réel`,
+            clinic: `Clinique greffe cheveux à ${city.name} : vérifications`,
+          };
+          const enTitles = {
+            complete: `Hair Transplant in ${cityLabel(country, city)}: Local or Turkey?`,
+            technique: `FUE vs DHI in ${cityLabel(country, city)}: Treatment Guide`,
+            implant: `Hair Implants in ${cityLabel(country, city)}: Grafts Explained`,
+            price: `Hair Transplant Cost in ${cityLabel(country, city)}: Full Budget`,
+            clinic: `Hair Transplant Clinic in ${cityLabel(country, city)}: Checklist`,
+          };
+          const frDescriptions = {
+            complete: `Greffe de cheveux à ${city.name} ou Istanbul ? Comparez diagnostic, équipe médicale, voyage et suivi avant de choisir votre parcours.`,
+            technique: `FUE ou DHI à ${city.name} : comment évaluer zone donneuse, techniques et résultats possibles ? Questions médicales avant de réserver à Istanbul.`,
+            implant: `Implant capillaire à ${city.name} : comprendre greffons, densité, zone donneuse et devis. Guide pratique pour comparer les options.`,
+            price: `Prix greffe cheveux à ${city.name} : calcul du budget total, vols, hôtel, soins, suivi et conditions de paiement. Comparaison honnête avec Istanbul.`,
+            clinic: `Clinique de greffe cheveux à ${city.name} : questions sur le médecin, les qualifications, les risques et le suivi avant de réserver.`,
+          };
+          const enDescriptions = {
+            complete: `Compare hair transplants in ${cityLabel(country, city)} and Istanbul: clinician, travel, written costs and aftercare. No local Cliniqeo clinic.`,
+            technique: `Compare FUE and DHI in ${cityLabel(country, city)}: donor assessment, technique choice, risks and the questions to ask your surgeon.`,
+            implant: `Hair implants in ${cityLabel(country, city)}: understand graft counts, donor limits, natural hairlines and realistic treatment plans.`,
+            price: `Hair transplant cost in ${cityLabel(country, city)}: calculate surgery, flights, hotels, currency, aftercare and possible extras.`,
+            clinic: `How to check hair transplant clinics in ${cityLabel(country, city)}: licensed clinician, surgical roles, follow-up and warning signs.`,
+          };
+          const title = (country === 'fr' ? frTitles : enTitles)[keyword.intent] + ' | Cliniqeo';
+          const description = (country === 'fr' ? frDescriptions : enDescriptions)[keyword.intent];
           html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`);
           html = html.replace(/<meta (name="description"|property="og:description") content="[^"]*"[^>]*>/g, (_, key) => `<meta ${key} content="${escapeHtml(description)}">`);
           html = html.replace(/<meta property="og:title" content="[^"]*"[^>]*>/g, `<meta property="og:title" content="${escapeHtml(title)}">`);
           // The earlier prerenderer describes its old article. Rebuild from the visible page.
           const faqItems = [...page.matchAll(/<summary[^>]*>([\s\S]*?)<\/summary><p[^>]*>([\s\S]*?)<\/p>/g)].map(([, question, answer]) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } }));
           const url = country === 'fr' ? `https://cliniqeo.com/greffe-cheveux-turquie/${keyword.slug}-${city.slug}` : `https://cliniqeo.com/en/hair-transplant-turkey/${country}/${keyword.slug}-${city.slug}`;
-          const schema = [{ '@context': 'https://schema.org', '@type': 'WebPage', name: title, description, url, inLanguage: country === 'fr' ? 'fr-FR' : country === 'uk' ? 'en-GB' : 'en-US', publisher: { '@type': 'Organization', name: 'Cliniqeo Hair' } }, { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqItems }];
+          const hub = country === 'fr' ? 'https://cliniqeo.com/greffe-cheveux-turquie/greffe-cheveux-france' : `https://cliniqeo.com/en/hair-transplant-turkey/${country}/hair-transplant-cities`;
+          const site = country === 'fr' ? 'https://cliniqeo.com/greffe-cheveux-turquie' : 'https://cliniqeo.com/en/hair-transplant-turkey';
+          const independentSource = country === 'uk'
+            ? 'https://www.nhs.uk/tests-and-treatments/cosmetic-procedures/cosmetic-surgery/hair-transplant/'
+            : country === 'us'
+              ? 'https://www.aad.org/public/diseases/hair-loss/treatment/diagnosis-treat'
+              : 'https://forum-assures.ameli.fr/questions/3430522-greffe-cheveux';
+          const schema = [
+            { '@context': 'https://schema.org', '@type': 'WebPage', '@id': url + '#webpage', name: title, description, url, inLanguage: country === 'fr' ? 'fr-FR' : country === 'uk' ? 'en-GB' : 'en-US', isPartOf: { '@type': 'WebSite', name: 'Cliniqeo Hair', url: site }, about: { '@type': 'MedicalProcedure', name: country === 'fr' ? 'Greffe capillaire' : 'Hair transplantation' }, citation: [independentSource, 'https://ishrs.org/patients/consumer-advocacy/'], publisher: { '@type': 'Organization', name: 'Cliniqeo Hair', url: site } },
+            { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqItems },
+            { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+              { '@type': 'ListItem', position: 1, name: country === 'fr' ? 'Greffe de cheveux Turquie' : 'Hair Transplant Turkey', item: site },
+              { '@type': 'ListItem', position: 2, name: country === 'fr' ? 'Villes françaises' : country === 'uk' ? 'UK cities' : 'US cities', item: hub },
+              { '@type': 'ListItem', position: 3, name: title, item: url },
+            ] },
+          ];
           html = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '');
           html = html.replace('</head>', `<script type="application/ld+json">${JSON.stringify(schema).replaceAll('<', '\\u003c')}</script></head>`);
         }
