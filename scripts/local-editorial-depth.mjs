@@ -174,6 +174,10 @@ export function localEditorialDepth(country, city, keyword, cities, keywords) {
     { url: 'https://ishrs.org/patients/consumer-advocacy/', label: 'ISHRS — questions à poser avant une greffe / questions to ask before surgery' }
   ];
   const bullets = focus.questions.map(q => '<li class="rounded-lg bg-white p-4 text-slate-700">' + escapeHtml(q) + '</li>').join('');
+  const merged = keyword.intent === 'complete' ? ['technique', 'implant'].map(intent => {
+    const item = (isFr ? frFocus : enFocus)[intent];
+    return `<article class="mt-6 rounded-2xl border border-slate-200 p-6" data-consolidated-intent="${intent}"><h3 class="mb-4 text-xl font-bold">${escapeHtml(item.heading)}</h3><p class="mb-4">${escapeHtml(item.advice)}</p><ul class="list-disc pl-5">${item.questions.map(q => `<li>${escapeHtml(q)}</li>`).join('')}</ul></article>`;
+  }).join('') : '';
   const links = sources.map(s => '<li><a rel="noopener noreferrer" href="' + s.url + '" target="_blank" class="font-semibold text-[#2f6bfc] underline">' + escapeHtml(s.label) + '</a></li>').join('');
   return `
   <section id="city-editorial-guide" class="bg-white py-16" aria-labelledby="city-editorial-title">
@@ -195,10 +199,12 @@ export function localEditorialDepth(country, city, keyword, cities, keywords) {
           <p class="leading-relaxed text-slate-600">${isFr ? 'Point de départ à vérifier : ' : 'Departure point to check: '}${airport}. ${isFr ? 'Les vols et les correspondances ne sont ni garantis ni inclus automatiquement. Demandez la date de retour conseillée par le praticien avant de payer les billets.' : 'Flights and connections are neither guaranteed nor automatically included. Confirm the clinician-approved return date before purchasing flights.'}</p>
         </article>
       </div>
+      ${merged}
       <aside class="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-6">
         <h3 class="mb-3 text-xl font-bold text-[#224671]">${isFr ? 'Sources indépendantes et transparence' : 'Independent sources and transparency'}</h3>
         <p class="mb-3 leading-relaxed text-slate-700">${isFr ? 'Ces ressources externes aident à vérifier les risques, les qualifications et les conditions de prise en charge. Elles ne constituent ni un partenariat ni une recommandation de Cliniqeo par ces organismes.' : 'These third-party sources help you check risks, clinical credentials and suitability. Linking to them does not imply endorsement of Cliniqeo by these organisations.'}</p>
         <ul class="space-y-2">${links}</ul>
+        <p class="mt-4 text-sm text-slate-600">${isFr ? 'Éditeur : Cliniqeo. Aucun réviseur médical nominatif n’est indiqué pour cette fiche ; elle ne remplace pas une consultation.' : 'Publisher: Cliniqeo. No named medical reviewer is listed for this guide; it does not replace a clinical consultation.'}</p>
         <p class="mt-4 text-sm text-slate-600">${isFr ? 'Information générale, non personnalisée. Un professionnel de santé détermine si la greffe est indiquée.' : 'General information, not personal medical advice. A qualified clinician determines whether surgery is appropriate.'}</p>
       </aside>
       <nav class="mt-8" aria-label="${isFr ? 'Autres guides régionaux' : 'Other city guides'}">

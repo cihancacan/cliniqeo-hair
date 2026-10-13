@@ -41,7 +41,7 @@ const FAQPage = () => {
     {
       category: 'Principe',
       question: 'Les résultats sont-ils permanents ?',
-      answer: 'Oui, les cheveux greffés sont définitifs car ils proviennent de la zone donneuse résistante à la chute. Ils ne retomberont jamais. Vous gardez vos cheveux greffés toute votre vie.'
+      answer: 'La greffe ne garantit pas un résultat à vie. Les cheveux environnants peuvent continuer à se raréfier et certains greffons peuvent ne pas prendre. Le praticien doit expliquer les limites et prévoir l’évolution de la chute.'
     },
     {
       category: 'Principe',
@@ -56,7 +56,7 @@ const FAQPage = () => {
     {
       category: 'Turquie',
       question: 'Pourquoi faire une greffe de cheveux en Turquie ?',
-      answer: 'La Turquie est leader mondial avec plus de 500 000 interventions par an. Les chirurgiens turcs ont une expertise exceptionnelle, les cliniques sont équipées des dernières technologies, et les prix sont 60 à 70% moins chers qu\'en France tout en maintenant des standards européens.'
+      answer: 'Comparez un projet en Turquie avec une prise en charge près de chez vous : identité du praticien, devis complet, durée du séjour, frais de transport et accès au suivi après le retour. Le pays ne suffit pas à établir la qualité des soins.'
     },
     {
       category: 'Turquie',
@@ -66,22 +66,22 @@ const FAQPage = () => {
     {
       category: 'Turquie',
       question: 'Comment sont formés les chirurgiens turcs ?',
-      answer: 'Les chirurgiens turcs suivent une formation médicale complète de 6 ans plus une spécialisation en transplantation capillaire. Avec 500+ interventions par an, leur pratique intensive garantit une maîtrise technique exceptionnelle.'
+      answer: 'Demandez le nom du médecin, ses qualifications vérifiables, son autorisation d’exercice et le rôle de chaque intervenant. Ne déduisez pas les compétences individuelles de statistiques générales sur un pays.'
     },
     {
       category: 'Turquie',
       question: 'Les prix en Turquie sont-ils vraiment moins chers ?',
-      answer: 'Oui, une greffe FUE coûte 2 490€ en Turquie contre 6 000 à 8 000€ en France. Cette différence s\'explique par le coût de la vie plus bas, sans compromis sur la qualité médicale.'
+      answer: 'Le forfait FUE affiché par Cliniqeo est de 2 490€. Pour comparer avec une offre locale, demandez deux devis adaptés au même cas et additionnez les prestations, le transport et les frais éventuels de suivi. Aucun tarif local uniforme ne peut être garanti.'
     },
     {
       category: 'Sécurité',
       question: 'La greffe en Turquie est-elle sécurisée ?',
-      answer: 'Oui, nos cliniques partenaires sont certifiées JCI et ISO, respectent les normes d\'hygiène européennes, et utilisent du matériel stérile à usage unique. Avec Cliniqeo, vous bénéficiez d\'un accompagnement français qui sécurise chaque étape.'
+      answer: 'Aucune intervention n’est sans risque. Avant de réserver, demandez l’identité de l’établissement et du praticien, les justificatifs des certifications annoncées et le protocole de suivi. L’accompagnement de Cliniqeo ne remplace pas la responsabilité médicale du professionnel.'
     },
     {
       category: 'Sécurité',
       question: 'Quels risques ou complications possibles ?',
-      answer: 'Les complications sont rares (moins de 2%). Les effets secondaires temporaires peuvent inclure : gonflement du front (2-3 jours), rougeurs (1 semaine), chute de choc des cheveux existants (temporaire). Les infections sont exceptionnelles avec une bonne hygiène.'
+      answer: 'Des douleurs, un gonflement, des croûtes et des cicatrices peuvent survenir. Les risques comprennent notamment une infection, un saignement, une réaction à l’anesthésie ou une prise insuffisante des greffons. Demandez une explication adaptée à votre situation et les coordonnées à utiliser en cas de problème.'
     },
     {
       category: 'Sécurité',
@@ -271,17 +271,16 @@ const FAQPage = () => {
                     <ChevronDown className="text-[#2f6bfc] flex-shrink-0" size={28} />
                   )}
                 </button>
-                {openIndex === index && (
-                  <div className="px-8 py-6 bg-[#f3f3f3] border-t-2 border-gray-200">
+                  <div hidden={openIndex !== index} className="px-8 py-6 bg-[#f3f3f3] border-t-2 border-gray-200">
                     <p className="text-gray-700 text-lg leading-relaxed">
                       {faq.answer}
                     </p>
                   </div>
-                )}
               </div>
             ))}
           </div>
 
+          <p className="mt-8 text-slate-600">Éditeur : Cliniqeo. Cette information générale ne remplace pas une consultation. Aucun réviseur médical nominatif n’est indiqué. Source indépendante : <a className="underline" href="https://www.nhs.uk/tests-and-treatments/cosmetic-procedures/cosmetic-surgery/hair-transplant/" target="_blank" rel="noreferrer">NHS — Hair transplant</a>.</p>
           <div className="mt-16 bg-gradient-to-r from-[#2f6bfc] to-[#6EC1E4] text-white rounded-xl p-10 text-center">
             <h2 className="text-3xl font-bold mb-4">
               Vous ne trouvez pas votre réponse ?

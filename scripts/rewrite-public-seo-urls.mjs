@@ -1,5 +1,6 @@
 import { readFile, readdir, writeFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
+import { localAliases } from './local-seo-policy.mjs';
 
 const root = process.cwd();
 const dist = join(root, 'dist');
@@ -10,6 +11,7 @@ const EN_MOUNT = '/en/hair-transplant-turkey';
 const TODAY = new Date().toISOString().slice(0, 10);
 
 const aliases = new Map([
+  ...await localAliases(),
   ['/implant-capillaire-turquie', '/greffe-de-cheveux-turquie'],
   ['/implant-cheveux-turquie', '/greffe-de-cheveux-turquie'],
   ['/greffe-cheveux-prix-turquie', '/prix-greffe-de-cheveux-turquie'],
@@ -62,6 +64,7 @@ function normaliseRoute(route = '/') {
 }
 
 function isEnglishRoute(route) {
+  if (['/fue-saphir-turquie', '/dhi-ou-fue'].includes(route)) return false;
   return route === '/en' ||
     route.startsWith('/en/') ||
     route.startsWith('/hair-') ||
@@ -161,10 +164,12 @@ let htmlCount = 0;
 const htmlFiles = await walk(dist, '.html');
 for (const file of htmlFiles) {
   const route = routeFromHtmlFile(file);
+  if (route === '/404') continue;
   const canonicalRoute = aliases.get(route) || route;
   const canonicalUrl = publicUrlForRoute(canonicalRoute);
   const original = await readFile(file, 'utf8');
   let html = upsertCanonical(original, canonicalUrl);
+  if (['/fue-saphir-turquie', '/dhi-ou-fue'].includes(route)) html = html.replace(/<html[^>]*lang="[^"]*"/, '<html lang="fr"');
   html = upsertOgUrl(html, canonicalUrl);
 
   // WordPress serves Cliniqeo Hair HTML under cliniqeo.com, but build assets
@@ -244,9 +249,9 @@ const robotsPath = join(dist, 'robots.txt');
 try {
   const original = await readFile(robotsPath, 'utf8');
   const updated = original
-    .replace(/^Sitemap:.*sitemap\.xml.*$/gmi, `Sitemap: ${PUBLIC_ORIGIN}${FR_MOUNT}/sitemap.xml`)
-    .replace(/^Sitemap:.*sitemap-advanced\.xml.*$/gmi, `Sitemap: ${PUBLIC_ORIGIN}${FR_MOUNT}/sitemap-advanced.xml`)
-    .replace(/^Sitemap:.*sitemap-core-en\.xml.*$/gmi, `Sitemap: ${PUBLIC_ORIGIN}${FR_MOUNT}/sitemap-core-en.xml`);
+    .replace(/^Sitemap:.*sitemap\.xml.*$/gmi, `Sitemap: ${PUBLIC_ORIGIN}/cliniqeo-hair-sitemap.xml`)
+    .replace(/^Sitemap:.*sitemap-advanced\.xml.*$/gmi, `Sitemap: ${PUBLIC_ORIGIN}/cliniqeo-hair-sitemap-advanced.xml`)
+    .replace(/^Sitemap:.*sitemap-core-en\.xml.*$/gmi, `Sitemap: ${PUBLIC_ORIGIN}/cliniqeo-hair-sitemap-core-en.xml`);
   if (updated !== original) await writeFile(robotsPath, updated, 'utf8');
 } catch {
   // robots.txt is optional in the upstream build.

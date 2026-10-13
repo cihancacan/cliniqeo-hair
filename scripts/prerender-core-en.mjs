@@ -5,6 +5,10 @@ const ORIGIN = 'https://cliniqeo-hair.vercel.app';
 const root = process.cwd();
 const dist = join(root, 'dist');
 const shell = await readFile(join(dist, 'index.html'), 'utf8');
+// Share the current commercial source; never publish older snapshot prices.
+const pricingSource = await readFile(join(root, 'src/pages/en/EnglishPricingPage.tsx'), 'utf8');
+const packagePrices = [...pricingSource.matchAll(/price: '([^']+)'/g)].slice(0, 3).map(match => match[1]);
+if (packagePrices.length !== 3 || packagePrices[0] !== packagePrices[2]) throw new Error('Review English pricing snapshot mapping');
 
 const pages = [
   {
@@ -127,7 +131,7 @@ function pricingBody(page) {
         </div>
       </section>
     </main>
-  </div>`;
+  </div>`.replaceAll('€1,990', () => packagePrices[0]).replaceAll('€2,490', () => packagePrices[1]);
 }
 
 for (const page of pages) {
