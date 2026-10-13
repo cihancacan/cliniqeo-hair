@@ -79,6 +79,14 @@ export function getHairRouterBasename() {
   return activeMountPath ?? undefined;
 }
 
+/** React Router already applies the mounted English basename to internal links. */
+export function getHairLinkPath(pathname: string) {
+  if (activeMountPath === ENGLISH_HAIR_MOUNT_PATH && pathname.startsWith('/en/')) {
+    return pathname.slice(3);
+  }
+  return pathname;
+}
+
 export function mountHairPath(pathname: string) {
   const appPath = stripHairMountPath(pathname);
   if (!activeMountPath) return appPath;
