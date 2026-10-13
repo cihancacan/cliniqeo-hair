@@ -8,6 +8,8 @@ for (const route of ['contact', 'tarifs', 'a-propos', 'faq', 'techniques', 'turq
   assert.match(html, /<h1\b/);
   assert.ok(!html.includes('<div id="root"></div>'));
   assert.ok(html.includes(`rel="canonical" href="${origin}/${route}"`));
+  assert.ok(html.includes(`hreflang="fr" href="${origin}/${route}"`));
+  assert.ok(html.includes('hreflang="en" href="https://cliniqeo.com/en/hair-transplant-turkey/'));
   assert.ok(sitemap.includes(`<loc>${origin}/${route}</loc>`));
   assert.ok(!html.includes('<title>Greffe de cheveux Turquie – Diagnostic offert'));
   assert.ok(html.includes('https://cliniqeo.com/greffe-cheveux-turquie/contact'));
