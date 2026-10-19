@@ -12,6 +12,13 @@ const TODAY = new Date().toISOString().slice(0, 10);
 
 const aliases = new Map([
   ...await localAliases(),
+  // Match the legacy redirects already served by the WordPress Hair relay.
+  // These aliases must not reappear in the sitemap served below the mount.
+  ['/before-after', '/greffe-cheveux/avant-apres'],
+  ['/clinic-doctor', '/clinique-medecin'],
+  ['/why-turkey', '/turquie'],
+  ['/uk/hair-transplant-cities', '/en/uk/hair-transplant-cities'],
+  ['/us/hair-transplant-cities', '/en/us/hair-transplant-cities'],
   ['/implant-capillaire-turquie', '/greffe-de-cheveux-turquie'],
   ['/implant-cheveux-turquie', '/greffe-de-cheveux-turquie'],
   ['/greffe-cheveux-prix-turquie', '/prix-greffe-de-cheveux-turquie'],
