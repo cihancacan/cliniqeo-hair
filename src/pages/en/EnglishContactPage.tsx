@@ -1,3 +1,4 @@
+import { getPhoneUrl, getWhatsAppUrl, WHATSAPP_DISPLAY } from '../../config/contactCore';
 import { Mail, MapPin, Phone } from 'lucide-react';
 import SEOHead from '../../components/SEOHead';
 import SimpleLeadForm from '../../components/SimpleLeadForm';
@@ -48,11 +49,11 @@ export default function EnglishContactPage() {
             <div className="bg-slate-50 rounded-xl p-7 mt-10">
               <h2 className="text-2xl font-bold text-[#224671] mb-5">Contact Cliniqeo Hair</h2>
               <div className="space-y-4 text-slate-700">
-                <div className="flex items-start gap-3"><Phone className="text-[#2f6bfc] mt-1" size={21} /><div><strong>WhatsApp</strong><br /><a href="https://wa.me/33756872961" target="_blank" rel="noopener noreferrer">+33 7 56 87 29 61</a></div></div>
+                <div className="flex items-start gap-3"><Phone className="text-[#2f6bfc] mt-1" size={21} /><div><strong>Phone and WhatsApp</strong><br /><a href={getPhoneUrl()} className="hover:text-[#2f6bfc]">{WHATSAPP_DISPLAY}</a></div></div>
                 <div className="flex items-start gap-3"><Mail className="text-[#2f6bfc] mt-1" size={21} /><div><strong>Email</strong><br /><a href="mailto:info@cliniqeo.com">info@cliniqeo.com</a></div></div>
                 <div className="flex items-start gap-3"><MapPin className="text-[#2f6bfc] mt-1" size={21} /><div><strong>Locations</strong><br />Paris, France<br />Istanbul, Türkiye</div></div>
               </div>
-              <a href="https://wa.me/33756872961" target="_blank" rel="noopener noreferrer" className="block mt-6 bg-green-500 text-white text-center px-6 py-4 rounded-lg font-bold hover:bg-green-600">Contact us on WhatsApp</a>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2"><a href={getPhoneUrl()} className="rounded-lg bg-[#2f6bfc] px-5 py-4 text-center font-bold text-white hover:bg-[#224671]">Call us</a><a href={getWhatsAppUrl('en')} target="_blank" rel="noopener noreferrer" className="rounded-lg bg-[#176a42] px-5 py-4 text-center font-bold text-white hover:bg-[#105030]">Message on WhatsApp</a></div>
             </div>
           </div>
 

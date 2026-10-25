@@ -10,7 +10,7 @@ import {
   getSiteLanguage,
   type SiteLanguage,
 } from '../config/localizedRoutes';
-import { getWhatsAppUrl, WHATSAPP_DISPLAY } from '../config/contactCore';
+import { getPhoneUrl, getWhatsAppUrl, WHATSAPP_DISPLAY } from '../config/contactCore';
 import { isEnglishMountedHairPath, mountHairPathForLanguage } from '../config/hostedPath';
 
 const Navigation = () => {
@@ -45,6 +45,7 @@ const Navigation = () => {
   const contactPath = getLocalizedContactPath(language);
   const homePath = getLocalizedHomePath(language);
   const whatsappUrl = getWhatsAppUrl(language);
+  const phoneUrl = getPhoneUrl();
 
   const languages = [
     { code: 'fr' as const, label: 'Français', flag: '🇫🇷' },
@@ -56,9 +57,9 @@ const Navigation = () => {
       <nav className="bg-white shadow-md fixed w-full top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            <Link to={homePath} className="flex items-baseline" aria-label="Cliniqeo Hair">
-              <span className="text-2xl font-bold text-[#224671] lowercase">cliniqeo</span>
-              <span className="text-base font-semibold text-[#2f6bfc] ml-1 uppercase">Hair</span>
+            <Link to={homePath} className="flex shrink-0 items-baseline" aria-label="Cliniqeo Hair">
+              <span className="text-xl sm:text-2xl font-bold text-[#224671] lowercase">cliniqeo</span>
+              <span className="text-xs sm:text-base font-semibold text-[#2f6bfc] ml-1 uppercase">Hair</span>
             </Link>
 
             <div className="hidden lg:flex items-center space-x-4">
@@ -74,18 +75,16 @@ const Navigation = () => {
             </div>
 
             <div className="hidden lg:flex items-center space-x-4">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-2 text-[#224671] hover:text-[#25D366]"
-                aria-label={language === 'fr' ? `Appeler via WhatsApp au ${WHATSAPP_DISPLAY}` : `Call via WhatsApp at ${WHATSAPP_DISPLAY}`}
-              >
-                <PhoneCall size={20} className="text-[#25D366]" />
-                <div className="text-left">
-                  <div className="text-xs text-gray-500">{language === 'fr' ? 'Appel via WhatsApp' : 'WhatsApp call only'}</div>
-                  <div className="text-base font-semibold">{WHATSAPP_DISPLAY}</div>
-                </div>
+              <a href={phoneUrl} className="flex items-center gap-2 rounded-lg px-2 py-2 text-[#224671] hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#2f6bfc]" aria-label={language === 'fr' ? 'Appeler Cliniqeo Hair par téléphone' : 'Call Cliniqeo Hair by phone'}>
+                <PhoneCall size={20} className="text-[#2f6bfc]" aria-hidden="true" />
+                <span className="text-left">
+                  <span className="block text-xs text-gray-500">{language === 'fr' ? 'Appel classique' : 'Phone call'}</span>
+                  <span className="block text-sm font-semibold">{WHATSAPP_DISPLAY}</span>
+                </span>
+              </a>
+              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 rounded-lg px-3 py-2 font-semibold text-[#176a42] hover:bg-green-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#176a42]" aria-label={language === 'fr' ? 'Écrire sur WhatsApp' : 'Message on WhatsApp'}>
+                <MessageCircle size={20} aria-hidden="true" />
+                <span>WhatsApp</span>
               </a>
 
               <div className="relative">
@@ -118,25 +117,18 @@ const Navigation = () => {
               </Link>
             </div>
 
-            <div className="lg:hidden flex items-center space-x-2">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-1 text-[#224671]"
-                aria-label={language === 'fr' ? 'Appeler via WhatsApp' : 'Call via WhatsApp'}
-              >
-                <PhoneCall size={18} className="text-[#25D366]" />
-                <div className="text-left">
-                  <div className="text-xs text-gray-500">WhatsApp</div>
-                  <div className="text-xs font-semibold">{WHATSAPP_DISPLAY}</div>
-                </div>
+            <div className="lg:hidden flex shrink-0 items-center gap-0.5">
+              <a href={phoneUrl} className="rounded-lg p-1.5 text-[#224671] hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#2f6bfc]" aria-label={language === 'fr' ? 'Appeler par téléphone' : 'Phone call'} title={language === 'fr' ? 'Appeler' : 'Call'}>
+                <PhoneCall size={21} aria-hidden="true" />
               </a>
-              <button onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} className="text-[#224671] p-2" aria-label={language === 'fr' ? 'Langue' : 'Language'}>
-                <Globe size={24} />
+              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="rounded-lg p-1.5 text-[#176a42] hover:bg-green-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#176a42]" aria-label={language === 'fr' ? 'Écrire sur WhatsApp' : 'Message on WhatsApp'} title="WhatsApp">
+                <MessageCircle size={21} aria-hidden="true" />
+              </a>
+              <button onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} className="text-[#224671] p-1.5" aria-label={language === 'fr' ? 'Langue' : 'Language'}>
+                <Globe size={21} />
               </button>
-              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-[#224671]" aria-label="Menu">
-                {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-[#224671] p-1" aria-label="Menu">
+                {isMenuOpen ? <X size={23} /> : <Menu size={23} />}
               </button>
             </div>
           </div>
@@ -150,15 +142,14 @@ const Navigation = () => {
                   {item.label}
                 </Link>
               ))}
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block bg-[#25D366] text-white px-6 py-3 rounded-lg font-semibold text-center"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {language === 'fr' ? 'Appeler via WhatsApp' : 'Call via WhatsApp'}
-              </a>
+              <div className="grid grid-cols-2 gap-2">
+                <a href={phoneUrl} onClick={() => setIsMenuOpen(false)} className="flex items-center justify-center gap-2 rounded-lg border border-[#2f6bfc] px-3 py-3 font-semibold text-[#224671]" aria-label={language === 'fr' ? 'Appeler par téléphone' : 'Phone call'}>
+                  <PhoneCall size={18} aria-hidden="true" />{language === 'fr' ? 'Appeler' : 'Call'}
+                </a>
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)} className="flex items-center justify-center gap-2 rounded-lg bg-[#176a42] px-3 py-3 font-semibold text-white">
+                  <MessageCircle size={18} aria-hidden="true" />WhatsApp
+                </a>
+              </div>
               <Link to={contactPath} className="block bg-[#2f6bfc] text-white px-6 py-3 rounded-lg font-semibold text-center" onClick={() => setIsMenuOpen(false)}>
                 {language === 'fr' ? 'Diagnostic gratuit' : 'Free assessment'}
               </Link>
@@ -187,8 +178,8 @@ const Navigation = () => {
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-xl hover:scale-105 transition-transform z-40"
-        title={language === 'fr' ? `Appeler via WhatsApp : ${WHATSAPP_DISPLAY}` : `Call via WhatsApp: ${WHATSAPP_DISPLAY}`}
-        aria-label={language === 'fr' ? 'Appeler Cliniqeo Hair via WhatsApp' : 'Call Cliniqeo Hair via WhatsApp'}
+        title={language === 'fr' ? `Écrire sur WhatsApp : ${WHATSAPP_DISPLAY}` : `Message on WhatsApp: ${WHATSAPP_DISPLAY}`}
+        aria-label={language === 'fr' ? 'Écrire à Cliniqeo Hair sur WhatsApp' : 'Message Cliniqeo Hair on WhatsApp'}
       >
         <MessageCircle size={26} />
       </a>

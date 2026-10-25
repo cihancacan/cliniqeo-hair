@@ -2,21 +2,27 @@ import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
 
 const dist = join(process.cwd(), 'dist');
-const whatsappUrl = 'https://wa.me/33756872961';
 const whatsappDisplay = '+33 7 56 87 29 61';
 const allowedExtensions = new Set(['.html', '.js']);
 
+// Do not rewrite phone links to WhatsApp: both channels use the same number.
 const replacements = [
-  ['tel:+33188842222', whatsappUrl],
-  ['tel:0188842222', whatsappUrl],
-  ['tel:+33 1 88 84 22 22', whatsappUrl],
+  ['tel:+33188842222', 'tel:+33756872961'],
+  ['tel:0188842222', 'tel:+33756872961'],
+  ['tel:+33 1 88 84 22 22', 'tel:+33756872961'],
+  ['tel:+33756978583', 'tel:+33756872961'],
+  ['wa.me/33756978583', 'wa.me/33756872961'],
+  ['+33 7 56 97 85 83', whatsappDisplay],
   ['+33 1 88 84 22 22', whatsappDisplay],
   ['01 88 84 22 22', whatsappDisplay],
-  ['Appel gratuit', 'Appel via WhatsApp'],
-  ['Numéro gratuit', 'Appel WhatsApp'],
-  ['Free number', 'WhatsApp call'],
-  ['être rappelé', 'être appelé via WhatsApp'],
-  ['be called back', 'receive a WhatsApp call'],
+  ['Appels uniquement via WhatsApp', 'Appel classique et WhatsApp disponibles'],
+  ['Calls available only through WhatsApp', 'Phone calls and WhatsApp available'],
+  ['WhatsApp call only', 'Phone call or WhatsApp'],
+  ['Appel gratuit', 'Appeler'],
+  ['Numéro gratuit', 'Téléphone'],
+  ['Free number', 'Phone number'],
+  ['être appelé via WhatsApp', 'être recontacté'],
+  ['receive a WhatsApp call', 'receive a call'],
 ];
 
 let changedFiles = 0;
@@ -53,4 +59,4 @@ async function processDirectory(directory) {
 }
 
 await processDirectory(dist);
-console.log(`Enforced WhatsApp-only contact: ${replacementCount} replacements in ${changedFiles} built files.`);
+console.log(`Normalized phone and WhatsApp contact: ${replacementCount} replacements in ${changedFiles} built files.`);
