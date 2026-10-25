@@ -58,8 +58,8 @@ const Navigation = () => {
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <Link to={homePath} className="flex shrink-0 items-baseline" aria-label="Cliniqeo Hair">
-              <span className="text-xl sm:text-2xl font-bold text-[#224671] lowercase">cliniqeo</span>
-              <span className="text-xs sm:text-base font-semibold text-[#2f6bfc] ml-1 uppercase">Hair</span>
+              <span className="text-2xl font-bold text-[#224671] lowercase">cliniqeo</span>
+              <span className="text-base font-semibold text-[#2f6bfc] ml-1 uppercase">Hair</span>
             </Link>
 
             <div className="hidden lg:flex items-center space-x-4">
@@ -79,7 +79,7 @@ const Navigation = () => {
                 <PhoneCall size={20} className="text-[#2f6bfc]" aria-hidden="true" />
                 <span className="text-left">
                   <span className="block text-xs text-gray-500">{language === 'fr' ? 'Appel classique' : 'Phone call'}</span>
-                  <span className="block text-sm font-semibold">{WHATSAPP_DISPLAY}</span>
+                  <span className="block whitespace-nowrap text-base font-semibold">{WHATSAPP_DISPLAY}</span>
                 </span>
               </a>
               <div className="relative">
@@ -115,14 +115,14 @@ const Navigation = () => {
             <div className="lg:hidden flex shrink-0 items-center gap-0.5">
               <a
                 href={phoneUrl}
-                className="inline-flex min-w-0 shrink items-center gap-0.5 rounded-lg p-0.5 text-[#224671] hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#2f6bfc]"
+                className="inline-flex min-w-0 shrink items-center gap-1 rounded-lg p-0.5 text-[#224671] hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#2f6bfc]"
                 aria-label={language === 'fr' ? `Appeler le numéro français ${WHATSAPP_DISPLAY}` : `Call the French phone number ${WHATSAPP_DISPLAY}`}
                 title={WHATSAPP_DISPLAY}
               >
-                <PhoneCall size={16} className="shrink-0 text-[#2f6bfc]" aria-hidden="true" />
+                <PhoneCall size={18} className="shrink-0 text-[#2f6bfc]" aria-hidden="true" />
                 <span className="text-left leading-tight">
-                  <span className="block text-[10px] text-slate-600">🇫🇷 +33 France</span>
-                  <span className="block whitespace-nowrap text-[10px] font-semibold tracking-tight">7 56 87 29 61</span>
+                  <span className="block text-xs text-slate-600">🇫🇷 +33 France</span>
+                  <span className="block whitespace-nowrap text-xs font-semibold tracking-tight">7 56 87 29 61</span>
                 </span>
               </a>
               <button onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} className="text-[#224671] p-1.5" aria-label={language === 'fr' ? 'Langue' : 'Language'}>
