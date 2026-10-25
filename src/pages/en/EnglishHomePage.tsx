@@ -87,8 +87,8 @@ const EnglishHomePage = () => {
               <Link to="/en/contact" className="inline-flex items-center justify-center rounded-xl bg-[#6EC1E4] px-8 py-4 text-lg font-bold text-[#224671] hover:bg-white transition-colors">
                 Request a free assessment <ArrowRight className="ml-2" size={20} />
               </Link>
-              <a href="tel:+33188842222" className="inline-flex items-center justify-center rounded-xl border-2 border-white/30 bg-white/10 px-8 py-4 text-lg font-bold hover:bg-white/20 transition-colors">
-                <Phone className="mr-2" size={20} /> Call +33 1 88 84 22 22
+              <a href="tel:+33756872961" className="inline-flex items-center justify-center rounded-xl border-2 border-white/30 bg-white/10 px-8 py-4 text-lg font-bold hover:bg-white/20 transition-colors">
+                <Phone className="mr-2" size={20} /> Call +33 7 56 87 29 61
               </a>
             </div>
             <div className="flex flex-wrap justify-center gap-7 text-sm text-slate-300">

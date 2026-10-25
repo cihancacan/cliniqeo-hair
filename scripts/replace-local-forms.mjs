@@ -51,7 +51,7 @@ function formHtml(isFr, label) {
             <div class="mt-10 rounded-xl bg-slate-50 p-7">
               <h3 class="mb-5 text-2xl font-bold text-[#224671]">${isFr ? 'Coordonnées Cliniqeo Hair' : 'Contact Cliniqeo Hair'}</h3>
               <div class="space-y-4 text-slate-700">
-                <p><strong>WhatsApp</strong><br><a href="https://wa.me/33756978583" target="_blank" rel="noopener noreferrer" class="font-semibold text-[#2f6bfc]">+33 7 56 97 85 83</a></p>
+                <p><strong>${isFr ? 'Téléphone et WhatsApp' : 'Phone and WhatsApp'}</strong><br><a href="tel:+33756872961" class="font-semibold text-[#2f6bfc]">+33 7 56 87 29 61</a><br><a href="https://wa.me/33756872961" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block font-semibold text-[#176a42]">${isFr ? 'Écrire sur WhatsApp' : 'Message on WhatsApp'}</a></p>
                 <p><strong>Email</strong><br><a href="mailto:info@cliniqeo.com" class="font-semibold text-[#2f6bfc]">info@cliniqeo.com</a></p>
                 <p><strong>${isFr ? 'Localisation' : 'Locations'}</strong><br>Paris, France<br>Istanbul, Türkiye</p>
               </div>
@@ -77,7 +77,7 @@ function formHtml(isFr, label) {
                 </label>
 
                 <div class="grid gap-6 md:grid-cols-2">
-                  <label class="block font-bold text-[#224671]">${isFr ? 'Numéro WhatsApp' : 'WhatsApp number'} *
+                  <label class="block font-bold text-[#224671]">${isFr ? 'Numéro de téléphone' : 'Phone number'} *
                     <input type="tel" name="phone" required autocomplete="tel" class="mt-2 w-full rounded-lg border-2 border-slate-300 bg-white px-4 py-3 font-normal text-slate-900 outline-none transition focus:border-[#2f6bfc]" />
                   </label>
                   <label class="block font-bold text-[#224671]">${isFr ? 'Âge' : 'Age'}

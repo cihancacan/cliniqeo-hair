@@ -121,11 +121,11 @@ const HomePage = () => {
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform flex-shrink-0" size={20} />
               </Link>
               <a
-                href="tel:+33188842222"
+                href="tel:+33756872961"
                 className="inline-flex items-center justify-center bg-white/10 backdrop-blur-sm text-white px-6 md:px-8 py-4 md:py-5 rounded-2xl text-base md:text-lg font-bold border-2 border-white/30 hover:bg-white/20 transition-all duration-300 whitespace-nowrap"
               >
                 <Phone className="mr-2 flex-shrink-0" size={20} />
-                <span>Appel gratuit 01 88 84 22 22</span>
+                <span>Appeler le +33 7 56 87 29 61</span>
               </a>
             </div>
           </div>

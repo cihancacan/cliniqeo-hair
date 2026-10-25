@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, Instagram, Linkedin, BookOpen, Smile } from 'lucide-react';
+import { Phone, MessageCircle, Mail, MapPin, Instagram, Linkedin, BookOpen, Smile } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import SeoKnowledgeHub from './SeoKnowledgeHub';
 import { getHairLinkPath } from '../config/hostedPath';
 import { getLocalizedGuidesPath, getNavigationItems } from '../config/localizedRoutes';
-import { getWhatsAppUrl, WHATSAPP_DISPLAY } from '../config/contactCore';
+import { getPhoneUrl, getWhatsAppUrl, WHATSAPP_DISPLAY } from '../config/contactCore';
 
 const Footer = () => {
   const { language, t } = useLanguage();
@@ -12,6 +12,7 @@ const Footer = () => {
   const guidesPath = getLocalizedGuidesPath(language);
   const localCitiesPath = getHairLinkPath(isFr ? '/greffe-cheveux-france' : '/en/hair-transplant-by-city');
   const whatsappUrl = getWhatsAppUrl(language);
+  const phoneUrl = getPhoneUrl();
   const quickLinks = getNavigationItems(language).filter((item) =>
     ['nav.home', 'nav.techniques', 'nav.pricing', 'nav.why_turkey', 'nav.faq', 'nav.contact'].includes(item.key),
   );
@@ -43,7 +44,7 @@ const Footer = () => {
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
                 </a>
                 <a href="https://www.linkedin.com/company/cliniqeo" target="_blank" rel="noopener noreferrer" className="bg-[#2f6bfc] hover:bg-[#0A66C2] p-2 rounded-lg transition-colors" aria-label="LinkedIn"><Linkedin size={20} /></a>
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="bg-[#25D366] hover:bg-[#1da851] p-2 rounded-lg transition-colors" aria-label={isFr ? 'Appeler via WhatsApp' : 'Call via WhatsApp'}><Phone size={20} /></a>
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="bg-[#25D366] hover:bg-[#1da851] p-2 rounded-lg transition-colors" aria-label={isFr ? 'Écrire sur WhatsApp' : 'Message on WhatsApp'}><MessageCircle size={20} /></a>
                 <a href="mailto:info@cliniqeo.com" className="bg-[#2f6bfc] hover:bg-[#6EC1E4] p-2 rounded-lg transition-colors" aria-label="Email"><Mail size={20} /></a>
               </div>
             </div>
@@ -67,8 +68,9 @@ const Footer = () => {
                 <li className="flex items-start gap-3">
                   <Phone className="mt-1 text-[#25D366]" size={20} />
                   <div>
-                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white font-semibold">{WHATSAPP_DISPLAY}</a>
-                    <p className="text-xs text-gray-400 mt-1">{isFr ? 'Appels uniquement via WhatsApp' : 'Calls available only through WhatsApp'}</p>
+                    <a href={phoneUrl} className="text-gray-300 hover:text-white font-semibold">{WHATSAPP_DISPLAY}</a>
+                    <p className="text-xs text-gray-300 mt-1">{isFr ? 'Appel classique disponible' : 'Phone calls available'}</p>
+                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-[#9ff2c6] hover:text-white"><MessageCircle size={16} aria-hidden="true" />{isFr ? 'Écrire sur WhatsApp' : 'Message on WhatsApp'}</a>
                   </div>
                 </li>
                 <li className="flex items-start gap-3"><Mail className="mt-1 text-[#6EC1E4]" size={20} /><a href="mailto:info@cliniqeo.com" className="text-gray-300 hover:text-white">info@cliniqeo.com</a></li>

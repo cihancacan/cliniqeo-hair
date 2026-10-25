@@ -61,7 +61,7 @@ function phoneFieldHtml(isFr, defaultCode) {
   </label>`;
 }
 
-const phoneAndAgeBlock = /<div class="grid gap-6 md:grid-cols-2">\s*<label class="block font-bold text-\[#224671\]">(?:Numéro WhatsApp|WhatsApp number) \*[\s\S]*?<input type="tel" name="phone"[\s\S]*?<\/label>\s*<label class="block font-bold text-\[#224671\]">(?:Âge|Age)[\s\S]*?<input type="number" name="age"[\s\S]*?<\/label>\s*<\/div>/i;
+const phoneAndAgeBlock = /<div class="grid gap-6 md:grid-cols-2">\s*<label class="block font-bold text-\[#224671\]">(?:Numéro WhatsApp|WhatsApp number|Numéro de téléphone|Phone number) \*[\s\S]*?<input type="tel" name="phone"[\s\S]*?<\/label>\s*<label class="block font-bold text-\[#224671\]">(?:Âge|Age)[\s\S]*?<input type="number" name="age"[\s\S]*?<\/label>\s*<\/div>/i;
 
 const files = await walk(dist);
 let updated = 0;

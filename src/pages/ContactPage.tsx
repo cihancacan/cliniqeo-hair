@@ -1,3 +1,4 @@
+import { getPhoneUrl, getWhatsAppUrl, WHATSAPP_DISPLAY } from '../config/contactCore';
 import { Mail, MapPin, Phone } from 'lucide-react';
 import SimpleLeadForm from '../components/SimpleLeadForm';
 
@@ -37,11 +38,11 @@ export default function ContactPage() {
               <div className="bg-[#f3f3f3] p-7 md:p-8 rounded-xl">
                 <h3 className="text-2xl font-bold text-[#224671] mb-5">Coordonnées Cliniqeo Hair</h3>
                 <div className="space-y-4">
-                  <div className="flex items-start"><Phone className="text-[#2f6bfc] mr-4 mt-1" size={24} /><div><h4 className="font-bold text-[#224671]">WhatsApp</h4><a href="https://wa.me/33756872961" target="_blank" rel="noopener noreferrer" className="text-gray-700">+33 7 56 87 29 61</a></div></div>
+                  <div className="flex items-start"><Phone className="text-[#2f6bfc] mr-4 mt-1" size={24} /><div><h4 className="font-bold text-[#224671]">Téléphone et WhatsApp</h4><a href={getPhoneUrl()} className="text-gray-700 hover:text-[#2f6bfc]">{WHATSAPP_DISPLAY}</a></div></div>
                   <div className="flex items-start"><Mail className="text-[#2f6bfc] mr-4 mt-1" size={24} /><div><h4 className="font-bold text-[#224671]">Email</h4><a href="mailto:info@cliniqeo.com" className="text-gray-700">info@cliniqeo.com</a></div></div>
                   <div className="flex items-start"><MapPin className="text-[#2f6bfc] mr-4 mt-1" size={24} /><div><h4 className="font-bold text-[#224671]">Localisation</h4><p className="text-gray-700">Paris, France<br />Istanbul, Turquie</p></div></div>
                 </div>
-                <a href="https://wa.me/33756872961" target="_blank" rel="noopener noreferrer" className="block mt-7 bg-green-500 text-white text-center px-6 py-4 rounded-lg font-bold hover:bg-green-600">Contacter sur WhatsApp</a>
+                <div className="mt-7 grid gap-3 sm:grid-cols-2"><a href={getPhoneUrl()} className="rounded-lg bg-[#2f6bfc] px-5 py-4 text-center font-bold text-white hover:bg-[#224671]">Appeler</a><a href={getWhatsAppUrl('fr')} target="_blank" rel="noopener noreferrer" className="rounded-lg bg-[#176a42] px-5 py-4 text-center font-bold text-white hover:bg-[#105030]">Écrire sur WhatsApp</a></div>
               </div>
             </div>
 

@@ -4,7 +4,7 @@ import App from './App.tsx';
 import './index.css';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { getSiteLanguage, localizeInternalPath } from './config/localizedRoutes';
-import { getWhatsAppUrl, WHATSAPP_DISPLAY } from './config/contactCore';
+import { getPhoneUrl } from './config/contactCore';
 import { getAppPathname, mountHairPath, stripHairMountPath } from './config/hostedPath';
 import { trackHairQuoteCtaClick, trackHairWhatsAppClick } from './lib/googleMeasurement';
 
@@ -200,77 +200,22 @@ function addEnglishBestClinicLinks() {
   firstGuideCategory.insertAdjacentElement('afterend', section);
 }
 
-function enforceWhatsAppOnlyContact() {
-  const language = getSiteLanguage(getAppPathname());
-  const whatsappUrl = getWhatsAppUrl(language);
-
+// Keep native phone calls and WhatsApp as two distinct contact channels.
+// Repair any legacy phone links without intercepting dialer links at runtime.
+function normalizeContactLinks() {
+  const legacyPhone = /^(?:tel:\+?33188842222|tel:0188842222|tel:\+?33756978583)$/i;
   document.querySelectorAll<HTMLAnchorElement>('a[href^="tel:"]').forEach((anchor) => {
-    anchor.href = whatsappUrl;
-    anchor.target = '_blank';
-    anchor.rel = 'noopener noreferrer';
-    anchor.setAttribute(
-      'aria-label',
-      language === 'fr'
-        ? `Appeler Cliniqeo Hair via WhatsApp au ${WHATSAPP_DISPLAY}`
-        : `Call Cliniqeo Hair via WhatsApp at ${WHATSAPP_DISPLAY}`,
-    );
+    if (legacyPhone.test(anchor.getAttribute('href') || '')) anchor.href = getPhoneUrl();
+    anchor.removeAttribute('target');
   });
-
   document.querySelectorAll<HTMLAnchorElement>('a[href*="wa.me/"]').forEach((anchor) => {
     anchor.target = '_blank';
     anchor.rel = 'noopener noreferrer';
   });
-
-  document.querySelectorAll<HTMLInputElement>('input[name="phone"], input[type="tel"]').forEach((input) => {
-    input.placeholder = language === 'fr'
-      ? 'Numéro WhatsApp avec indicatif pays'
-      : 'WhatsApp number with country code';
-    input.setAttribute('autocomplete', 'tel');
-    input.setAttribute('aria-label', language === 'fr' ? 'Numéro WhatsApp' : 'WhatsApp number');
-  });
-
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-  const textNodes: Text[] = [];
-  let current = walker.nextNode();
-  while (current) {
-    textNodes.push(current as Text);
-    current = walker.nextNode();
-  }
-
-  textNodes.forEach((node) => {
-    const original = node.nodeValue ?? '';
-    const replacements: Array<[string, string]> = [
-      ['+33 1 88 84 22 22', WHATSAPP_DISPLAY],
-      ['01 88 84 22 22', WHATSAPP_DISPLAY],
-      ['Appel gratuit', 'Appel via WhatsApp'],
-      ['Numéro gratuit', 'Appel WhatsApp'],
-      ['Free number', 'WhatsApp call'],
-      ['Call +33', 'Call via WhatsApp +33'],
-      ['être rappelé', 'être appelé via WhatsApp'],
-      ['be called back', 'receive a WhatsApp call'],
-    ];
-    let updated = replacements.reduce(
-      (value, [search, replacement]) => value.split(search).join(replacement),
-      original,
-    );
-
-    const trimmed = updated.trim();
-    if (trimmed === 'Téléphone') {
-      updated = updated.replace('Téléphone', 'WhatsApp');
-    } else if (trimmed === 'Téléphone *') {
-      updated = updated.replace('Téléphone *', 'Numéro WhatsApp *');
-    } else if (trimmed === 'Telephone') {
-      updated = updated.replace('Telephone', 'WhatsApp');
-    } else if (trimmed === 'Telephone *') {
-      updated = updated.replace('Telephone *', 'WhatsApp number *');
-    }
-
-    if (updated !== original) node.nodeValue = updated;
-  });
 }
 
 function enhancePages() {
-  enforceWhatsAppOnlyContact();
+  normalizeContactLinks();
   addEnglishPatientReviews();
   addEnglishBestClinicLinks();
 }
