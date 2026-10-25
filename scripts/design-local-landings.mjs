@@ -174,7 +174,7 @@ function navigation(isFr, whatsappUrl) {
         </div>
         <a href="tel:+33756872961" aria-label="${isFr ? 'Appeler le numéro français +33 7 56 87 29 61' : 'Call the French number +33 7 56 87 29 61'}" class="inline-flex min-w-0 shrink items-center gap-1 rounded-lg p-0.5 text-[#224671] no-underline lg:hidden">
            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2f6bfc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.96.35 1.9.69 2.79a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.24a2 2 0 0 1 2.11-.45c.89.34 1.83.57 2.79.69A2 2 0 0 1 22 16.92z"/><path d="M15.05 5a5 5 0 0 1 3.95 3.95"/><path d="M15.05 1a9 9 0 0 1 7.95 7.95"/></svg>
-           <span class="text-left leading-tight"><span class="block text-xs text-slate-600">🇫🇷 +33 France</span><span class="block whitespace-nowrap text-xs font-semibold tracking-tight">7 56 87 29 61</span></span>
+           <span class="text-left leading-tight"><span class="block text-xs text-slate-600">🇫🇷 France</span><span class="block whitespace-nowrap text-xs font-semibold tracking-tight">+33 7 56 87 29 61</span></span>
          </a>
          <button id="local-menu-button" type="button" class="rounded-lg p-1.5 text-[#224671] lg:hidden" aria-expanded="false" aria-controls="local-mobile-menu" aria-label="Menu">
           <span class="block h-0.5 w-7 bg-current"></span><span class="mt-1.5 block h-0.5 w-7 bg-current"></span><span class="mt-1.5 block h-0.5 w-7 bg-current"></span>

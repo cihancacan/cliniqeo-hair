@@ -121,8 +121,8 @@ const Navigation = () => {
               >
                 <PhoneCall size={18} className="shrink-0 text-[#2f6bfc]" aria-hidden="true" />
                 <span className="text-left leading-tight">
-                  <span className="block text-xs text-slate-600">🇫🇷 +33 France</span>
-                  <span className="block whitespace-nowrap text-xs font-semibold tracking-tight">7 56 87 29 61</span>
+                  <span className="block text-xs text-slate-600">🇫🇷 France</span>
+                  <span className="block whitespace-nowrap text-xs font-semibold tracking-tight">+33 7 56 87 29 61</span>
                 </span>
               </a>
               <button onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} className="text-[#224671] p-1.5" aria-label={language === 'fr' ? 'Langue' : 'Language'}>
