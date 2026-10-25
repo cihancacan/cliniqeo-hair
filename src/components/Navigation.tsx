@@ -32,7 +32,7 @@ const Navigation = () => {
     window.location.assign(mountHairPathForLanguage(destination, target));
   };
 
-  const menuItems = getNavigationItems(language).map((item) => ({
+  const menuItems = getNavigationItems(language).filter((item) => item.key !== 'nav.home').map((item) => ({
     label: t(item.key),
     href: item.href,
   }));
@@ -55,11 +55,11 @@ const Navigation = () => {
   return (
     <>
       <nav className="bg-white shadow-md fixed w-full top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <Link to={homePath} className="flex shrink-0 items-baseline" aria-label="Cliniqeo Hair">
-              <span className="text-xl sm:text-2xl font-bold text-[#224671] lowercase">cliniqeo</span>
-              <span className="text-xs sm:text-base font-semibold text-[#2f6bfc] ml-1 uppercase">Hair</span>
+              <span className="text-[17px] sm:text-2xl font-bold text-[#224671] lowercase">cliniqeo</span>
+              <span className="text-[11px] sm:text-base font-semibold text-[#2f6bfc] ml-1 uppercase">Hair</span>
             </Link>
 
             <div className="hidden lg:flex items-center space-x-4">
@@ -118,11 +118,17 @@ const Navigation = () => {
             </div>
 
             <div className="lg:hidden flex shrink-0 items-center gap-0.5">
-              <a href={phoneUrl} className="rounded-lg p-1.5 text-[#224671] hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#2f6bfc]" aria-label={language === 'fr' ? 'Appeler par téléphone' : 'Phone call'} title={language === 'fr' ? 'Appeler' : 'Call'}>
-                <PhoneCall size={21} aria-hidden="true" />
-              </a>
-              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="rounded-lg p-1.5 text-[#176a42] hover:bg-green-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#176a42]" aria-label={language === 'fr' ? 'Écrire sur WhatsApp' : 'Message on WhatsApp'} title="WhatsApp">
-                <MessageCircle size={21} aria-hidden="true" />
+              <a
+                href={phoneUrl}
+                className="inline-flex min-w-0 items-center gap-1 rounded-lg px-0.5 py-1 text-[#224671] hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#2f6bfc]"
+                aria-label={language === 'fr' ? `Appeler le numéro français ${WHATSAPP_DISPLAY}` : `Call the French phone number ${WHATSAPP_DISPLAY}`}
+                title={WHATSAPP_DISPLAY}
+              >
+                <PhoneCall size={18} className="shrink-0 text-[#2f6bfc]" aria-hidden="true" />
+                <span className="text-left leading-tight">
+                  <span className="block text-[10px] text-slate-600">🇫🇷 France</span>
+                  <span className="block whitespace-nowrap text-[10px] font-semibold tracking-tight">{WHATSAPP_DISPLAY}</span>
+                </span>
               </a>
               <button onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} className="text-[#224671] p-1.5" aria-label={language === 'fr' ? 'Langue' : 'Language'}>
                 <Globe size={21} />

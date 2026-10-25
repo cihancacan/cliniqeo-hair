@@ -157,13 +157,13 @@ function localPriceData(country) {
 function navigation(isFr, whatsappUrl) {
   const base = isFr ? '' : '/en';
   const items = isFr
-    ? [['Accueil', '/'], ['Techniques', '/techniques'], ['Tarifs', '/tarifs'], ['Pourquoi la Turquie', '/turquie'], ['Avant / Après', '/greffe-cheveux/avant-apres'], ['À propos', '/a-propos'], ['FAQ', '/faq']]
-    : [['Home', '/en'], ['Techniques', '/en/techniques'], ['Pricing', '/en/pricing'], ['Why Turkey', '/en/why-turkey'], ['Before / After', '/en/before-after'], ['About', '/en/about'], ['FAQ', '/en/faq']];
+    ? [['Techniques', '/techniques'], ['Tarifs', '/tarifs'], ['Pourquoi la Turquie', '/turquie'], ['Avant / Après', '/greffe-cheveux/avant-apres'], ['À propos', '/a-propos'], ['FAQ', '/faq']]
+    : [['Techniques', '/en/techniques'], ['Pricing', '/en/pricing'], ['Why Turkey', '/en/why-turkey'], ['Before / After', '/en/before-after'], ['About', '/en/about'], ['FAQ', '/en/faq']];
   return `
     <header class="fixed inset-x-0 top-0 z-50 bg-white shadow-md">
-      <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-3 sm:px-6 lg:px-8">
         <a href="${base || '/'}" class="flex items-baseline no-underline" aria-label="Cliniqeo Hair">
-          <span class="text-2xl font-bold lowercase text-[#224671]">cliniqeo</span><span class="ml-1 text-base font-semibold uppercase text-[#2f6bfc]">Hair</span>
+          <span class="text-[17px] font-bold lowercase text-[#224671] sm:text-2xl">cliniqeo</span><span class="ml-1 text-[11px] font-semibold uppercase text-[#2f6bfc] sm:text-base">Hair</span>
         </a>
         <nav class="hidden items-center gap-5 lg:flex" aria-label="${isFr ? 'Navigation principale' : 'Main navigation'}">
           ${items.map(([label, href]) => `<a href="${href}" class="font-medium text-[#224671] no-underline transition-colors hover:text-[#2f6bfc]">${label}</a>`).join('')}
@@ -173,7 +173,10 @@ function navigation(isFr, whatsappUrl) {
            <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" aria-label="${isFr ? 'Écrire sur WhatsApp' : 'Message on WhatsApp'}" class="rounded-lg px-3 py-2 text-sm font-semibold text-[#176a42] no-underline hover:bg-green-50">WhatsApp</a>
           <a href="#diagnostic-form" class="rounded-lg bg-[#2f6bfc] px-5 py-3 font-semibold text-white no-underline transition-colors hover:bg-[#224671]">${isFr ? 'Diagnostic gratuit' : 'Free assessment'}</a>
         </div>
-        <a href="tel:+33756872961" aria-label="${isFr ? 'Appeler par téléphone' : 'Phone call'}" class="rounded-lg border border-blue-100 px-3 py-2 text-sm font-bold text-[#224671] no-underline lg:hidden">${isFr ? 'Appeler' : 'Call'}</a>
+        <a href="tel:+33756872961" aria-label="${isFr ? 'Appeler le numéro français +33 7 56 87 29 61' : 'Call the French number +33 7 56 87 29 61'}" class="inline-flex items-center gap-1 rounded-lg px-1 py-1 text-[#224671] no-underline lg:hidden">
+           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2f6bfc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.96.35 1.9.69 2.79a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.24a2 2 0 0 1 2.11-.45c.89.34 1.83.57 2.79.69A2 2 0 0 1 22 16.92z"/><path d="M15.05 5a5 5 0 0 1 3.95 3.95"/><path d="M15.05 1a9 9 0 0 1 7.95 7.95"/></svg>
+           <span class="text-left leading-tight"><span class="block text-[10px] text-slate-600">🇫🇷 France</span><span class="block whitespace-nowrap text-[10px] font-semibold tracking-tight">+33 7 56 87 29 61</span></span>
+         </a>
          <button id="local-menu-button" type="button" class="rounded-lg p-2 text-[#224671] lg:hidden" aria-expanded="false" aria-controls="local-mobile-menu" aria-label="Menu">
           <span class="block h-0.5 w-7 bg-current"></span><span class="mt-1.5 block h-0.5 w-7 bg-current"></span><span class="mt-1.5 block h-0.5 w-7 bg-current"></span>
         </button>
